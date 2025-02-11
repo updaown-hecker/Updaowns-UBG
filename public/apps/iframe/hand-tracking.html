@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>3D Hand Tracking</title>
+<style>
+body { margin: 0; }
+canvas { display: block; }
+#videoElement {
+position: absolute;
+top: 10px;
+left: 10px;
+width: 320px;
+height: 240px;
+transform: scaleX(-1); /* Mirror the video */
+border: 2px solid white;
+}
+#fpsSlider {
+position: absolute;
+bottom: 10px;
+left: 10px;
+background: white;
+padding: 10px;
+border-radius: 8px;
+font-family: Arial, sans-serif;
+z-index: 10;
+}
+#fpsValue {
+font-weight: bold;
+}
+</style>
+</head>
+<body>
+<video id="videoElement" autoplay playsinline></video>
+<div id="fpsSlider">
+<label for="fpsRange">FPS: <span id="fpsValue">30</span></label><br>
+<input type="range" id="fpsRange" min="1" max="60" value="30">
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/handpose"></script>
+
+<script>
+let camera, scene, renderer;
+const points = [];
+const lines = [];
+let fps = 30; // Default FPS
+let lastDetectionTime = 0;
+
+async function init() {
+scene = new THREE.Scene();
+camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Create spheres for each landmark point
+const geometry = new THREE.SphereGeometry(0.03, 32, 32);
+const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+for (let i = 0; i < 21; i++) {
+const point = new THREE.Mesh(geometry, material);
+points.push(point);
+scene.add(point);
+}
+
+// Create lines for connecting the landmarks
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+const connections = [
+[0, 1], [1, 2], [2, 3], [3, 4], // Thumb
+[0, 5], [5, 6], [6, 7], [7, 8], // Index finger
+[0, 9], [9, 10], [10, 11], [11, 12], // Middle finger
+[0, 13], [13, 14], [14, 15], [15, 16], // Ring finger
+[0, 17], [17, 18], [18, 19], [19, 20] // Pinky
+];
+
+connections.forEach(([start, end]) => {
+const geometry = new THREE.BufferGeometry();
+const positions = new Float32Array(6); // 2 points x 3 coordinates
+geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+const line = new THREE.Line(geometry, lineMaterial);
+lines.push({ line, start, end });
+scene.add(line);
+});
+
+camera.position.z = 2;
+
+// Access the webcam
+const video = document.getElementById('videoElement');
+const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+video.srcObject = stream;
+
+const model = await handpose.load();
+
+// Hand detection loop
+async function detectHands() {
+const now = performance.now();
+if (now - lastDetectionTime < 1000 / fps) {
+requestAnimationFrame(detectHands);
+return;
+}
+lastDetectionTime = now;
+
+const predictions = await model.estimateHands(video);
+if (predictions.length > 0) {
+const landmarks = predictions[0].landmarks;
+
+// Update positions of points and lines
+landmarks.forEach((pos, index) => {
+points[index].position.set(
+(pos[0] - 300) / 150,
+-(pos[1] - 250) / 150,
+-pos[2] / 150
+);
+});
+
+lines.forEach(({ line, start, end }) => {
+const positions = line.geometry.attributes.position.array;
+const startPos = points[start].position;
+const endPos = points[end].position;
+
+positions[0] = startPos.x;
+positions[1] = startPos.y;
+positions[2] = startPos.z;
+positions[3] = endPos.x;
+positions[4] = endPos.y;
+positions[5] = endPos.z;
+
+line.geometry.attributes.position.needsUpdate = true;
+});
+}
+
+requestAnimationFrame(detectHands);
+}
+
+detectHands();
+}
+
+function animate() {
+requestAnimationFrame(animate);
+renderer.render(scene, camera);
+}
+
+window.addEventListener('load', () => {
+init();
+animate();
+});
+
+window.addEventListener('resize', () => {
+camera.aspect = window.innerWidth / window.innerHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Handle FPS slider changes
+const fpsRange = document.getElementById('fpsRange');
+const fpsValue = document.getElementById('fpsValue');
+fpsRange.addEventListener('input', () => {
+fps = parseInt(fpsRange.value, 10);
+fpsValue.textContent = fps;
+});
+</script>
+</body>
+<!--Creddits to AJ owner of https://codingjesus.rf.gd/?i=1 for the insperation of this-->
+</html>

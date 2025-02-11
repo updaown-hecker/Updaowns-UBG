@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Game Emulator</title>
+    <script src="ruffle.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #1a1a1a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            color: #4CAF50;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        #flash-container {
+            margin: 20px auto;
+            border: 3px solid #333;
+            min-height: 600px;
+            background: #2a2a2a;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .upload-area {
+            border: 3px dashed #4CAF50;
+            padding: 30px;
+            margin: 20px 0;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            background: #2a2a2a;
+        }
+
+        .upload-area:hover {
+            background: #333;
+            border-color: #66BB6A;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+        }
+
+        .upload-area p {
+            font-size: 1.2rem;
+            color: #4CAF50;
+            margin: 0;
+        }
+
+        .upload-area.dragover {
+            background: #333;
+            border-color: #66BB6A;
+            transform: scale(1.02);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .upload-area {
+                padding: 20px;
+            }
+
+            .upload-area p {
+                font-size: 1rem;
+            }
+
+            #flash-container {
+                min-height: 400px;
+            }
+        }
+
+        /* Add a nice loading animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Add these new styles */
+        .controls {
+            margin: 10px 0;
+        }
+
+        .fullscreen-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .fullscreen-btn:hover {
+            background: #66BB6A;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Flash Game Emulator</h1>
+        <div class="upload-area" id="dropZone">
+            <p>Drag and drop your .swf file here or click to select</p>
+            <input type="file" id="fileInput" accept=".swf" style="display: none;">
+        </div>
+        <div class="controls">
+            <button class="fullscreen-btn" id="fullscreenBtn">Toggle Fullscreen</button>
+        </div>
+        <div id="flash-container"></div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const flashContainer = document.getElementById('flash-container');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+        // Handle click to upload
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file selection
+        fileInput.addEventListener('change', handleFileSelect);
+
+        // Handle drag and drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.name.toLowerCase().endsWith('.swf')) {
+                    dropZone.innerHTML = `<p>Loaded: ${file.name}</p>`;
+                    const url = URL.createObjectURL(file);
+                    loadFlashGame(url);
+                } else {
+                    alert('Please upload a valid .swf file');
+                }
+            }
+        }
+
+        function loadFlashGame(url) {
+            console.log('Starting to load Flash game:', url);
+            
+            // Clear previous content
+            flashContainer.innerHTML = '';
+            
+            try {
+                if (!window.RufflePlayer) {
+                    console.error('Ruffle is not loaded!');
+                    return;
+                }
+                
+                // Create new Ruffle instance
+                const ruffle = window.RufflePlayer.newest();
+                const player = ruffle.createPlayer();
+                
+                // Set initial size
+                player.style.width = '100%';
+                player.style.height = '600px';
+                
+                // Add fullscreen styles
+                player.style.objectFit = 'contain';
+                player.style.maxWidth = '100%';
+                player.style.maxHeight = '100%';
+                
+                flashContainer.appendChild(player);
+                
+                // Configure the player with better scaling options
+                player.load({
+                    url: url,
+                    autoplay: true,
+                    letterbox: 'on',
+                    forceScale: true,
+                    quality: 'high',
+                    scale: 'showAll'
+                }).then(() => {
+                    console.log('SWF file loaded successfully!');
+                    
+                    // Add fullscreen change handler
+                    document.addEventListener('fullscreenchange', () => {
+                        if (document.fullscreenElement) {
+                            player.style.height = '100vh';
+                            flashContainer.style.height = '100vh';
+                        } else {
+                            player.style.height = '600px';
+                            flashContainer.style.height = 'auto';
+                        }
+                    });
+                }).catch(error => {
+                    console.error('Error loading Flash game:', error);
+                    flashContainer.innerHTML = '<p style="color: red;">Error loading Flash game: ' + error.message + '</p>';
+                });
+            } catch (error) {
+                console.error('Error in loadFlashGame:', error);
+                flashContainer.innerHTML = '<p style="color: red;">Error initializing Flash player: ' + error.message + '</p>';
+            }
+        }
+
+        // Add this new event listener
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                flashContainer.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+    </script>
+</body>
+</html> 

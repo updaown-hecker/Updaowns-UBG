@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KSHBZ8D1X7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KSHBZ8D1X7');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" href="../assets/favicon/google.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #111827;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            background-color: #1f2937;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+        .navbar.hidden {
+            transform: translateY(-100%);
+        }
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+        .nav-link {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .nav-link:hover {
+            color: white;
+        }
+        .game-container {
+            flex: 1;
+            display: flex;
+            position: relative;
+            background: #0f1623;
+        }
+        .game-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+        }
+        .game-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .control-button {
+            background: rgba(31, 41, 55, 0.8);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .control-button:hover {
+            background: rgba(31, 41, 55, 1);
+        }
+        .control-button svg {
+            width: 16px;
+            height: 16px;
+        }
+        /* Add styles for the exit focus button */
+        .exit-focus {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(31, 41, 55, 0.8);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            display: none;
+            z-index: 1000;
+        }
+        .exit-focus.visible {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <a href="../index.html" class="nav-logo">Updaown's UBL</a>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-link">Games</a>
+            <a href="../apps.html" class="nav-link">Apps</a>
+            <a href="../settings.html" class="nav-link">Settings</a>
+        </div>
+    </nav>
+    <div class="game-container">
+        <iframe src="iframe/emulatorJS/index.html" class="game-frame" id="gameFrame" allowfullscreen></iframe>
+        <div class="game-controls" id="gameControls">
+            <button class="control-button" id="fullscreenButton">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                </svg>
+                Fullscreen
+            </button>
+            <button class="control-button" id="focusButton">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                Focus
+            </button>
+        </div>
+    </div>
+    <button class="exit-focus" id="exitFocus">
+        Exit Focus Mode
+    </button>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const gameFrame = document.getElementById('gameFrame');
+        const fullscreenButton = document.getElementById('fullscreenButton');
+        const focusButton = document.getElementById('focusButton');
+        const gameControls = document.getElementById('gameControls');
+        const exitFocus = document.getElementById('exitFocus');
+
+        // Fullscreen functionality
+        fullscreenButton.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                if (gameFrame.requestFullscreen) {
+                    gameFrame.requestFullscreen();
+                } else if (gameFrame.webkitRequestFullscreen) {
+                    gameFrame.webkitRequestFullscreen();
+                } else if (gameFrame.msRequestFullscreen) {
+                    gameFrame.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        });
+
+        // Focus mode functionality
+        focusButton.addEventListener('click', () => {
+            navbar.classList.add('hidden');
+            gameControls.style.display = 'none';
+            exitFocus.classList.add('visible');
+        });
+
+        exitFocus.addEventListener('click', () => {
+            navbar.classList.remove('hidden');
+            gameControls.style.display = 'flex';
+            exitFocus.classList.remove('visible');
+        });
+
+        // Handle Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navbar.classList.contains('hidden')) {
+                navbar.classList.remove('hidden');
+                gameControls.style.display = 'flex';
+                exitFocus.classList.remove('visible');
+            }
+        });
+    </script>
+    <script>
+        // Apply saved settings
+        const applySettings = () => {
+            const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+            
+            // Set default title if no settings exist
+            document.title = settings.pageTitle || 'Google';
+            
+            // Set default favicon if no settings exist
+            const faviconPath = settings.cloakPreset ? {
+                'google': '../assets/favicon/google.ico',
+                'drive': '../assets/favicon/drive.ico',
+                'classroom': '../assets/favicon/classroom.ico',
+                'canvas': '../assets/favicon/canvas.ico'
+            }[settings.cloakPreset] : '../assets/favicon/google.ico';
+
+            const links = document.querySelectorAll('link[rel="icon"]');
+            links.forEach(link => link.remove());
+            const newLink = document.createElement('link');
+            newLink.rel = 'icon';
+            newLink.href = faviconPath;
+            document.head.appendChild(newLink);
+        };
+        
+        // Apply settings when page loads
+        document.addEventListener('DOMContentLoaded', applySettings);
+    </script>
+</body>
+</html> 

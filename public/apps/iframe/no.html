@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="data:text/css;base64,Ym9keSxlbWJlZCxpZnJhbWV7cG9zaXRpb246YWJzb2x1dGU7ZGlzcGxheTpibG9jazt3aWR0aDoxMDAlO2hlaWdodDoxMDAlO21hcmdpbjowcHg7cGFkZGluZzowcHg7Ym9yZGVyOm5vbmU7b3ZlcmZsb3c6aGlkZGVuO30K" />
+    <title>Google</title>
+    <style>
+        /* Style for the login prompt */
+        .login-prompt {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #1f2937;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1000;
+            color: white;
+        }
+        .login-prompt input {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 200px;
+        }
+        .login-prompt button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: none;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+        }
+        .login-prompt button:hover {
+            background: #4338ca;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Prompt -->
+    <div class="login-prompt" id="loginPrompt">
+        <h3>Login</h3>
+        <input type="text" id="usernameInput" placeholder="Username" />
+        <input type="password" id="passwordInput" placeholder="Password" />
+        <button onclick="checkLogin()">Submit</button>
+    </div>
+
+    <!-- Obfuscated Embed -->
+    <embed id="contentEmbed" type="text/plain" width="1024" height="768" style="display: none;" />
+
+    <script>
+        const correctUsername = "rafa";
+        const correctPasswordHash = "9f708342f33a864394cbf65e42c1f2fe088063adc80055a2560fa1927c6d3639"; // SHA-256 hash of "rafa123"
+
+        // Function to hash the input password using SHA-256
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, "0")).join("");
+            return hashHex;
+        }
+
+        // Function to check login credentials
+        async function checkLogin() {
+            const enteredUsername = document.getElementById("usernameInput").value.trim();
+            const enteredPassword = document.getElementById("passwordInput").value.trim();
+
+            if (!enteredUsername || !enteredPassword) {
+                alert("Please enter both username and password!");
+                return;
+            }
+
+            // Hash the entered password
+            const enteredPasswordHash = await hashPassword(enteredPassword);
+
+            if (enteredUsername === correctUsername && enteredPasswordHash === correctPasswordHash) {
+                // Hide the login prompt
+                document.getElementById("loginPrompt").style.display = "none";
+                // Decode and set the embed source
+                const encodedSrc = "aHR0cHM6Ly91cGRhb3duLmtveWViLmFwcC9wcm94eT91cmw9aHR0cHM6Ly94bnh4LmNvbQ=="; // Base64 encoded URL
+                const decodedSrc = atob(encodedSrc);
+                document.getElementById("contentEmbed").src = decodedSrc;
+                // Show the embed element
+                document.getElementById("contentEmbed").style.display = "block";
+            } else {
+                alert("Incorrect username or password!");
+            }
+        }
+    </script>
+</body>
+</html>

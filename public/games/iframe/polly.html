@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Full Screen Iframe</title>
+<style>
+html, body {
+margin: 0;
+padding: 0;
+height: 100%;
+width: 100%;
+}
+embed {
+width: 100%;
+height: 100%;
+border: none; /* Optional: remove the border */
+}
+</style>
+</head>
+<body>
+<embed id="app"src="https://app-polytrack.kodub.com/0.4.2/?" importance="high" sandbox="allow-scripts allow-same-origin allow-top-navigation allow-popups allow-popups-to-escape-sandbox allow-pointer-lock allow-downloads" allow="autoplay;fullscreen;vr;xr-spatial-tracking;clipboard-write" width="100%" height="560">
+</body>
