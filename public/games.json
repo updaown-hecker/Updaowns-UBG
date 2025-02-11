@@ -36,6 +36,13 @@
             "priority": false
         },
         {
+            "title": "Snake Game",
+            "image": "assets/main-page/snake.png",
+            "alt": "Game 32",
+            "link": "games/Snake.html",
+            "priority": false
+        },
+        {
             "title": "Slope",
             "image": "assets/main-page/slope.png",
             "alt": "Game 5",
@@ -47,6 +54,34 @@
             "image": "assets/main-page/slope-2.png",
             "alt": "Game 6",
             "link": "games/Slope-2.html",
+            "priority": false
+        },
+        {
+            "title": "Vex 3",
+            "image": "assets/main-page/vex3.png",
+            "alt": "Game 29",
+            "link": "games/Vex3.html",
+            "priority": false
+        },
+        {
+            "title": "Vex 4",
+            "image": "assets/main-page/vex4.png",
+            "alt": "Game 30",
+            "link": "games/Vex4.html",
+            "priority": false
+        },
+        {
+            "title": "Vex 5",
+            "image": "assets/main-page/vex5.png",
+            "alt": "Game 31",
+            "link": "games/Vex5.html",
+            "priority": false
+        },
+        {
+            "title": "WebeComeWhatWeBehold",
+            "image": "assets/main-page/WebeComeWhatWeBehold.png",
+            "alt": "Game 28",
+            "link": "games/WebeComeWhatWeBehold.html",
             "priority": false
         },
         {
