@@ -34,6 +34,7 @@
 - 🎨 Custom themes
 - 🖼️ Background customization
 - ✨ Particle effects
+- 🌐 Proxy functionality: Add `/proxy?url=https://example.com` to the end of the URL to use the proxy
 
 ## 🚀 Installation
 
