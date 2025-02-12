@@ -61,5 +61,5 @@
 
 4. Open your browser and visit:
    ```
-   http://localhost:3000
+   http://localhost:8080
    ```
