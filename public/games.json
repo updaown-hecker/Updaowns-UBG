@@ -57,10 +57,17 @@
             "priority": false
         },
         {
-            "title": "Vex 3",
-            "image": "assets/main-page/vex3.png",
-            "alt": "Game 29",
-            "link": "games/Vex3.html",
+            "title": "Vex 6",
+            "image": "assets/main-page/vex6.png",
+            "alt": "Game 32",
+            "link": "games/Vex6.html",
+            "priority": false
+        },
+        {
+            "title": "Vex 5",
+            "image": "assets/main-page/vex5.png",
+            "alt": "Game 31",
+            "link": "games/Vex5.html",
             "priority": false
         },
         {
@@ -71,10 +78,10 @@
             "priority": false
         },
         {
-            "title": "Vex 5",
-            "image": "assets/main-page/vex5.png",
-            "alt": "Game 31",
-            "link": "games/Vex5.html",
+            "title": "Vex 3",
+            "image": "assets/main-page/vex3.png",
+            "alt": "Game 29",
+            "link": "games/Vex3.html",
             "priority": false
         },
         {
@@ -103,6 +110,13 @@
             "image": "assets/main-page/tetris.png",
             "alt": "Game 9",
             "link": "games/Tetris.html",
+            "priority": false
+        },
+        {
+            "title": "Tunnel Rush",
+            "image": "assets/main-page/tunnelrush.png",
+            "alt": "Game 35",
+            "link": "games/TunnelRush.html",
             "priority": false
         },
         {
@@ -202,6 +216,13 @@
             "alt": "Game 23",
             "link": "games/Impossible-quiz.html",
             "priority": true
+        },
+        {
+            "title": "XX142b2EXE",
+            "image": "assets/main-page/xx142b2exe.png",
+            "alt": "Game 23",
+            "link": "games/xx142b2exe.html",
+            "priority": false
         },
         {
             "title": "Crazy Car Jump",

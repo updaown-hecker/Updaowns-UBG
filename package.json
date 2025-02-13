@@ -16,12 +16,15 @@
     "license": "MIT",
     "dependencies": {
         "cheerio": "^1.0.0",
-        "compression": "^1.7.4",
+        "compression": "^1.8.0",
+        "cookie-parser": "^1.4.7",
         "cors": "^2.8.5",
         "express": "^4.21.2",
-        "helmet": "^7.1.0",
+        "helmet": "^7.2.0",
+        "http": "^0.0.1-security",
         "http-proxy": "^1.18.1",
         "jsdom": "^26.0.0",
+        "morgan": "^1.10.0",
         "node-fetch": "^2.7.0",
         "path": "^0.12.7"
     },
