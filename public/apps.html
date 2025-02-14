@@ -15,7 +15,7 @@
     <title>Google</title>
     <link rel="icon" href="/assets/favicon/google.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script>
         // Check if about:blank is enabled and if we're not already in an about:blank page
@@ -50,6 +50,11 @@
         <div class="search-container">
             <input type="search" class="search-bar" placeholder="Search for apps...">
         </div>
+        <!-- Toggle Switch -->
+    <label class="toggle-switch">
+        <input type="checkbox" id="toggle-rain">
+        <span class="slider"></span>
+    </label>
 
         <div class="game-grid">
             <a href="old-site/index.html" class="game-button">
@@ -180,6 +185,46 @@
         
         // Apply settings when page loads
         document.addEventListener('DOMContentLoaded', applySettings);
+
+         // Toggle rain effect with localStorage persistence
+         const toggleRainSwitch = document.getElementById('toggle-rain');
+        let rainOverlay = null;
+
+        // Load saved state from localStorage
+        const isRainEnabled = localStorage.getItem('rainEnabled') === 'true';
+        toggleRainSwitch.checked = isRainEnabled;
+
+        if (isRainEnabled) {
+            // Create the iframe for rain.html if it was enabled before
+            rainOverlay = document.createElement('iframe');
+            rainOverlay.id = 'rain-overlay';
+            rainOverlay.src = 'assets/particles/rain.html'; // Path to your rain.html file
+            document.body.appendChild(rainOverlay);
+        }
+
+        // Toggle rain effect on switch change
+        toggleRainSwitch.addEventListener('change', (event) => {
+            const isChecked = event.target.checked;
+
+            if (isChecked) {
+                // Enable rain effect
+                if (!rainOverlay) {
+                    rainOverlay = document.createElement('iframe');
+                    rainOverlay.id = 'rain-overlay';
+                    rainOverlay.src = 'assets/particles/rain.html'; // Path to your rain.html file
+                    document.body.appendChild(rainOverlay);
+                }
+            } else {
+                // Disable rain effect
+                if (rainOverlay) {
+                    rainOverlay.remove();
+                    rainOverlay = null;
+                }
+            }
+
+            // Save the state to localStorage
+            localStorage.setItem('rainEnabled', isChecked);
+        });
     </script>
 </body>
 </html>

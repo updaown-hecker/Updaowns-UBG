@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rain Effect</title>
+  <style>
+    html, body {
+  overflow: hidden;
+}
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="rainCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("rainCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Set canvas dimensions to fill the screen
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Raindrop class
+    class Raindrop {
+      constructor() {
+        this.x = Math.random() * canvas.width; // Random x position
+        this.y = Math.random() * canvas.height - canvas.height; // Start above the canvas
+        this.length = Math.random() * 10 + 10; // Random length
+        this.speed = Math.random() * 3 + 2; // Random speed
+      }
+
+      fall() {
+        this.y += this.speed; // Move the raindrop downward
+        if (this.y > canvas.height) {
+          // Reset raindrop when it goes off-screen
+          this.y = -this.length;
+          this.x = Math.random() * canvas.width;
+        }
+      }
+
+      draw() {
+        ctx.strokeStyle = `rgba(173, 216, 230, ${Math.random() * 0.4 + 0.2})`; // Light blue with random opacity
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x, this.y + this.length); // Draw a vertical line
+        ctx.stroke();
+      }
+    }
+
+    // Create an array of raindrops
+    const raindrops = Array.from({ length: 200 }, () => new Raindrop());
+
+    // Animation loop
+    function animateRain() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+      raindrops.forEach(raindrop => {
+        raindrop.fall(); // Update raindrop position
+        raindrop.draw(); // Draw the raindrop
+      });
+      requestAnimationFrame(animateRain); // Loop the animation
+    }
+
+    animateRain(); // Start the rain animation
+  </script>
+</body>
+</html>

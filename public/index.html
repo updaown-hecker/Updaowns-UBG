@@ -1,110 +1,44 @@
-<!--If you want to block teachers remove the comment and enable php-->
-<!--<?php
-function getClientIP() {
-    $headers = [
-        'HTTP_CLIENT_IP',
-        'HTTP_X_FORWARDED_FOR',
-        'HTTP_X_FORWARDED',
-        'HTTP_X_CLUSTER_CLIENT_IP',
-        'HTTP_FORWARDED_FOR',
-        'HTTP_FORWARDED',
-        'REMOTE_ADDR'
-    ];
-
-    foreach ($headers as $header) {
-        if (!empty($_SERVER[$header])) {
-            $ip = explode(',', $_SERVER[$header]);
-            return trim($ip[0]);
-        }
-    }
-
-    return $_SERVER['REMOTE_ADDR'];
-}
-
-$userIP = getClientIP();
-$allowedIP = '135.135.191.70';
-
-if ($userIP !== $allowedIP) {
-?>
-    <script>
-        function detectOS() {
-            const userAgent = window.navigator.userAgent.toLowerCase();
-            
-            if (userAgent.includes('mac')) {
-                return 'mac';
-            } else if (userAgent.includes('win')) {
-                return 'windows';
-            }
-            return 'other';
-        }
-
-        const userOS = detectOS();
-        if (userOS === 'mac' || userOS === 'windows') {
-            if (!window.location.pathname.includes('calc.html')) {
-                window.location.href = 'calc.html';
-            }
-        }
-    </script>
-<?php
-}
-?> -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-KSHBZ8D1X7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-KSHBZ8D1X7');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSHBZ8D1X7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-KSHBZ8D1X7');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google</title>
     <link rel="icon" href="/assets/favicon/google.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <script>
-        // Check if about:blank is enabled and if we're not already in an about:blank page
-        if (localStorage.getItem('aboutBlank') === 'true' && window.location.href !== 'about:blank') {
-            const win = window.open();
-            win.document.body.style.margin = '0';
-            win.document.body.style.height = '100vh';
-            const iframe = win.document.createElement('iframe');
-            iframe.style.border = 'none';
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.margin = '0';
-            iframe.src = window.location.href;
-            win.document.body.appendChild(iframe);
-            window.location.replace('about:blank');
-        }
-    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
     <style>
+        /* Existing styles */
         .total-games {
             text-align: center;
             color: #9ca3af;
             font-size: 0.9rem;
             margin-bottom: 20px;
         }
-        /* Add this CSS for the ribbon-style "Popular!" badge */
-    .popular-badge {
-        position: absolute;
-        top: 15px;
-        right: -25px; /* Adjust to position the ribbon */
-        background-color: #ff4757; /* Red background */
-        color: white;
-        padding: 6px 30px; /* Wider padding for the ribbon */
-        font-size: 0.75rem;
-        font-weight: bold;
-        text-transform: uppercase;
-        text-align: center;
-        transform: rotate(45deg); /* Rotate to create the diagonal effect */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-        z-index: 1;
-    }
+
+        .popular-badge {
+            position: absolute;
+            top: 15px;
+            right: -25px;
+            background-color: #ff4757;
+            color: white;
+            padding: 6px 30px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -126,110 +60,123 @@ if ($userIP !== $allowedIP) {
         <div class="search-container">
             <input type="search" class="search-bar" placeholder="Search for games...">
         </div>
-
         <div id="game-grid" class="game-grid"></div>
     </div>
-    <div id="flash-container"></div>
+    <!-- Toggle Switch -->
+    <label class="toggle-switch">
+        <input type="checkbox" id="toggle-rain">
+        <span class="slider"></span>
+    </label>
+
     <script>
-       // Fetch games from JSON and populate the game grid
-    fetch('games.json') // Replace with the path to your JSON file
-        .then(response => response.json())
-        .then(data => {
-            const gameGrid = document.getElementById('game-grid');
-
-            // Sort games: priority=true comes first
-            data.games.sort((a, b) => (b.priority || false) - (a.priority || false));
-
-            data.games.forEach(game => {
-                const gameButton = document.createElement('a');
-                gameButton.href = game.link;
-                gameButton.className = 'game-button';
-
-                if (game.openInNewTab) {
-                    gameButton.target = '_blank';
-                }
-
-                const img = document.createElement('img');
-                img.src = game.image;
-                img.alt = game.alt;
-
-                const title = document.createElement('div');
-                title.className = 'game-title';
-                title.textContent = game.title;
-
-                // Add "Popular!" ribbon badge if priority is true
-                if (game.priority) {
-                    const popularBadge = document.createElement('div');
-                    popularBadge.className = 'popular-badge';
-                    popularBadge.textContent = 'Popular!';
-                    gameButton.appendChild(popularBadge);
-                }
-
-                gameButton.appendChild(img);
-                gameButton.appendChild(title);
-                gameGrid.appendChild(gameButton);
-            });
-
-            // Update game counter
-            document.getElementById('gameCount').textContent = data.games.length;
-
-            // Add search functionality
-            const searchBar = document.querySelector('.search-bar');
-            const gameButtons = document.querySelectorAll('.game-button');
-
-            searchBar.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase().trim();
-
-                gameButtons.forEach(button => {
-                    const gameTitle = button.querySelector('.game-title').textContent.toLowerCase();
-
-                    // Show/hide games based on search term
-                    if (searchTerm === '' || gameTitle.includes(searchTerm)) {
-                        button.style.display = 'flex';
-                    } else {
-                        button.style.display = 'none';
+        // Fetch games from JSON and populate the game grid
+        fetch('games.json') // Replace with the path to your JSON file
+            .then(response => response.json())
+            .then(data => {
+                const gameGrid = document.getElementById('game-grid');
+                data.games.sort((a, b) => (b.priority || false) - (a.priority || false));
+                data.games.forEach(game => {
+                    const gameButton = document.createElement('a');
+                    gameButton.href = game.link;
+                    gameButton.className = 'game-button';
+                    if (game.openInNewTab) {
+                        gameButton.target = '_blank';
                     }
+                    const img = document.createElement('img');
+                    img.src = game.image;
+                    img.alt = game.alt;
+                    const title = document.createElement('div');
+                    title.className = 'game-title';
+                    title.textContent = game.title;
+
+                    if (game.priority) {
+                        const popularBadge = document.createElement('div');
+                        popularBadge.className = 'popular-badge';
+                        popularBadge.textContent = 'Popular!';
+                        gameButton.appendChild(popularBadge);
+                    }
+
+                    gameButton.appendChild(img);
+                    gameButton.appendChild(title);
+                    gameGrid.appendChild(gameButton);
                 });
 
-                // Check if no games are visible
-                const visibleGames = Array.from(gameButtons).filter(button =>
-                    button.style.display !== 'none'
-                );
+                document.getElementById('gameCount').textContent = data.games.length;
 
-                // Get or create the no-results message
-                let noResults = document.querySelector('.no-results');
-                if (!noResults) {
-                    noResults = document.createElement('div');
-                    noResults.className = 'no-results';
-                    noResults.style.textAlign = 'center';
-                    noResults.style.width = '100%';
-                    noResults.style.padding = '20px';
-                    noResults.style.color = '#9ca3af';
-                    noResults.style.gridColumn = '1 / -1';
-                    gameGrid.appendChild(noResults);
-                }
+                const searchBar = document.querySelector('.search-bar');
+                const gameButtons = document.querySelectorAll('.game-button');
 
-                // Show/hide no results message
-                if (visibleGames.length === 0) {
-                    noResults.textContent = `No games found matching "${searchTerm}"`;
-                    noResults.style.display = 'block';
-                } else {
-                    noResults.style.display = 'none';
-                }
-            });
+                searchBar.addEventListener('input', (e) => {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+                    gameButtons.forEach(button => {
+                        const gameTitle = button.querySelector('.game-title').textContent.toLowerCase();
+                        button.style.display = searchTerm === '' || gameTitle.includes(searchTerm) ? 'flex' : 'none';
+                    });
 
-            // Clear search when clicking the X (clear) button
-            searchBar.addEventListener('search', () => {
-                gameButtons.forEach(button => {
-                    button.style.display = 'flex';
+                    let noResults = document.querySelector('.no-results');
+                    if (!noResults) {
+                        noResults = document.createElement('div');
+                        noResults.className = 'no-results';
+                        noResults.style.textAlign = 'center';
+                        noResults.style.width = '100%';
+                        noResults.style.padding = '20px';
+                        noResults.style.color = '#9ca3af';
+                        noResults.style.gridColumn = '1 / -1';
+                        gameGrid.appendChild(noResults);
+                    }
+
+                    noResults.style.display = Array.from(gameButtons).filter(button =>
+                        button.style.display !== 'none'
+                    ).length === 0 ? 'block' : 'none';
                 });
-                const noResults = document.querySelector('.no-results');
-                if (noResults) {
-                    noResults.style.display = 'none';
+
+                searchBar.addEventListener('search', () => {
+                    gameButtons.forEach(button => button.style.display = 'flex');
+                    const noResults = document.querySelector('.no-results');
+                    if (noResults) noResults.style.display = 'none';
+                });
+            })
+            .catch(error => console.error('Error loading games:', error));
+
+        // Toggle rain effect with localStorage persistence
+        const toggleRainSwitch = document.getElementById('toggle-rain');
+        let rainOverlay = null;
+
+        // Load saved state from localStorage
+        const isRainEnabled = localStorage.getItem('rainEnabled') === 'true';
+        toggleRainSwitch.checked = isRainEnabled;
+
+        if (isRainEnabled) {
+            // Create the iframe for rain.html if it was enabled before
+            rainOverlay = document.createElement('iframe');
+            rainOverlay.id = 'rain-overlay';
+            rainOverlay.src = 'assets/particles/rain.html'; // Path to your rain.html file
+            document.body.appendChild(rainOverlay);
+        }
+
+        // Toggle rain effect on switch change
+        toggleRainSwitch.addEventListener('change', (event) => {
+            const isChecked = event.target.checked;
+
+            if (isChecked) {
+                // Enable rain effect
+                if (!rainOverlay) {
+                    rainOverlay = document.createElement('iframe');
+                    rainOverlay.id = 'rain-overlay';
+                    rainOverlay.src = 'assets/particles/rain.html'; // Path to your rain.html file
+                    document.body.appendChild(rainOverlay);
                 }
-            });
-        })
-        .catch(error => console.error('Error loading games:', error));
+            } else {
+                // Disable rain effect
+                if (rainOverlay) {
+                    rainOverlay.remove();
+                    rainOverlay = null;
+                }
+            }
+
+            // Save the state to localStorage
+            localStorage.setItem('rainEnabled', isChecked);
+        });
     </script>
 </body>
 </html>
