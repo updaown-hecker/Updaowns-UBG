@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download File</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.container {
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+    </style>>
+</head>
+<body>
+    <div class="container">
+        <h1>Polly Track</h1>
+        <button id="downloadBtn">Play Now!!!</button>
+        <h2><strong>Instuctions:</strong>Press play now button then open the file that it downloded and now you an play Polly Track!!!</h2>
+    </div>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+    const url = 'polly-track.html'; // Replace with your file URL
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'polly-track.html'; // Specify the name for the downloaded file
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
+    </script>
+</body>
+</html>

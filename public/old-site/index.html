@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="updaown unblocked games" content="updaown,unblocked games , 1v1lol , 1v1.lol unblocked, updaown's unblocked games , undaowns unblocked games, HTML, CSS, JavaScript">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Google</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="/1v1lol/faviconGoogle.png">
+    <script src="prevent.js"></script>
+    <style>
+    .corner-label {
+            position: fixed;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 14px;
+            border-radius: 10px;
+            z-index: 1000;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+.corner-label.right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .corner-label:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 10px #fff, 0 0 20px #ff6ec7, 0 0 30px #ff6ec7;
+            }
+            50% {
+                box-shadow: 0 0 20px #fff, 0 0 40px #ff6ec7, 0 0 60px #ff6ec7;
+            }
+        }
+        #updates-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 1s ease;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.6);
+    min-width: 150px;
+    background: linear-gradient(45deg, #FF0066, #8A2BE2, #00BFFF);
+    background-size: 300% 300%;
+    background-position: right center;
+    animation: fadeInDown 1s ease-out forwards; /* Fade in from top */
+}
+#updates-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+    background-position: left center;
+}
+
+#theme-selector {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    position: fixed;
+    top: 21px;
+    right: 240px;
+    background-color: #f0f0f0;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+#theme-selector:hover {
+    background-color: #e0e0e0;
+    border-color: #888;
+}
+
+
+#update-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 1s ease;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.6);
+    min-width: 150px;
+    background: linear-gradient(45deg, #FF0066, #8A2BE2, #00BFFF);
+    background-size: 300% 300%;
+    background-position: right center;
+    animation: fadeInDown 1s ease-out forwards; /* Fade in from top */
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#update-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+    background-position: left center;
+}
+
+
+/* site updates */
+/* Popup Styles */
+#updates-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    animation: fadeInDown 0.5s ease-out;
+}
+li {
+  margin-bottom: 10px; /* Adds space below each list item */
+}
+
+/* Optional: Remove the default padding and margin of the <ul> */
+ul {
+  padding: 0;
+  margin: 0;
+}
+#updates-popup h3 {
+    color: #333; /* Dark text color for visibility */
+}
+
+#updates-popup ul {
+    padding-left: 20px;
+    color: #333; /* Dark text color for visibility */
+}
+
+/* Close button */
+#close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff0066;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px; /* Increased clickable area */
+    height: 30px; /* Increased clickable area */
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+.corner-label.right:hover {
+            animation: glow 1s infinite;
+        }
+a:hover {
+    color: aqua;
+}
+a {
+    color: green;
+}
+        </style>
+</head>
+<body>
+<select id="theme-selector">
+    <option value="css/style.css">Default</option>
+    <option value="css/style5.css">Light Mode</option>
+    <option value="css/style2.css">Neon Bloom</option>
+    <option value="css/style3.css">Lush Glow</option>
+    <option value="css/style4.css">Hot and Cold</option>
+</select>
+    <button id="update-button">Update</button>
+    <h1>Updaown's Unblocked Games</h1>
+    <p>Welcome, Click on where you want to go!</p>
+    <div class="buttons">
+        <button onclick="redirect('games/more.html')">The Games<h6>A bunch of games</h6></button>
+        <button onclick="redirect('blueberry/index.html')">Rafa Only <h6>WARNING THIS IS YOUR ONLY WARNING</h6></button>
+        <button onclick="redirect('../index.html')">W.I.P Site</button>
+        <button onclick="redirect('games/games.html')">Unblocked Game Sites<h6>Sites like "Classroom 6x"</h6></button>
+        <button onclick="window.open('games/server/math/inter.html', '_blank')">Interstellar</button>
+        <button onclick="redirect('games/Game-Request.html')">Game Request<h6>Request a Game</h6></button>
+        <button onclick="redirect('games/gpt.html')">The GPT's<h6>Like ChatGPT</h6></button>
+        <button onclick="redirect('ben/updaown/index.html')">Owner<h6>For Owner Only</h6></button>
+        <button onclick="redirect('https://html5.gamedistribution.com/?search=')">Unblocked Game Search</button>
+        <button onclick="redirect('stuff.html')">Stuff I Made</button>
+        <button onclick="redirect('Producers.html')">Sources</button>
+        <button onclick="redirect('games/Bugs.html')">Report Bugs</button>
+    </div>
+    <div class="corner-label right">Made By: <a href="https://github.com/updaown-hecker/Updaowns-UBG/tree/master">updaown</a></div>
+    <!-- Site updates-->
+    <button id="updates-btn">Site Updates</button>
+    <!-- Overlay and Popup -->
+    <div id="overlay"></div>
+    <div id="updates-popup">
+        <button id="close-popup">&times;</button>
+        <h3>Site Updates</h3>
+        <ul>
+            <li>Update 1: Theme selector (NEW THEMES!)</li>
+            <li>Update 2: other people taking stuff from my website (Hunter Lewis)</li>
+            <li>Update 3: Thats ALL! :)</li>
+        </ul>
+    </div>
+    <script>
+        // Open Popup
+        document.getElementById('updates-btn').onclick = function () {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('updates-popup').style.display = 'block';
+        };
+
+        // Close Popup
+        document.getElementById('close-popup').onclick = function () {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('updates-popup').style.display = 'none';
+        };
+
+        // Close popup by clicking overlay
+        document.getElementById('overlay').onclick = function () {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('updates-popup').style.display = 'none';
+        };
+    </script>
+    <script>
+        function redirect(url) {
+            window.open(url, '_self');
+        }
+
+        const updateButton = document.getElementById('update-button');
+        updateButton.addEventListener('click', updateSite);
+        function updateSite() {
+            localStorage.clear();
+            deleteCookies();
+            window.location.reload(true);
+        }
+        function deleteCookies() {
+            const cookies = document.cookie.split(';');
+            for (const cookie of cookies) {
+                const cookieName = cookie.trim().split('=')[0];
+                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+            }
+        }
+    </script>
+
+    <canvas id="particles" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+
+        function createParticle() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speed: Math.random() * 1,
+                direction: Math.random() * 360,
+            };
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((particle, index) => {
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.fill();
+                particle.y -= particle.speed;
+
+                if (particle.y < 0) {
+                    particles[index] = createParticle();
+                }
+            });
+        }
+
+        for (let i = 0; i < 100; i++) {
+            particles.push(createParticle());
+        }
+
+        setInterval(drawParticles, 30);
+
+        window.onresize = function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        
+        //Online Counter
+        async function updateOnlineCount() {
+        try {
+            const response = await fetch('../online_users.php');
+            const count = await response.text();
+            document.getElementById('online-count').innerText = count;
+        } catch (error) {
+            console.error('Error fetching online count:', error);
+        }
+    }
+
+    // Update the count every 1 second
+    setInterval(updateOnlineCount, 1000);
+    updateOnlineCount();
+
+    // Function to format numbers with commas
+    function formatNumberWithCommas(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // Function to fetch and update the total visits
+    async function updateTotalVisits() {
+        try {
+            const response = await fetch('../total_visits.php');
+            const visits = await response.text();
+            document.getElementById('total-visits').innerText = formatNumberWithCommas(visits);
+        } catch (error) {
+            console.error('Error fetching total visits:', error);
+        }
+    }
+
+    // Initial fetch
+    updateTotalVisits();
+
+    // Periodically fetch updates (every 2 seconds)
+    setInterval(updateTotalVisits, 2000);
+    </script>
+    <script type='text/javascript' src='//pl25503429.profitablecpmrate.com/d3/45/0a/d3450adf576bfa9ac282f608185bae3c.js'></script>
+    <!--ads are here-->
+    <script type="text/javascript">
+	atOptions = {
+		'key' : '392704d7047d0159a770ace5d712a514',
+		'format' : 'iframe',
+		'height' : 50,
+		'width' : 320,
+		'params' : {}
+	};
+    // Theme selector
+     // Function to apply a theme
+    function applyTheme(theme) {
+        const stylesheet = document.querySelector('link[rel="stylesheet"]');
+        if (stylesheet) {
+            stylesheet.href = theme;
+            localStorage.setItem('selectedTheme', theme); // Save to local storage
+        }
+    }
+
+    // Initialize theme selector
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeSelector = document.getElementById('theme-selector');
+        const savedTheme = localStorage.getItem('selectedTheme') || 'css/style.css'; // Default to css/style.css
+
+        // Apply the saved theme
+        applyTheme(savedTheme);
+
+        // Set the dropdown to the saved theme
+        themeSelector.value = savedTheme;
+
+        // Handle theme changes
+        themeSelector.addEventListener('change', (event) => {
+            applyTheme(event.target.value);
+        });
+    });
+</script>
+<script type="text/javascript" src="//imaginemothcurved.com/392704d7047d0159a770ace5d712a514/invoke.js"></script>
+</body>
+</html>

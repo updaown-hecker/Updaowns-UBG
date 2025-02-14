@@ -8,6 +8,13 @@
             "priority": true
         },
         {
+            "title": "The old Site",
+            "image": "assets/main-page/page.png",
+            "alt": "Game 36",
+            "link": "old-site/index.html",
+            "priority": true
+        },
+        {
             "title": "Polly Track",
             "image": "assets/main-page/polly-track.png",
             "alt": "Game 26",

@@ -1,0 +1,12 @@
+# Set MIME type for XML files
+AddType application/xml .xml
+
+
+# Custom error document for 400 errors
+ErrorDocument 400 http://updaown.ct.ws/error.html
+
+# Redirect for a specific page (you can remove this if unnecessary)
+Redirect 302 /Jacob.html https://updaown.ct.ws/index2.php
+
+# Custom error document for 404 errors
+ErrorDocument 404 http://updaown.ct.ws/error.html

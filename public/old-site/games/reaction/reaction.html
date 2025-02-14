@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reaction Test</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+      body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #333;
+    color: white;
+    overflow: hidden;
+  }
+  #leaderboard {
+    width: 250px;
+    text-align: left;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #444;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: grab;
+  }
+  #leaderboard h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid white;
+    padding-bottom: 5px;
+  }
+  #leaderboard ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  #leaderboard li {
+    padding: 10px;
+    border-bottom: 1px solid white;
+  }
+  #leaderboard li:last-child {
+    border-bottom: none;
+  }
+  #gameContainer {
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
+  #reactionBox {
+    width: 700px;
+    height: 300px;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 10px;
+    text-align: center;
+  }
+  #personalBest {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+#showMoreBtn {
+margin-top: 10px;
+padding: 10px 15px;
+border: none;
+border-radius: 35px;
+background: linear-gradient(145deg, #555, #444); /* Gradient background */
+color: #fff;
+font-size: 15px;
+cursor: pointer;
+transition: background 0.3s, transform 0.2s; /* Smooth transition for hover effect */
+box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3), -3px -3px 5px rgba(255, 255, 255, 0.1); /* Soft shadow */
+}
+
+#showMoreBtn:hover {
+background: linear-gradient(145deg, #666, #555); 
+transform: scale(1.05);
+}
+
+#showMoreBtn:active {
+transform: scale(0.95); 
+}
+</style>
+</head>
+<body>
+  <div id="leaderboard">
+    <h2>Leaderboard</h2>
+    <ol id="leaderboardList">
+      <!-- Leaderboard entries will be inserted here dynamically -->
+    </ol>
+    <button id="showMoreBtn">Show More</button>
+  </div>
+
+  <div id="gameContainer">
+    <h1>You can either use the mouse to click or press space</h1>
+    <h6>if you want to be on the leaderboard show the owner of this page</h6>
+    <div id="reactionBox">Press Space or Click to Start</div>
+    <div id="personalBest">Personal Best: --</div>
+  </div>
+
+  <script>
+    // Sample leaderboard data
+    const leaderboardData = [
+      { name: "Cameron", time: 0.00450 },
+      { name: "Boston J", time: 0.01040 },
+      { name: "Jacob G", time: 0.01080 },
+      { name: "Ben D", time: 0.00887 },
+      { name: "Old Guy", time: 0.01350 },
+      { name: "Jacob S", time: 0.00290 },
+      { name: "Hunter L", time: 0.01250 },
+      { name: "Oliver S", time: 0.04090 },
+      { name: "Jacob D", time: 0.05200 },
+      { name: "Eathan R", time: 0.06300 },
+      { name: "Greyson W", time: 0.13600 },
+      { name: "Hunter D", time: 0.21050 },
+      { name: "Mrs. Jenson", time: 0.24650 },
+      { name: "Aeron D", time: 0.26270 },
+      { name: "Finn D", time: 0.07030 },
+      { name: "Max C", time: 0.00340 },
+      { name: "Jens D", time: 0.01020 },
+      { name: "Joey S", time: 0.00300 },
+      { name: "Eathan H", time: 0.04000 },
+      { name: "Gradyn", time: 0.05250 },
+    //if you want to add another example is:  { name: "example", time: 0.01050 },
+    ];
+
+    // Function to render the leaderboard and sort by time
+    function renderLeaderboard() {
+      const leaderboardList = document.getElementById("leaderboardList");
+      leaderboardList.innerHTML = ""; // Clear current leaderboard
+
+      // Sort the leaderboard data by time (ascending)
+      leaderboardData.sort((a, b) => a.time - b.time);
+
+      // Create and add leaderboard entries to the list
+      leaderboardData.forEach((entry, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${index + 1}. ${entry.name} : ${entry.time.toFixed(5)}s`;
+        leaderboardList.appendChild(li);
+      });
+    }
+
+    // Initial rendering of the leaderboard
+    renderLeaderboard();
+    window.addEventListener('blur', () => { location.reload(); });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>

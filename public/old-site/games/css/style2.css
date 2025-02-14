@@ -1,0 +1,175 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c, #8a4fff, #42e695, #3bb3e4);
+    background-size: 300% 300%;
+    animation: gradient-animation 10s ease infinite;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Gradient Animation */
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Fade Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header Styling */
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: transparent;
+    background: linear-gradient(90deg, #ff7eb3, #ff758c, #8a4fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    animation: fadeInDown 1s ease-out forwards;
+}
+
+h1 strong {
+    color: #ff007f;
+    text-shadow: 2px 2px 8px rgba(255, 0, 127, 0.8);
+}
+
+/* Button Styling */
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 80%;
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.buttons button {
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 1s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.6);
+    min-width: 150px;
+    background: linear-gradient(145deg, #ff758c, #8a4fff);
+    background-size: 300% 300%;
+}
+
+.buttons button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+}
+
+.buttons button:hover::after {
+    left: 100%;
+}
+
+.buttons button:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Textbox Styling */
+input[type="text"] {
+    padding: 12px;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, box-shadow 0.3s;
+    caret-color: #ff7eb3;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+input[type="text"]:focus {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background: linear-gradient(135deg, #000000, #434343, #000000);
+    animation: gradient-animation 15s ease infinite;
+    color: #ddd;
+}
+
+body.dark-mode input[type="text"] {
+    background: rgba(60, 60, 60, 0.6);
+    color: #ddd;
+}
+
+body.dark-mode input[type="text"]::placeholder {
+    color: rgba(220, 220, 220, 0.8);
+}
+
+body.dark-mode h1 {
+    background: linear-gradient(90deg, #6e6e6e, #434343);
+    color: #fff;
+}

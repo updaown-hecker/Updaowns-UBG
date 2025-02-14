@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="unblocked games , 1v1lol , 1v1.lol unblocked, updaown's unblocked games , undaowns unblocked games" content="HTML, CSS, JavaScript">
+    <meta name="updaown" content="updaown">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="icon" type="image/png" href="/1v1lol/faviconGoogle.png">
+
+     <style>
+         * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #0d0d0d;
+    color: #00ff99;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    border: 2px solid #00ff99;
+    background-color: #1a1a1a;
+    box-shadow: 0px 0px 20px #00ff99;
+}
+
+h1 {
+    font-size: 7rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ff99;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.buttons button {
+    background: none;
+    border: 2px solid #00ff99;
+    color: #00ff99;
+    font-size: 1.2rem;
+    padding: 10px 30px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.buttons button:hover {
+    background-color: #00ff99;
+    color: #0d0d0d;
+    box-shadow: 0px 0px 20px #00ff99;
+}
+#overlay {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgba(0, 0, 0, 0.5); /* Black background with transparency */
+            z-index: 1000; /* Sit on top */
+            justify-content: center; /* Center items */
+            align-items: center; /* Center items */
+        }
+
+        #popup {
+            background-color: white; /* White background for the popup */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center; /* Center text */
+        }
+</style>
+</head>
+<body> 
+    <div class="container">
+        <h1>Vex</h1>
+        <p>Choose from Vex 3-5!</p>
+        <div class="buttons">
+            <button onclick="redirect('https://gameftp.agariodns.cyou/Vex3')">Vex 3</button>
+            <button onclick="redirect('https://gameftp.agariodns.cyou/Vex4')">Vex 4</button>
+            <button onclick="redirect('https://gameftp.agariodns.cyou/Vex5')">Vex 5</button>
+        </div>
+    </div>
+
+    <script>
+    function redirect(url) {
+        window.open(url, '_blank');
+    }
+</script>
+    <!!! label>
+    <div style="position: absolute; bottom: 0; left: 0;">
+  <h6>Made By:</h6>
+  <h5 style="font-size: larger;">updaown</h5>
+</div>
+<div id="overlay">
+    <div id="popup"></div>
+</div>
+
+<script>
+    // Fetch the overlay content from overlay.html
+    fetch('overlay.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('popup').innerHTML = data;
+
+            // Show the overlay when the content is loaded
+            document.getElementById('overlay').style.display = 'flex';
+
+            // Add event listener to the close button
+            document.getElementById('close-btn').addEventListener('click', function() {
+                document.getElementById('overlay').style.display = 'none';
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching overlay content:', error);
+        });
+</script>
+</body>
+</html>

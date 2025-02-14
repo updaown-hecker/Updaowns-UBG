@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff004c, #8a7078);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    animation: bodyFadeIn 1.5s ease-out forwards;
+}
+
+@keyframes bodyFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #00ff15;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    margin-bottom: 15px;
+    animation: slideInFromLeft 1s ease-out forwards;
+}
+
+h1 span {
+    color: #49814e;
+    text-shadow: 0 4px 8px rgb(8, 173, 179);
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+    animation: fadeInUp 1.2s ease-out forwards;
+}
+
+.buttons button {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #2f3d3a, #489981, #40ce80);
+    background-size: 200% 200%;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+}
+
+.buttons button:hover {
+    background-position: left center;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 5px 20px rgba(0, 255, 255, 0.7);
+}
+
+.buttons button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    z-index: 0;
+}
+
+.buttons button:hover::before {
+    opacity: 1;
+}
+
+.buttons button span {
+    position: relative;
+    z-index: 1;
+}
+
+#floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #ff007f, #00bfff);
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    animation: bounce 2s infinite;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+#floating-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 99, 71, 0.7);
+}

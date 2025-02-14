@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="unblocked games , 1v1lol , 1v1.lol unblocked, updaown's unblocked games , undaowns unblocked games" content="HTML, CSS, JavaScript">
+    <meta name="updaown" content="updaown">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Updaown's Unblocked Games</title>
+    <link rel="icon" type="image/png" href="https://updaown.ct.ws/1v1lol/faviconGoogle.png">
+    <link rel="stylesheet" href="https://updaown.ct.ws/css/style.css">
+    <script src="https://updaown.ct.ws/prevent.js"></script>
+    <style>
+    .corner-label {
+            position: fixed;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 14px;
+            border-radius: 10px;
+            z-index: 1000;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+.corner-label.right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        .corner-label:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 10px #fff, 0 0 20px #ff6ec7, 0 0 30px #ff6ec7;
+            }
+            50% {
+                box-shadow: 0 0 20px #fff, 0 0 40px #ff6ec7, 0 0 60px #ff6ec7;
+            }
+        }
+        #updates-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 1s ease;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.6);
+    min-width: 150px;
+    background: linear-gradient(45deg, #FF0066, #8A2BE2, #00BFFF);
+    background-size: 300% 300%;
+    background-position: right center;
+    animation: fadeInDown 1s ease-out forwards; /* Fade in from top */
+}
+
+#updates-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+    background-position: left center;
+}
+/* site updates */
+/* Popup Styles */
+#updates-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    animation: fadeInDown 0.5s ease-out;
+}
+li {
+  margin-bottom: 10px; /* Adds space below each list item */
+}
+
+/* Optional: Remove the default padding and margin of the <ul> */
+ul {
+  padding: 0;
+  margin: 0;
+}
+#updates-popup h3 {
+    color: #333; /* Dark text color for visibility */
+}
+
+#updates-popup ul {
+    padding-left: 20px;
+    color: #333; /* Dark text color for visibility */
+}
+
+/* Close button */
+#close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff0066;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px; /* Increased clickable area */
+    height: 30px; /* Increased clickable area */
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+        .corner-label.right:hover {
+            animation: glow 1s infinite;
+        }
+       a:hover {
+        color: aqua;
+        }
+        a {
+            color: green;
+            }
+        </style>
+</head>
+<body> 
+    <button id="update-button">Update</button>
+    <h1>Updaowns Unblockers</h1>
+    <p>They are most likely all blocked but working on it</p>
+    <div class="buttons">
+        <button onclick="redirect('inter.html')">Interstellar</button>
+            <button onclick="redirect('https://hallolah.gryffindor.se/')">Browser in Browser</button>
+            <button onclick="redirect('https://hasuku.arthurart.org/')">Browser in Browser 2</button>
+            <button onclick="redirect('https://browser.rammerhead.org//')">Browser in Browser 3</button>
+            <button onclick="redirect('https://updaown.ct.ws/games/server/math/link.html')">updaown unblocker</button>
+    </div>
+    <div class="corner-label right">Made By: <a href="https://updaown.ct.ws">updown.ct.ws</a></div>
+    <!-- Site updates-->
+    <button id="updates-btn">Site Updates</button>
+    <!-- Overlay and Popup -->
+    <div id="overlay"></div>
+    <div id="updates-popup">
+        <button id="close-popup">&times;</button>
+        <h3>Site Updates</h3>
+        <ul>
+            <li>Update 1: updates button</li>
+            <li>Update 2: whole site ui revamp</li>
+            <li>Update 3: more games</li>
+            <li>Update 4: more games</li>
+            <li>Update 5: other people taking stuff from my website (Hunter Lewis)</li>
+        </ul>
+    </div>
+    <script>
+        // Open Popup
+        document.getElementById('updates-btn').onclick = function () {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('updates-popup').style.display = 'block';
+        };
+
+        // Close Popup
+        document.getElementById('close-popup').onclick = function () {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('updates-popup').style.display = 'none';
+        };
+
+        // Close popup by clicking overlay
+        document.getElementById('overlay').onclick = function () {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('updates-popup').style.display = 'none';
+        };
+    </script>
+    <script>
+        function redirect(url) {
+            window.open(url, '_self');
+        }
+
+        const updateButton = document.getElementById('update-button');
+        updateButton.addEventListener('click', updateSite);
+        function updateSite() {
+            localStorage.clear();
+            deleteCookies();
+            window.location.reload(true);
+        }
+        function deleteCookies() {
+            const cookies = document.cookie.split(';');
+            for (const cookie of cookies) {
+                const cookieName = cookie.trim().split('=')[0];
+                document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+            }
+        }
+    </script>
+
+    <canvas id="particles" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+
+        function createParticle() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speed: Math.random() * 1,
+                direction: Math.random() * 360,
+            };
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((particle, index) => {
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.fill();
+                particle.y -= particle.speed;
+
+                if (particle.y < 0) {
+                    particles[index] = createParticle();
+                }
+            });
+        }
+
+        for (let i = 0; i < 100; i++) {
+            particles.push(createParticle());
+        }
+
+        setInterval(drawParticles, 30);
+
+        window.onresize = function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+        // Theme selector
+     // Function to apply a theme
+    function applyTheme(theme) {
+        const stylesheet = document.querySelector('link[rel="stylesheet"]');
+        if (stylesheet) {
+            stylesheet.href = theme;
+            localStorage.setItem('selectedTheme', theme); // Save to local storage
+        }
+    }
+
+    // Initialize theme selector
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeSelector = document.getElementById('theme-selector');
+        const savedTheme = localStorage.getItem('selectedTheme') || 'css/style.css'; // Default to css/style.css
+
+        // Apply the saved theme
+        applyTheme(savedTheme);
+
+        // Set the dropdown to the saved theme
+        themeSelector.value = savedTheme;
+
+        // Handle theme changes
+        themeSelector.addEventListener('change', (event) => {
+            applyTheme(event.target.value);
+        });
+    });
+    </script>
+</body>
+</html>

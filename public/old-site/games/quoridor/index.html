@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quoridor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1 align="center"><strong>Quoridor</strong></h1>
+    <div id="name-popup">
+        <div id="popup-content">
+            <h2>Enter Player Names</h2>
+            <form id="name-form">
+                <label for="player1-name">Player 1:</label>
+                <input type="text" id="player1-name" placeholder="Player 1 Name (blue)" required>
+                <br>
+                <label for="player2-name">Player 2:</label>
+                <input type="text" id="player2-name" placeholder="Player 2 Name (red)" required>
+                <br>
+                <button type="submit">Start Game</button>
+            </form>
+        </div>
+    </div>        
+    <div id="game-board"></div>
+    <div id="controls">
+        <button id="place-wall">Place Wall</button>
+        <p id="turn-indicator">Player 1's Turn</p>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>

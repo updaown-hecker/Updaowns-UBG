@@ -1,0 +1,7 @@
+# BEGIN InfinityFree Directory Protection
+# DO NOT EDIT - YOUR CHANGES WILL BE OVERWRITTEN
+AuthType Basic
+AuthName "Login Required"
+AuthUserFile "/home/vol1_4/infinityfree.com/if0_37890804/htdocs/blueberry/.htpasswd"
+Require valid-user
+# END InfinityFree Directory Protection

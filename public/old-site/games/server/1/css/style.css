@@ -1,0 +1,163 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #3a3d44, #0e0e14);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 1s ease-out forwards; /* Apply fade-in to the whole body */
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px); /* Increased vertical movement for a more noticeable effect */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #0fc0fc;
+    text-shadow: 2px 2px 8px rgba(0, 255, 255, 0.8);
+    margin-bottom: 20px;
+    animation: fadeInDown 1s ease-out forwards; /* Fade in from top */
+}
+
+h1 strong {
+    color: #ff007f;
+    text-shadow: 2px 2px 8px rgba(255, 0, 127, 0.8);
+}
+
+h6 {
+    font-size: 0.8rem;
+    color: #ddd;
+    margin-top: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+h2, h3 {
+    animation: fadeInUp 1s ease-out forwards; /* Fade in from bottom */
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 80%;
+    animation: fadeInUp 1s ease-out forwards; /* Apply fadeInUp for fading from bottom */
+}
+
+.buttons button {
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 1s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.6);
+    min-width: 150px;
+    background: linear-gradient(45deg, #FF0066, #8A2BE2, #00BFFF); /* Red, Purple, and Blue */
+    background-size: 300% 300%; /* Larger background to enable sliding */
+    background-position: right center; /* Start the gradient from the right */
+}
+
+.buttons button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+    background-position: left center;
+}
+
+.buttons button:hover h6 {
+    opacity: 1;
+}
+
+.buttons button h6 {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#update-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 1s ease;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.6);
+    min-width: 150px;
+    background: linear-gradient(45deg, #FF0066, #8A2BE2, #00BFFF);
+    background-size: 300% 300%;
+    background-position: right center;
+    animation: fadeInDown 1s ease-out forwards; /* Fade in from top */
+}
+
+#update-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+    background-position: left center;
+}
+#search-bar {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    width: 80%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    animation: fadeIn 1s ease-out forwards;
+}

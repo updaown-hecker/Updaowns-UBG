@@ -1,0 +1,247 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    overflow-y: scroll; /* Keep vertical scrolling enabled */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ff004c, #8a7078);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    animation: gradientAnimation 15s ease infinite, bodyFadeIn 1.5s ease-out forwards;
+    overflow: hidden; /* Hide body scrollbars */
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bodyFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #00ff15;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease-out forwards, slideInFromLeft 1s ease-out forwards;
+}
+
+h1 strong {
+    color: #49814e;
+    text-shadow: 0 4px 8px rgb(8, 173, 179);
+}
+
+h6 {
+    font-size: 0.8rem;
+    color: #ddd;
+    margin-top: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 80%;
+    animation: fadeInBottom 1s ease-out forwards, fadeInUp 1.2s ease-out forwards;
+}
+
+.buttons button {
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 1s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.6);
+    min-width: 150px;
+    background: linear-gradient(90deg, #2f3d3a, #489981, #40ce80);
+    background-size: 200% 200%;
+    background-position: right center;
+    animation: fadeInButton 1s ease-out forwards;
+}
+
+.buttons button.hidden {
+    display: none; /* Hides buttons */
+}
+
+@keyframes fadeInButton {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.buttons button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+    background-position: left center;
+}
+
+.buttons button:hover h6 {
+    opacity: 1;
+}
+
+.buttons button h6 {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#update-button,
+#back-button {
+    position: fixed;
+    top: 20px;
+    padding: 12px 25px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+#update-button {
+    right: 20px;
+}
+
+#back-button {
+    left: 20px;
+}
+
+#update-button:hover,
+#back-button:hover {
+    background-color: #0056b3;
+}
+
+#update-button:active,
+#back-button:active {
+    background-color: #5a9bd5;
+}
+
+#search-bar {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    width: 80%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+canvas#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.footer h6 {
+    visibility: visible; /* Ensure the <h6> inside the footer is visible */
+}
+
+#floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #ff007f, #00bfff);
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    animation: bounce 2s infinite;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+#floating-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 99, 71, 0.7);
+}

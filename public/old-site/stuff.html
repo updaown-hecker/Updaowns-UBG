@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="unblocked games , 1v1lol , 1v1.lol unblocked, updaown's unblocked games , undaowns unblocked games" content="HTML, CSS, JavaScript">
+    <meta name="updaown" content="updaown">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" type="image/png" href="/1v1lol/faviconGoogle.png">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+                document.addEventListener("DOMContentLoaded", function() {
+            // Function to check if a file exists
+            function checkFileExists(url, callback) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('HEAD', url, true);
+                xhr.onload = function() {
+                    if (xhr.status === 200) {
+                        callback(true);
+                    } else {
+                        callback(false);
+                    }
+                };
+                xhr.onerror = function() {
+                    callback(false);
+                };
+                xhr.send();
+            }
+
+            // Check if updaown.html exists
+            checkFileExists('updaown.html', function(exists) {
+                if (!exists) {
+                    // If updaown.html doesn't exist, prevent the site from loading
+                    document.body.innerHTML = '<h1>Site is under maintenance. Please try again later.</h1>';
+                } else {
+                    // If updaown.html exists, do nothing and let the site load normally
+                }
+            });
+        });
+        </script>
+     <style>
+         * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+h1 {
+    font-size: 7rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ff99;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.logout-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .logout-button:hover {
+            background-color: #45a049;
+        }
+</style>
+</head>
+<body> 
+    <button id="update-button">Update</button>
+    <div class="container">
+        <h1>Updaown Games</h1>
+        <p>Welcome, Click on where you wan't to go!</p>
+        <div class="buttons">
+            <button onclick="redirect('/games/server/math/link.html')">updaown unblocker</button>
+            <button onclick="redirect('/games/paint.html')">Paint<h6>bcs why not</h6></button>
+            <button onclick="redirect('grape.html')">updaown GPT</button>
+        </div>
+    </div>
+
+    <script>
+// Function to redirect to a URL in a new tab
+function redirect(url) {
+    window.open(url, '_blank');
+}
+</script>
+    <!!! label>
+<div style="position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px; background-color: rgba(50, 50, 50, 0.5); text-align: center;">
+  <h6>Made By:</h6>
+  <h5 style="font-size: larger;">updaown</h5>
+</div>
+<script>
+// Get the update button element
+const updateButton = document.getElementById('update-button');
+
+// Add an event listener to the button
+updateButton.addEventListener('click', updateSite);
+
+// Function to update the site
+function updateSite() {
+  // Delete local storage data
+  localStorage.clear();
+
+  // Delete cookies
+  deleteCookies();
+
+  // Refresh the page to reload all content
+  window.location.reload(true); // true forces a reload from the server
+}
+
+// Function to delete cookies
+function deleteCookies() {
+  const cookies = document.cookie.split(';');
+
+  for (const cookie of cookies) {
+    const cookieName = cookie.trim().split('=')[0];
+    // Set the cookie's expiration date to the past to delete it
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
+  }
+}
+</script>
+<canvas id="particles" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+
+<script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    function createParticle() {
+        return {
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 3 + 1,
+            speed: Math.random() * 1,
+            direction: Math.random() * 360,
+        };
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((particle, index) => {
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fill();
+            particle.y -= particle.speed;
+
+            if (particle.y < 0) {
+                particles[index] = createParticle();
+            }
+        });
+    }
+
+    for (let i = 0; i < 100; i++) {
+        particles.push(createParticle());
+    }
+
+    setInterval(drawParticles, 30);
+
+    window.onresize = function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+</script>
+</body>
+</html>

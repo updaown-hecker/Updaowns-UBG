@@ -1,0 +1,85 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #333;
+    color: white;
+    overflow: hidden;
+  }
+  #leaderboard {
+    width: 250px;
+    text-align: left;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #444;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: grab;
+  }
+  #leaderboard h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid white;
+    padding-bottom: 5px;
+  }
+  #leaderboard ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  #leaderboard li {
+    padding: 10px;
+    border-bottom: 1px solid white;
+  }
+  #leaderboard li:last-child {
+    border-bottom: none;
+  }
+  #gameContainer {
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
+  #reactionBox {
+    width: 700px;
+    height: 300px;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 10px;
+    text-align: center;
+  }
+  #personalBest {
+    margin-top: 20px;
+    font-size: 18px;
+  }
+#showMoreBtn {
+margin-top: 10px;
+padding: 10px 15px;
+border: none;
+border-radius: 35px;
+background: linear-gradient(145deg, #555, #444); /* Gradient background */
+color: #fff;
+font-size: 15px;
+cursor: pointer;
+transition: background 0.3s, transform 0.2s; /* Smooth transition for hover effect */
+box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3), -3px -3px 5px rgba(255, 255, 255, 0.1); /* Soft shadow */
+}
+
+#showMoreBtn:hover {
+background: linear-gradient(145deg, #666, #555); 
+transform: scale(1.05);
+}
+
+#showMoreBtn:active {
+transform: scale(0.95); 
+}

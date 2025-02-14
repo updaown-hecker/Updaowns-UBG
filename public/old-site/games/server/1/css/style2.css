@@ -1,0 +1,231 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background: linear-gradient(135deg, #ff7eb3, #ff758c, #8a4fff, #42e695, #3bb3e4);
+    background-size: 300% 300%;
+    animation: gradient-animation 10s ease infinite;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+    transition: background 0.5s ease, color 0.5s ease;
+    overflow: hidden; /* Hide body scrollbars */
+}
+
+html {
+    height: 100%;
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    overflow-y: scroll; /* Keep vertical scrolling enabled */
+}
+
+/* Gradient Animation */
+@keyframes gradient-animation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Fade Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Header Styling */
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: transparent;
+    background: linear-gradient(90deg, #ff7eb3, #ff758c, #8a4fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    animation: fadeInDown 1s ease-out forwards;
+}
+
+h1 strong {
+    color: #ff007f;
+    text-shadow: 2px 2px 8px rgba(255, 0, 127, 0.8);
+}
+
+/* Button Styling */
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+    width: 80%;
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.buttons button {
+    font-size: 1.1rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 1s ease;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 99, 71, 0.6);
+    min-width: 150px;
+    background: linear-gradient(145deg, #ff758c, #8a4fff);
+    background-size: 300% 300%;
+}
+
+.buttons button.hidden {
+    display: none; /* Hides buttons */
+}
+
+.buttons button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 99, 71, 0.8);
+}
+
+.buttons button:active {
+    transform: translateY(2px);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Textbox Styling */
+input[type="text"] {
+    padding: 12px;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s, box-shadow 0.3s;
+    caret-color: #ff7eb3;
+}
+
+input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+}
+
+input[type="text"]:focus {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+#update-button,
+#back-button {
+    position: fixed;
+    top: 20px;
+    padding: 12px 25px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+#update-button {
+    right: 20px;
+}
+
+#back-button {
+    left: 20px;
+}
+
+#update-button:hover,
+#back-button:hover {
+    background-color: #0056b3;
+}
+
+#update-button:active,
+#back-button:active {
+    background-color: #5a9bd5;
+}
+
+/* Search Bar */
+#search-bar {
+    display: block;
+    margin: 20px auto;
+    padding: 10px;
+    width: 80%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+/* Particles */
+canvas#particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* Footer */
+.footer h6 {
+    visibility: visible;  /* Ensure the <h6> inside the footer is visible */
+}

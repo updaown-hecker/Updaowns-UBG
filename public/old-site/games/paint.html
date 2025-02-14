@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" type="image/png" href="../1v1lol/faviconGoogle.png">
+    <script src="prevent.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+        button {
+            margin: 5px;
+        }
+        .toolbar {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .toolbar button {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Paint by Updaown</h1>
+    <div class="toolbar">
+        <button id="pencilButton">Pencil</button>
+        <button id="eraserButton">Eraser</button>
+        <button id="undoButton">Undo</button>
+        <button id="redoButton">Redo</button> <!-- Redo Button -->
+        <button id="rectangleButton">Rectangle</button> <!-- Rectangle Tool -->
+        <button id="clearButton">Clear</button>
+        <button id="saveButton">Save</button>
+        <input type="color" id="colorPicker" value="#000000">
+        <input type="number" id="lineWidth" value="2" min="1" max="20">
+    </div>
+    <canvas id="drawingCanvas" width="800" height="600"></canvas>
+
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        let history = [];
+        let currentIndex = -1;
+        let redoStack = []; // Stack to store redo states
+        let shapeTool = null; // Current shape tool
+        let color = '#000000'; // Default color
+    
+        // Function to save the current state
+        function saveCanvasState() {
+            if (currentIndex < history.length - 1) {
+                history = history.slice(0, currentIndex + 1); // Remove future states
+            }
+            history.push(canvas.toDataURL());
+            currentIndex++;
+            redoStack = []; // Clear redo stack on new action
+        }
+        let isDrawing = false;
+
+function startPosition(e) {
+    isDrawing = true;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left - window.scrollX;
+    const y = e.clientY - rect.top - window.scrollY;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    draw(e);
+}
+
+function endPosition() {
+    isDrawing = false;
+    ctx.beginPath();
+    saveCanvasState();
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left - window.scrollX;
+    const y = e.clientY - rect.top - window.scrollY;
+
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = color;
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+}
+    
+        // Redo functionality
+        function redo() {
+    if (redoStack.length > 0) {
+        currentIndex++;
+        const imgData = redoStack.pop();
+        const img = new Image();
+        img.src = imgData;
+        img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+            history[currentIndex] = imgData;
+        };
+    }
+}
+
+document.getElementById('redoButton').addEventListener('click', redo);
+    
+        // Shape drawing
+        function drawShape(x, y) {
+            ctx.beginPath();
+            if (shapeTool === 'rectangle') {
+                ctx.rect(x, y, 100, 50); // Example size
+            }
+            ctx.strokeStyle = color;
+            ctx.stroke();
+        }
+canvas.addEventListener('mousedown', startPosition);
+canvas.addEventListener('mouseup', endPosition);
+canvas.addEventListener('mousemove', draw);
+        // Mouse event for shape drawing
+        canvas.addEventListener('mousedown', (e) => {
+            if (shapeTool) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                drawShape(x, y);
+                saveCanvasState(); // Save after drawing shape
+                shapeTool = null; // Reset shape tool
+            } else {
+                startPosition(e); // Normal drawing
+            }
+        });
+    
+        // Tool selection for shapes
+        document.getElementById('rectangleButton').addEventListener('click', () => {
+            shapeTool = 'rectangle';
+        });
+    
+        // Redo button functionality
+        document.getElementById('redoButton').addEventListener('click', redo);
+    
+        // Existing clear and save functionality
+        document.getElementById('clearButton').addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            history = []; // Clear the history stack
+            currentIndex = -1; // Reset the current index
+        });
+    
+        document.getElementById('saveButton').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'drawing.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    
+        // Additional drawing setup code goes here...
+        document.getElementById('colorPicker').addEventListener('change', function() {
+    color = this.value;
+});
+document.getElementById('lineWidth').addEventListener('change', function() {
+    lineWidth = this.value;
+});
+function saveCanvasState() {
+    if (currentIndex < history.length - 1) {
+        history = history.slice(0, currentIndex + 1);
+    }
+    history.push(canvas.toDataURL());
+    currentIndex++;
+    redoStack = [];
+}
+let isErasing = false;
+
+document.getElementById('eraserButton').addEventListener('click', () => {
+    isErasing = true;
+    color = '#FFFFFF'; // Set color to white for erasing
+});
+
+document.getElementById('pencilButton').addEventListener('click', () => {
+    isErasing = false;
+    color = document.getElementById('colorPicker').value; // Set color back to selected color
+});
+
+// Modify the draw function:
+function draw(e) {
+    if (!isDrawing) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left - window.scrollX;
+    const y = e.clientY - rect.top - window.scrollY;
+
+    ctx.lineWidth = lineWidth;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = isErasing ? '#FFFFFF' : color;
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+}
+function undo() {
+    if (currentIndex > 0) {
+        currentIndex--;
+        redoStack.push(history[currentIndex + 1]);
+        const img = new Image();
+        img.src = history[currentIndex];
+        img.onload = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0);
+        };
+    }
+}
+
+document.getElementById('undoButton').addEventListener('click', undo);
+
+    </script>
+
+
+    <!!! label>
+    <div style="position: absolute; bottom: 0; left: 0;">
+  <h6>Made By:</h6>
+  <h5 style="font-size: larger;">updaown</h5>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Producers</title>
+    <style>
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    background: radial-gradient(circle, #141e30, #243b55);
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    color: #00d4ff;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+h1:hover {
+    color: #ffffff;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+}
+h3 {
+    font-size: 1.8rem;
+    margin: 10px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    color: #00d4ff;
+    transition: color 0.3s, text-shadow 0.3s;
+}
+h3:hover {
+    color: #ffffff;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+}
+
+.text-box {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.3));
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 15px;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    color: #b6f0ff;
+}
+
+.text-box:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(2, 60, 110, 0.5));
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .text-box {
+        font-size: 0.9rem;
+        padding: 15px;
+    }
+}[;]
+    </style>
+</head>
+<body>
+    <h1>Game Producers</h1>
+    <h3> Click text to coppy</h3>
+    <div class="text-box" onclick="copyText('https://clearcache.store/')">clearcache.store</div>
+    <div class="text-box" onclick="copyText('https://updaown-html.free.nf')">updaown-html</div>
+    <div class="text-box" onclick="copyText('https://gameftp.agariodns.cyou')">gameftp</div>
+    <div class="text-box" onclick="copyText('https://html5.gamedistribution.com')">gamedistribution</div>
+    <div class="text-box" onclick="copyText('http://schoology.freesite.online')">schoology.freesite.online</div>
+    <div class="text-box" onclick="copyText('nothing')">nothing</div>
+    <div class="text-box" onclick="copyText('nothing')">nothing</div>
+    <script>
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+            });
+        }
+    </script>
+</body>
+</html>

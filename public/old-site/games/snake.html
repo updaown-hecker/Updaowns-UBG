@@ -1,0 +1,171 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Snake Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .game-container {
+            width: 400px;
+            height: 400px;
+            background-color: #a3d977;
+            background-image: linear-gradient(45deg, #a3d977 25%, transparent 25%, transparent 75%, #a3d977 75%, #a3d977), linear-gradient(45deg, #a3d977 25%, transparent 25%, transparent 75%, #a3d977 75%, #a3d977);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+            position: relative;
+        }
+        .snake {
+            width: 20px;
+            height: 20px;
+            background-color: #3498db;
+            position: absolute;
+            border-radius: 5px;
+        }
+        .snake::before {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            top: 4px;
+            left: 4px;
+        }
+        .snake::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: white;
+            border-radius: 50%;
+            top: 4px;
+            right: 4px;
+        }
+        .food {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            position: absolute;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="bg-green-800 flex items-center justify-center h-screen">
+    <div class="absolute top-4 left-4 text-white flex items-center">
+        <img alt="Apple icon" class="w-5 h-5 mr-2" height="20" src="https://storage.googleapis.com/a1aa/image/NL5hfBm2fnrFU05UYfMzUTQw0duoSzZJZMP8qO42WiJvNKSnA.jpg" width="20"/>
+        <span id="score">0</span>
+    </div>
+    <div class="absolute top-4 right-4 text-white flex items-center">
+        <span>High Score: </span>
+        <span id="high-score" class="ml-2">0</span>
+    </div>
+    <div class="game-container" id="game-container">
+        <div class="snake" id="snake"></div>
+        <div class="food" id="food"></div>
+    </div>
+    <script>
+        const gameContainer = document.getElementById('game-container');
+        const snakeElement = document.getElementById('snake');
+        const foodElement = document.getElementById('food');
+        const scoreElement = document.getElementById('score');
+        const highScoreElement = document.getElementById('high-score');
+
+        let snake = [{ x: 20, y: 20 }];
+        let food = { x: 60, y: 60 };
+        let direction = { x: 20, y: 0 };
+        let score = 0;
+        let highScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
+        highScoreElement.textContent = highScore;
+
+        function updateSnake() {
+            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+            snake.unshift(head);
+
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                scoreElement.textContent = score;
+                placeFood();
+            } else {
+                snake.pop();
+            }
+
+            if (head.x < 0 || head.x >= 400 || head.y < 0 || head.y >= 400 || snakeCollision(head)) {
+                if (score > highScore) {
+                    highScore = score;
+                    localStorage.setItem('highScore', highScore);
+                    highScoreElement.textContent = highScore;
+                }
+                alert('Game Over');
+                resetGame();
+            }
+        }
+
+        function snakeCollision(head) {
+            for (let i = 1; i < snake.length; i++) {
+                if (snake[i].x === head.x && snake[i].y === head.y) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function placeFood() {
+            food.x = Math.floor(Math.random() * 20) * 20;
+            food.y = Math.floor(Math.random() * 20) * 20;
+            foodElement.style.left = `${food.x}px`;
+            foodElement.style.top = `${food.y}px`;
+        }
+
+        function drawSnake() {
+            gameContainer.innerHTML = '';
+            snake.forEach(segment => {
+                const segmentElement = document.createElement('div');
+                segmentElement.classList.add('snake');
+                segmentElement.style.left = `${segment.x}px`;
+                segmentElement.style.top = `${segment.y}px`;
+                gameContainer.appendChild(segmentElement);
+            });
+            gameContainer.appendChild(foodElement);
+        }
+
+        function changeDirection(event) {
+            const keyPressed = event.keyCode;
+            const goingUp = direction.y === -20;
+            const goingDown = direction.y === 20;
+            const goingRight = direction.x === 20;
+            const goingLeft = direction.x === -20;
+
+            if (keyPressed === 37 && !goingRight) {
+                direction = { x: -20, y: 0 };
+            }
+            if (keyPressed === 38 && !goingDown) {
+                direction = { x: 0, y: -20 };
+            }
+            if (keyPressed === 39 && !goingLeft) {
+                direction = { x: 20, y: 0 };
+            }
+            if (keyPressed === 40 && !goingUp) {
+                direction = { x: 0, y: 20 };
+            }
+        }
+
+        function resetGame() {
+            snake = [{ x: 20, y: 20 }];
+            direction = { x: 20, y: 0 };
+            score = 0;
+            scoreElement.textContent = score;
+            placeFood();
+        }
+
+        function gameLoop() {
+            updateSnake();
+            drawSnake();
+        }
+
+        placeFood();
+        setInterval(gameLoop, 200);
+        window.addEventListener('keydown', changeDirection);
+    </script>
+</body>
+<div class="hidden-credit" style="display: none;">made by updaown</div>
+</html>

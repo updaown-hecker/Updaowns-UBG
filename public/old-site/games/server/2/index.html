@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="unblocked games , 1v1lol , 1v1.lol unblocked, updaown's unblocked games , undaowns unblocked games" content="HTML, CSS, JavaScript">
+    <meta name="updaown" content="updaown">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" type="image/png" href="https://updaown.free.nf/1v1lol/faviconGoogle.png">
+    <link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+</head>
+<body> 
+        <h1>Server 2</h1>
+        <p>Welcome, Select a game you you want to play</p>
+        <input type="text" id="search-bar" placeholder="Search for a game...">
+        <div class="buttons">
+            <button onclick="redirect('@updaown-html.free.nf/games/eagal.html')">Minecraft<h6>minecraft version 1.8.8></button>
+            <button onclick="redirect('@gameftp.agariodns.cyou/1v1lol/')">1v1.lol</button>
+            <button onclick="redirect('@updaown.free.nf/games/reaction/reaction.html')">Reaction test</button>
+            <button onclick="redirect('@schoology.freesite.online/oranges/Recoil.html')">Recoil</button>
+            <button onclick="redirect('@schoology.freesite.online/oranges/Sausage.html')">Sausage Flip</button>
+            <button onclick="redirect('@schoology.freesite.online/oranges/Soccer.html')">Soccer Skills</button>
+            <button onclick="redirect('@schoology.freesite.online/oranges/Happy.html')">Happy Wheels</button>
+            <button onclick="redirect('@schoology.freesite.online/oranges/Race.html')">Survival Race: Area King</button>
+            <button onclick="redirect('@schoology.freesite.online/oranges/Slope.html')">Slope Game</button>
+            <button onclick="redirect('@updaown.free.nf/games/vex.html')">All Vex Games</button>
+        </div>
+    <!-- label-->
+<div style="position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px; background-color: rgba(50, 50, 50, 0.5); text-align: center;">
+  <h6>Made By:</h6>
+  <h5 style="font-size: larger;">updaown</h5>
+</div>
+<button id="update-button">Update</button>
+<canvas id="particles" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+
+<script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    function createParticle() {
+        return {
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 3 + 1,
+            speed: Math.random() * 1,
+            direction: Math.random() * 360,
+        };
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((particle, index) => {
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.fill();
+            particle.y -= particle.speed;
+
+            if (particle.y < 0) {
+                particles[index] = createParticle();
+            }
+        });
+    }
+
+    for (let i = 0; i < 100; i++) {
+        particles.push(createParticle());
+    }
+
+    setInterval(drawParticles, 30);
+
+    window.onresize = function() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    };
+</script>
+</body>
+</html>

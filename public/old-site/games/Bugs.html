@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" type="image/png" href="/1v1lol/faviconGoogle.png">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+            position: relative;
+        }
+
+        .center-iframe {
+            position: relative;
+            z-index: 1;
+        }
+
+        iframe {
+            border: none;
+            width: 640px;
+            height: 570px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Animated Background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 5s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100vh); }
+        }
+
+        /* Cursor Follower */
+        .cursor-follower {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            pointer-events: none; /* Ensures it doesn't interfere with mouse events */
+            transition: transform 0.1s ease; /* Smooth movement */
+            transform: translate(-50%, -50%); /* Center the circle on the cursor */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background" id="background"></div>
+
+    <div class="center-iframe">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdOnRNhASMPE6QgeukfiFOJvFeB2inRw62WhVfKiI9hoe_e8w/viewform?embedded=true" loading="lazy">Loading…</iframe>
+    </div>
+
+    <div class="cursor-follower" id="cursorFollower"></div>
+
+    <script>
+        const colors = ['rgba(255, 0, 0, 0.7)', 'rgba(0, 255, 0, 0.7)', 'rgba(0, 0, 255, 0.7)', 'rgba(255, 255, 0, 0.7)', 'rgba(0, 255, 255, 0.7)'];
+        const background = document.getElementById('background');
+        const cursorFollower = document.getElementById('cursorFollower');
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            const size = Math.random() * 50 + 20; // Random size between 20 and 70
+            const left = Math.random() * window.innerWidth;
+            const duration = Math.random() * 5 + 5; // Random duration between 5s and 10s
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            particle.classList.add('particle');
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.background = color;
+            particle.style.left = `${left}px`;
+            particle.style.bottom = '-50px'; // Start below the viewport
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.opacity = Math.random();
+
+            background.appendChild(particle);
+
+            // Remove the particle after the animation is complete
+            particle.addEventListener('animationend', () => {
+                particle.remove();
+            });
+        }
+
+        // Create particles at intervals
+        setInterval(createParticle, 300);
+
+        // Cursor Follower
+        document.addEventListener('mousemove', (e) => {
+            cursorFollower.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+        });
+    </script>
+</body>
+</html>
