@@ -63,3 +63,37 @@
    ```
    http://localhost:8080
    ```
+
+## 🔄 Update the Site
+
+To force update the site to the latest version from the GitHub repository [Updaowns-UBG](https://github.com/updaown-hecker/Updaowns-UBG.git), run the following commands:
+
+1. Navigate to your project directory:
+   ```bash
+   cd /path/to/your/project
+   ```
+
+2. Fetch the latest changes from the repository:
+   ```bash
+   git fetch --all
+   ```
+
+3. Reset your local repository to match the remote repository:
+   ```bash
+   git reset --hard origin/main
+   ```
+
+4. Reinstall dependencies:
+   ```bash
+   npm install
+   ```
+
+5. Restart the server:
+   ```bash
+   npm run dev
+   ```
+
+   Or for production:
+   ```bash
+   npm start
+   ```

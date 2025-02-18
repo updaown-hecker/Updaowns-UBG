@@ -50,11 +50,18 @@
             "priority": false
         },
         {
+            "title": "Smash Karts",
+            "image": "assets/main-page/smash-karts.png",
+            "alt": "Game 37",
+            "link": "games/Smash-karts.html",
+            "priority": true
+        },
+        {
             "title": "Slope",
             "image": "assets/main-page/slope.png",
             "alt": "Game 5",
             "link": "games/Slope.html",
-            "priority": true
+            "priority": false
         },
         {
             "title": "Slope 2",
@@ -222,7 +229,7 @@
             "image": "assets/main-page/impossible-quiz.png",
             "alt": "Game 23",
             "link": "games/Impossible-quiz.html",
-            "priority": true
+            "priority": false
         },
         {
             "title": "XX142b2EXE",
