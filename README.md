@@ -1,99 +1,111 @@
 <div align="center">
-
-# 🎮 Updaown's UBL
-
-*An unblocked games website with tab cloaking and other features.*
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat&logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-404D59?style=flat)](https://expressjs.com/)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
-
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/updaown-hecker/Updaowns-UBG)
-[![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fupdaown%2FUpdaowns-UBG)
-[![Deploy to Replit](https://replit.com/badge/github/updaown-hecker/Updaowns-UBG)](https://replit.com/github/updaown-hecker/Updaowns-UBG)
-[![Deploy to Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/updaown-hecker/Updaowns-UBG)
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/updaown-hecker/Updaowns-UBG)
-[![Deploy to Cyclic](https://cyclic.sh/deploy.svg)](https://deploy.cyclic.app/updaown-hecker/Updaowns-UBG)
-[![Deploy to Koyeb](https://www.koyeb.com/static/images/deploy/button.svg)](https://app.koyeb.com/deploy?type=git&repository=github.com/updaown-hecker/Updaowns-UBG&branch=main&name=ubg)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/updaown-hecker/Updaowns-UBG)
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/updaown-hecker/Updaowns-UBG/archive/refs/heads/main.zip)
-[![Deploy to Google Cloud](https://img.shields.io/badge/Google_Cloud-4285F4?style=flat&logo=google-cloud&logoColor=white)](https://deploy.cloud.run/?git_repo=https://github.com/updaown-hecker/Updaowns-UBG)
-[![Deploy to IBM Cloud](https://img.shields.io/badge/IBM_Cloud-054ADA?style=flat&logo=ibm&logoColor=white)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/updaown-hecker/Updaowns-UBG)
-[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fupdaown%2FUpdaowns-UBG%2Fmain%2Fazuredeploy.json)
-[![Deploy to AWS Amplify](https://img.shields.io/badge/AWS_Amplify-FF9900?style=flat&logo=aws-amplify&logoColor=white)](https://console.aws.amazon.com/amplify/home#/deploy?repo=https://github.com/updaown-hecker/Updaowns-UBG)
-
+    <p>Updaown's UBG is a web proxy with a Clean and Sleek UI and easy-to-use menus. Our goal is to provide the best user experience to everyone.</p>
 </div>
 
-## ✨ Features
+> [!IMPORTANT]
+> If you fork this project, consider giving it a star in the original repository!
 
-- 🎮 Multiple unblocked games
-- 🔒 Tab cloaking
-- 🕶️ About:blank cloaking
-- ⚡ Panic key functionality
-- 🎨 Custom themes
-- 🖼️ Background customization
-- ✨ Particle effects
-- 🌐 Proxy functionality: Add `/proxy?url=https://example.com` to the end of the URL to use the proxy
+**Join Our [Discord Community](https://github.com/updaown-hecker/Updaowns-UBG/tree/master) for support, more links, and an active community!**
 
-## 🚀 Installation
+## Features
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/updaown/Updaowns-UBG.git
-   cd ubl
-   ```
+- About:Blank Cloaking
+- Tab Cloaking
+- Wide collection of apps & games
+- Clean, Easy-to-use UI
+- Inspect Element
+- Various Themes
+- Password Protection (Optional)
+- Built-in Tab System
+- Now.gg Support (W.I.P)
+- Fast Speeds
+- Geforce NOW Support
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+## Deployment
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+> [!IMPORTANT]
+> You **cannot** deploy to static web hosts, including Netlify, Cloudflare Pages, and GitHub Pages.
 
-   Or for production:
-   ```bash
-   npm start
-   ```
+### Password Protection
 
-4. Open your browser and visit:
-   ```
-   http://localhost:8080
-   ```
+1. Go to the `config.js` file and set `challenge` to **true**. Then, set the environment variable as follows:
+2. For PNPM: Run either `config=true pnpm start` or `$env:config=true; pnpm start`, depending on your server.
+3. For Bun: Run either `config=true bun start` or `$env:config=true; bun start` if you prefer Bun.
+4. For NPM: Run either `config=true npm start` or `$env:config=true; npm start` if you prefer NPM.
 
-## 🔄 Update the Site
+### Server Deployment
 
-To force update the site to the latest version from the GitHub repository [Updaowns-UBG](https://github.com/updaown-hecker/Updaowns-UBG.git), run the following commands:
+You must run these commands on your server:
 
-1. Navigate to your project directory:
-   ```bash
-   cd /path/to/your/project
-   ```
+```bash
+git clone https://github.com/updaown-hecker/Updaowns-UBG/tree/master
+cd Updaown's UBG
+```
+<h1>Bun:</h1>
+If you are using Bun, run the following commands:
 
-2. Fetch the latest changes from the repository:
-   ```bash
-   git fetch --all
-   ```
+```bash 
+bun i
+bun start
+``` 
+<h1>PNPM</h1>
+If you are using pnpm, run the following commands:
 
-3. Reset your local repository to match the remote repository:
-   ```bash
-   git reset --hard origin/main
-   ```
+```bash
+pnpm i
+pnpm start
+```
 
-4. Reinstall dependencies:
-   ```bash
-   npm install
-   ```
+<h1> NPM</h1>
 
-5. Restart the server:
-   ```bash
-   npm run dev
-   ```
+```bash 
+npm i
+npm run start
+```
+<h1>Updating</h1>
 
-   Or for production:
-   ```bash
-   npm start
-   ```
+```bash 
+cd Updaown's UBG
+git pull --force --allow-unrelated-histories # This may overwrite your local changes
+```
+<hr>
+
+<h3>Deployment Alternatives:</h3>
+For more deployment options, join our Discord Server for various ways to deploy Updaown's UBG. This includes methods of deploying to Render/OnRender.
+
+What happened to Replit Deployment?
+As of January 1st, 2024, Replit is no longer free. Try GitHub Codespaces instead.
+
+<h3>GitHub Codespaces:</h3>
+[!NOTE] If you're setting the port below 1023, then you must run sudo PORT=1023.
+
+1. Create a GitHub account if you haven't already.
+
+2. Click "Code" (green button) and then "Create Codespace on main."
+
+3. In the terminal at the bottom, paste pnpm i && pnpm start.
+
+4. Respond to the application popup by clicking "Make public."
+
+[!IMPORTANT] Make sure you click the "Make public." button, or the proxy won't function properly.
+If you get a Range Error, go back and make sure you clicked Make public!
+
+Access the deployed website from the ports tab.
+
+<strong>For subsequent uses in the same codespace, just run pnpm start.</strong>
+
+- Solution for if there is no popup.
+Run pnpm i, and before pnpm start, prepend PORT=8080, replacing 8080 with another port. For example, PORT=6969 pnpm start.
+
+- If this does not work, then you can prepend $env:PORT=8080;, replacing 8080 with another port. For example, $env:PORT=6969; pnpm start.
+
+- Go to the ports tab, Click Forward A Port, and type the port number.
+
+- Right-click Visibility and set Port Visibility to Public.
+
+<h1>Report Issues:</h1>
+If you encounter problems, open an issue on GitHub, and we'll address it promptly.
+
+<div style="margin-bottom: 20px;"></div>
+
+[!TIP] If you're having trouble, don't hesitate to reach out to us on Discord for personalized support.

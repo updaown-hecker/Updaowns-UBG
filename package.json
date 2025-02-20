@@ -1,31 +1,32 @@
 {
-    "name": "updaowns-ubl",
-    "version": "1.0.0",
-    "description": "Unblocked games website with tab cloaking and other features",
-    "main": "server.js",
-    "scripts": {
-        "start": "node server.js",
-        "dev": "nodemon server.js"
-    },
-    "keywords": [
-        "math games",
-        "school help",
-        "web"
-    ],
-    "author": "Updaown",
-    "license": "MIT",
-    "dependencies": {
-        "express": "^4.21.2",
-        "helmet": "^7.2.0",
-        "morgan": "^1.10.0",
-        "node-fetch": "^2.7.0",
-        "path": "^0.12.7",
-        "unblocker": "^2.3.1"
-    },
-    "devDependencies": {
-        "nodemon": "^3.0.2"
-    },
-    "engines": {
-        "node": "16.x"
-    }
+  "name": "Updaowns-UBG",
+  "version": "5.2.5",
+  "type": "module",
+  "engines": {
+    "npm": ">=7.0.0",
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "format": "biome format --write .",
+    "precommit": "pnpm run format && biome check --write .",
+    "lint": "biome lint --write ."
+  },
+  "author": "updaown-hecker",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@nebula-services/bare-server-node": "^2.0.4",
+    "chalk": "^5.4.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-basic-auth": "^1.2.1",
+    "mime": "^4.0.6",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4"
+  },
+  "packageManager": "pnpm@9.10.0"
 }
