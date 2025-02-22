@@ -15,31 +15,6 @@
     <link rel="icon" href="/assets/favicon/google.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
-    <style>
-        /* Existing styles */
-        .total-games {
-            text-align: center;
-            color: #9ca3af;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-
-        .popular-badge {
-            position: absolute;
-            top: 15px;
-            right: -25px;
-            background-color: #ff4757;
-            color: white;
-            padding: 6px 30px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-align: center;
-            transform: rotate(45deg);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            z-index: 1;
-        }
-    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -57,126 +32,199 @@
         <div class="total-games">
             Total Games: <span id="gameCount">0</span>
         </div>
+
+        <!-- Search Feature -->
         <div class="search-container">
-            <input type="search" class="search-bar" placeholder="Search for games...">
+            <input type="text" id="searchInput" placeholder="Search games...">
         </div>
-        <div id="game-grid" class="game-grid"></div>
-    </div>
-    <!-- Toggle Switch -->
-    <label class="toggle-switch">
+
+        <div id="gamesContainer"></div>
+        <div id="iframeContainer" style="display: none;">
+            <div id="iframeControls">
+            <button id="fullScreenButton">Full Screen</button>
+            <button id="closeButton">X</button>
+            </div>
+            <iframe id="gameFrame" style="width: 100%; height: 100vh;"></iframe>
+            <object id="gameObject" style="width: 100%; height: 100vh;" data=""></object>
+        </div>
+        </div>
+        <!-- Toggle Switch -->
+        <label class="toggle-switch">
         <input type="checkbox" id="toggle-rain">
         <span class="slider"></span>
-    </label>
+        </label>
 
-    <script>
-        // Fetch games from JSON and populate the game grid
-        fetch('games.json') // Replace with the path to your JSON file
-            .then(response => response.json())
-            .then(data => {
-                const gameGrid = document.getElementById('game-grid');
-                data.games.sort((a, b) => (b.priority || false) - (a.priority || false));
-                data.games.forEach(game => {
-                    const gameButton = document.createElement('a');
-                    gameButton.href = game.link;
-                    gameButton.className = 'game-button';
-                    if (game.openInNewTab) {
-                        gameButton.target = '_blank';
-                    }
-                    const img = document.createElement('img');
-                    img.src = game.image;
-                    img.alt = game.alt;
-                    const title = document.createElement('div');
-                    title.className = 'game-title';
-                    title.textContent = game.title;
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+var games = [
+    { name: "Other Site", url: "https://sites.goodplayz.xyz", image: "assets/main-page/other-sites.png" },
+    { name: "Minecraft", url: "games/minecraft.html", image: "assets/main-page/minecraft.png" },
+    { name: "Polly Track", url: "games/polly.html", image: "assets/main-page/polly-track.png" },
+    { name: "Subway Surfers", url: "games/subway-surfers", image: "assets/main-page/subway-surfers.png" },
+    { name: "1v1.LOL", url: "games/1v1lol.html", image: "assets/main-page/1v1-lol.png" },
+    { name: "1v1.LOL 2", url: "https://1v1.lol", image: "assets/main-page/1v1lol-real.png" },
+    { name: "Snake Game", url: "games/snake", image: "assets/main-page/snake.png" },
+    { name: "Smash Karts", url: "games/smash-karts", image: "assets/main-page/smash-karts.png" },
+    { name: "Slope", url: "games/slope", image: "assets/main-page/slope.png" },
+    { name: "Slope 2", url: "games/slope-2", image: "assets/main-page/slope-2.png" },
+    { name: "Vex 6", url: "games/vex6", image: "assets/main-page/vex6.png" },
+    { name: "Vex 5", url: "games/vex5", image: "assets/main-page/vex5.png" },
+    { name: "Vex 4", url: "games/vex4", image: "assets/main-page/vex4.png" },
+    { name: "Vex 3", url: "games/vex3", image: "assets/main-page/vex3.png" },
+    { name: "WebeComeWhatWeBehold", url: "games/webecomewhatwebehold", image: "assets/main-page/WebeComeWhatWeBehold.png" },
+    { name: "Cookie Clicker", url: "games/cookie-clicker", image: "assets/main-page/cookie-clicker.png" },
+    { name: "Tower Stack", url: "games/stack", image: "assets/main-page/stack.png" },
+    { name: "Tetris", url: "games/tetris", image: "assets/main-page/tetris.png" },
+    { name: "Tunnel Rush", url: "games/tunnelrush", image: "assets/main-page/tunnelrush.png" },
+    { name: "Retro Bowl", url: "games/retro-bowl", image: "assets/main-page/retro-bowl.png" },
+    { name: "Boxing Random", url: "games/boxing-random", image: "assets/main-page/boxing-random.png" },
+    { name: "Basket Random", url: "games/basket-random", image: "assets/main-page/basket-random.png" },
+    { name: "2048", url: "games/2048", image: "assets/main-page/2048.png" },
+    { name: "Drift Hunters", url: "games/drift-hunters.html", image: "assets/main-page/drift-hunters.png" },
+    { name: "Geometry Dash", url: "games/geometry-dash.html", image: "assets/main-page/geometry-dash.png" },
+    { name: "World Hardest Game", url: "games/world-hardest-game.html", image: "assets/main-page/world-hardest-game.png" },
+    { name: "Rooftop Snippers", url: "games/rooftop-snippers.html", image: "assets/main-page/rooftop-snippers.png" },
+    { name: "Windows 11", url: "games/win11.html", image: "assets/main-page/win11.png" },
+    { name: "Fire Boy and Water Girl", url: "games/fire-boy-and-water-girl-ft.html", image: "assets/main-page/fireboy-and-watergirl-1.png" },
+    { name: "Chrome Dino", url: "games/chrome-dino.html", image: "assets/main-page/chrome-dino.png" },
+    { name: "Fappy Bird", url: "games/fappy-bird.html", image: "assets/main-page/fappy-bird.png" },
+    { name: "Chroma", url: "games/chroma/", image: "assets/main-page/chroma.png" },
+    { name: "Impossible Quiz", url: "games/impossible-quiz.html", image: "assets/main-page/impossible-quiz.png" },
+    { name: "XX142b2EXE", url: "games/xx142b2exe.html", image: "assets/main-page/xx142b2exe.png" },
+    { name: "Crazy Car Jump", url: "games/crazy-car-jump.html", image: "assets/main-page/crazy-car-jump.png" },
+    { name: "Coloron", url: "games/coloron/", image: "assets/main-page/coloron.png" },
+    { name: "Awesome Tanks", url: "https://example.com", image: "assets/main-page/awesome-tanks-2.png" },
+    { name: "Run 3", url: "https://lekug.github.io/tn6pS9dCf37xAhkJv/", image: "assets/main-page/run3.png" },
+];
+  var container = document.getElementById("gamesContainer");
+  var iframeContainer = document.getElementById("iframeContainer");
+  var gameFrame = document.getElementById("gameFrame");
+  var gameObject = document.getElementById("gameObject");
+  var fullScreenButton = document.getElementById("fullScreenButton");
+  var closeButton = document.getElementById("closeButton");
 
-                    if (game.priority) {
-                        const popularBadge = document.createElement('div');
-                        popularBadge.className = 'popular-badge';
-                        popularBadge.textContent = 'Popular!';
-                        gameButton.appendChild(popularBadge);
-                    }
+  function displayGames(filteredGames) {
+    container.innerHTML = "";
+    filteredGames.forEach(function (game) {
+      var button = document.createElement("button");
+      button.className = "button";
 
-                    gameButton.appendChild(img);
-                    gameButton.appendChild(title);
-                    gameGrid.appendChild(gameButton);
-                });
+      var img = document.createElement("img");
+      img.src = game.image;
+      img.alt = game.name;
+      button.appendChild(img);
 
-                document.getElementById('gameCount').textContent = data.games.length;
+      var title = document.createElement("div");
+      title.className = "game-title";
+      title.textContent = game.name;
+      button.appendChild(title);
 
-                const searchBar = document.querySelector('.search-bar');
-                const gameButtons = document.querySelectorAll('.game-button');
-
-                searchBar.addEventListener('input', (e) => {
-                    const searchTerm = e.target.value.toLowerCase().trim();
-                    gameButtons.forEach(button => {
-                        const gameTitle = button.querySelector('.game-title').textContent.toLowerCase();
-                        button.style.display = searchTerm === '' || gameTitle.includes(searchTerm) ? 'flex' : 'none';
-                    });
-
-                    let noResults = document.querySelector('.no-results');
-                    if (!noResults) {
-                        noResults = document.createElement('div');
-                        noResults.className = 'no-results';
-                        noResults.style.textAlign = 'center';
-                        noResults.style.width = '100%';
-                        noResults.style.padding = '20px';
-                        noResults.style.color = '#9ca3af';
-                        noResults.style.gridColumn = '1 / -1';
-                        gameGrid.appendChild(noResults);
-                    }
-
-                    noResults.style.display = Array.from(gameButtons).filter(button =>
-                        button.style.display !== 'none'
-                    ).length === 0 ? 'block' : 'none';
-                });
-
-                searchBar.addEventListener('search', () => {
-                    gameButtons.forEach(button => button.style.display = 'flex');
-                    const noResults = document.querySelector('.no-results');
-                    if (noResults) noResults.style.display = 'none';
-                });
-            })
-            .catch(error => console.error('Error loading games:', error));
-
-        // Toggle rain effect with localStorage persistence
-        const toggleRainSwitch = document.getElementById('toggle-rain');
-        let rainOverlay = null;
-
-        // Load saved state from localStorage
-        const isRainEnabled = localStorage.getItem('rainEnabled') === 'true';
-        toggleRainSwitch.checked = isRainEnabled;
-
-        if (isRainEnabled) {
-            // Create the iframe for rain.html if it was enabled before
-            rainOverlay = document.createElement('iframe');
-            rainOverlay.id = 'rain-overlay';
-            rainOverlay.src = 'assets/particles/rain.html'; // Path to your rain.html file
-            document.body.appendChild(rainOverlay);
+      button.onclick = function () {
+        document
+          .querySelectorAll(".button")
+          .forEach(element => (element.style.display = "none"));
+        iframeContainer.style.display = "flex"; // Show the iframe container
+        gameFrame.src = ""; // Reset the iframe src
+        gameObject.data = ""; // Reset the object data
+        if (game.url.startsWith("http://") || game.url.startsWith("https://")) {
+          gameObject.data = game.url; // Set the object data for external links
+          gameFrame.style.display = "none";
+          gameObject.style.display = "block";
+        } else {
+          gameFrame.src = game.url; // Set the iframe src for internal files
+          gameFrame.style.display = "block";
+          gameObject.style.display = "none";
         }
+      };
+      container.appendChild(button);
+    });
+  }
 
-        // Toggle rain effect on switch change
-        toggleRainSwitch.addEventListener('change', (event) => {
-            const isChecked = event.target.checked;
+  displayGames(games);
 
-            if (isChecked) {
-                // Enable rain effect
-                if (!rainOverlay) {
-                    rainOverlay = document.createElement('iframe');
-                    rainOverlay.id = 'rain-overlay';
-                    rainOverlay.src = 'assets/particles/rain.html'; // Path to your rain.html file
-                    document.body.appendChild(rainOverlay);
-                }
-            } else {
-                // Disable rain effect
-                if (rainOverlay) {
-                    rainOverlay.remove();
-                    rainOverlay = null;
-                }
-            }
+  document.getElementById("gameCount").textContent = games.length;
 
-            // Save the state to localStorage
-            localStorage.setItem('rainEnabled', isChecked);
-        });
-    </script>
+  fullScreenButton.addEventListener("click", function () {
+    if (gameFrame.style.display === "block") {
+      if (gameFrame.requestFullscreen) {
+        gameFrame.requestFullscreen();
+      } else if (gameFrame.mozRequestFullScreen) {
+        // Firefox
+        gameFrame.mozRequestFullScreen();
+      } else if (gameFrame.webkitRequestFullscreen) {
+        // Chrome, Safari, Opera
+        gameFrame.webkitRequestFullscreen();
+      } else if (gameFrame.msRequestFullscreen) {
+        // IE/Edge
+        gameFrame.msRequestFullscreen();
+      }
+    } else if (gameObject.style.display === "block") {
+      if (gameObject.requestFullscreen) {
+        gameObject.requestFullscreen();
+      } else if (gameObject.mozRequestFullScreen) {
+        // Firefox
+        gameObject.mozRequestFullScreen();
+      } else if (gameObject.webkitRequestFullscreen) {
+        // Chrome, Safari, Opera
+        gameObject.webkitRequestFullscreen();
+      } else if (gameObject.msRequestFullscreen) {
+        // IE/Edge
+        gameObject.msRequestFullscreen();
+      }
+    }
+  });
+
+  closeButton.addEventListener("click", function () {
+    iframeContainer.style.display = "none"; // Hide the iframe container
+    document
+      .querySelectorAll(".button")
+      .forEach(element => (element.style.display = "inline-block")); // Show the game buttons
+    gameFrame.src = ""; // Clear the iframe src
+    gameObject.data = ""; // Clear the object data
+  });
+
+  document.getElementById("searchInput").addEventListener("input", function (event) {
+    var searchTerm = event.target.value.toLowerCase();
+    var filteredGames = games.filter(function (game) {
+      return game.name.toLowerCase().includes(searchTerm);
+    });
+    displayGames(filteredGames);
+  });
+});
+
+const toggleRainSwitch = document.getElementById("toggle-rain");
+let rainOverlay = null;
+
+const isRainEnabled = localStorage.getItem("rainEnabled") === "true";
+toggleRainSwitch.checked = isRainEnabled;
+
+if (isRainEnabled) {
+  rainOverlay = document.createElement("iframe");
+  rainOverlay.id = "rain-overlay";
+  rainOverlay.src = "assets/particles/rain.html";
+  document.body.appendChild(rainOverlay);
+}
+
+toggleRainSwitch.addEventListener("change", event => {
+  const isChecked = event.target.checked;
+
+  if (isChecked) {
+    if (!rainOverlay) {
+      rainOverlay = document.createElement("iframe");
+      rainOverlay.id = "rain-overlay";
+      rainOverlay.src = "assets/particles/rain.html";
+      document.body.appendChild(rainOverlay);
+    }
+  } else {
+    if (rainOverlay) {
+      rainOverlay.remove();
+      rainOverlay = null;
+    }
+  }
+
+  localStorage.setItem("rainEnabled", isChecked);
+});
+
+        </script>
 </body>
 </html>
