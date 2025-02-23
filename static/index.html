@@ -45,7 +45,7 @@
             <button id="closeButton">X</button>
             </div>
             <iframe id="gameFrame" style="width: 100%; height: 100vh;"></iframe>
-            <object id="gameObject" style="width: 100%; height: 100vh;" data=""></object>
+            <object id="gameObject" type="text/html" style="width: 100%; height: 100vh;" data=""></object>
         </div>
         </div>
         <!-- Toggle Switch -->
@@ -58,6 +58,7 @@
             document.addEventListener("DOMContentLoaded", function () {
 var games = [
     { name: "Other Site", url: "https://sites.goodplayz.xyz", image: "assets/main-page/other-sites.png" },
+    { name: "Google", url: "https://www.google.com?igu=1", image: "assets/favicon/google.ico" },
     { name: "Minecraft", url: "games/minecraft.html", image: "assets/main-page/minecraft.png" },
     { name: "Polly Track", url: "games/polly.html", image: "assets/main-page/polly-track.png" },
     { name: "Subway Surfers", url: "games/subway-surfers", image: "assets/main-page/subway-surfers.png" },
