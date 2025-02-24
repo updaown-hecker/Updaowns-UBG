@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impossible Quiz</title>
+    <script src="../apps/iframe/ruffle/ruffle.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+        }
+        #flash-container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="flash-container">
+        <embed src="swf/impossible-quiz.swf" width="100%" height="100%" />
+    </div>
+    <script>
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.addEventListener("load", function(event) {
+            const ruffle = window.RufflePlayer.newest();
+            const container = document.getElementById("flash-container");
+            const player = ruffle.createPlayer();
+            container.appendChild(player);
+            player.load("swf/impossible-quiz.swf");
+        });
+    </script>
+</body>
+</html>
