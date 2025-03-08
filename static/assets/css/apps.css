@@ -18,10 +18,15 @@ body {
    margin: 0 auto;
    padding: 20px;
    text-align: center;
+   animation: slideUp 0.8s ease-out;
+   will-change: transform, opacity;
 }
 .search-container {
    margin: 30px auto;
    max-width: 600px;
+   animation: slideUp 0.8s ease-out 0.2s;
+   animation-fill-mode: both;
+   will-change: transform, opacity;
 }
 .search-bar {
    width: 100%;
@@ -32,10 +37,13 @@ body {
    color: white;
    font-size: 1rem;
    outline: none;
-   transition: border-color 0.2s;
+   transition: all 0.3s ease;
+   animation: fadeIn 0.5s ease-out;
 }
 .search-bar:focus {
    border-color: #3b82f6;
+   transform: translateY(-2px);
+   box-shadow: 0 4px 20px -5px rgba(59, 130, 246, 0.5);
 }
 .game-grid {
    display: grid;
@@ -43,6 +51,7 @@ body {
    gap: 24px;
    margin-top: 30px;
    padding: 0 20px;
+   animation: fadeIn 1s ease-out;
 }
 .game-button {
    background: linear-gradient(165deg, #1f2937, #111827);
@@ -58,6 +67,8 @@ body {
    box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.2), inset 0 0 0 1px
       rgba(255, 255, 255, 0.07);
    border: 1px solid rgba(255, 255, 255, 0.1);
+   animation: scaleIn 0.5s ease-out;
+   animation-fill-mode: both;
 }
 .game-button::before {
    content: "";
@@ -80,6 +91,7 @@ body {
    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3), inset 0 0 0 1px
       rgba(255, 255, 255, 0.15);
    background: linear-gradient(165deg, #243548, #1a2330);
+   animation: floatAnimation 2s ease-in-out infinite;
 }
 .game-button:hover::before {
    opacity: 1;
@@ -105,6 +117,8 @@ body {
    border-top: 1px solid rgba(255, 255, 255, 0.07);
    position: relative;
    backdrop-filter: blur(5px);
+   animation: fadeIn 0.5s ease-out;
+   transition: all 0.3s ease;
 }
 .game-button:hover .game-title {
    background: rgba(0, 0, 0, 0.25);
@@ -114,11 +128,16 @@ h1 {
    color: white;
    font-size: 2.5rem;
    margin-bottom: 0;
+   animation: slideUp 0.8s ease-out;
+   will-change: transform, opacity;
 }
 .subtitle {
    color: #9ca3af;
    margin-top: 10px;
    font-size: 1.1rem;
+   animation: slideUp 0.8s ease-out 0.1s;
+   animation-fill-mode: both;
+   will-change: transform, opacity;
 }
 
 /* Add navigation bar styles */
@@ -128,16 +147,22 @@ h1 {
    display: flex;
    align-items: center;
    justify-content: space-between;
+   animation: fadeIn 0.5s ease-out;
+   will-change: opacity;
 }
 .nav-logo {
    font-size: 1.5rem;
    font-weight: bold;
    color: white;
    text-decoration: none;
+   animation: fadeIn 0.8s ease-out;
+   will-change: opacity;
 }
 .nav-links {
    display: flex;
    gap: 24px;
+   animation: slideInRight 0.5s ease-out;
+   will-change: transform, opacity;
 }
 .nav-link {
    color: #9ca3af;

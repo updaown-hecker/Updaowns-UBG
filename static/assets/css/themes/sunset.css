@@ -1,0 +1,301 @@
+/* Sunset Theme - Performance Optimized */
+:root {
+    --sunset-primary: #ff6b6b;
+    --sunset-secondary: #ffd93d;
+    --sunset-text: #fff;
+    --sunset-accent: #f39c12;
+}
+
+@keyframes sunGlow {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+@keyframes cloudFloat {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes sunsetFlow {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+@keyframes sunsetPattern {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(50px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes warmGlow {
+    0% { text-shadow: 0 0 0 transparent; opacity: 0; }
+    100% { text-shadow: 0 0 7px var(--sunset-accent); opacity: 1; }
+}
+
+body {
+    background: linear-gradient(135deg, #ff6b6b, #ffd93d, #f39c12);
+    color: var(--sunset-text);
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated sunset overlay */
+.theme-sunset::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(125deg, 
+            rgba(255, 107, 107, 0.2), 
+            rgba(255, 217, 61, 0.2), 
+            rgba(243, 156, 18, 0.2), 
+            rgba(255, 107, 107, 0.2)
+        );
+    background-size: 400% 400%;
+    animation: sunsetFlow 15s ease infinite;
+    pointer-events: none;
+    z-index: -1;
+    will-change: background-position;
+}
+
+/* Sunset glow effect */
+.theme-sunset::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 107, 107, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(255, 217, 61, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(243, 156, 18, 0.2) 0%, transparent 50%);
+    opacity: 0.7;
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Simplified sun effect */
+.sun {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #ffd93d 30%, transparent 70%);
+    top: 50px;
+    right: 100px;
+    border-radius: 50%;
+    animation: fadeIn 1s ease-out, sunGlow 4s ease-in-out infinite 1s;
+    will-change: transform, opacity;
+    pointer-events: none;
+}
+
+/* Simplified clouds effect */
+.clouds {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 25%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 75%,
+        transparent 100%
+    );
+    animation: fadeIn 1.5s ease-out, cloudFloat 20s linear infinite 1.5s;
+    will-change: transform, opacity;
+    pointer-events: none;
+}
+
+.navbar {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.nav-logo {
+    color: var(--sunset-secondary);
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 217, 61, 0.3);
+    animation: warmGlow 0.8s ease-out;
+    will-change: text-shadow, opacity;
+}
+
+.nav-link {
+    color: var(--sunset-text);
+    opacity: 0.8;
+    transition: all 0.2s;
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.nav-link:hover {
+    color: var(--sunset-secondary);
+    opacity: 1;
+}
+
+.nav-link:nth-child(1) { animation-delay: 0.2s; }
+.nav-link:nth-child(2) { animation-delay: 0.3s; }
+.nav-link:nth-child(3) { animation-delay: 0.4s; }
+
+/* Update button styles to apply to all buttons */
+.button, button, .secondary-button {
+    background: transparent;
+    border: none;
+    color: var(--sunset-text);
+    text-shadow: 0 0 5px var(--sunset-accent);
+    transition: all 0.3s ease;
+    animation: warmGlow 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.button:hover, button:hover, .secondary-button:hover {
+    transform: translateY(-2px);
+    color: var(--sunset-secondary);
+    text-shadow: 0 0 10px var(--sunset-secondary);
+}
+
+/* Settings page specific styles */
+.settings-section button {
+    background: transparent;
+    border: none;
+    color: var(--sunset-text);
+    text-shadow: 0 0 5px var(--sunset-accent);
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+}
+
+.settings-section button:hover {
+    transform: translateY(-2px);
+    color: var(--sunset-secondary);
+    text-shadow: 0 0 10px var(--sunset-secondary);
+}
+
+/* Input and Select styles */
+.settings-section input[type="text"],
+.settings-section select,
+.input-group {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--sunset-text);
+    text-shadow: 0 0 5px var(--sunset-accent);
+    box-shadow: 0 0 5px rgba(255, 217, 61, 0.1);
+    transition: all 0.3s ease;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.settings-section input[type="text"]:focus,
+.settings-section select:focus,
+.input-group:focus {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--sunset-secondary);
+    box-shadow: 0 0 10px rgba(255, 217, 61, 0.2);
+    outline: none;
+}
+
+/* Theme selection dropdown specific styles */
+#themeChoice {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--sunset-text);
+    text-shadow: 0 0 5px var(--sunset-accent);
+    box-shadow: 0 0 5px rgba(255, 217, 61, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+#themeChoice:focus {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: var(--sunset-secondary);
+    box-shadow: 0 0 10px rgba(255, 217, 61, 0.2);
+    outline: none;
+}
+
+#themeChoice option {
+    background: rgba(0, 0, 0, 0.9);
+    color: var(--sunset-text);
+    text-shadow: none;
+}
+
+.game-title {
+    color: var(--sunset-text);
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.button:hover .game-title {
+    color: var(--sunset-secondary);
+}
+
+#searchInput {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--sunset-text);
+}
+
+#searchInput:focus {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(255, 217, 61, 0.2);
+}
+
+/* Update toggle switch styles */
+.toggle-switch .slider {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 5px rgba(255, 217, 61, 0.1);
+}
+
+input:checked + .slider {
+    background: var(--sunset-primary);
+    box-shadow: 0 0 10px rgba(255, 217, 61, 0.2);
+}
+
+#iframeControls button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--sunset-text);
+}
+
+#iframeControls button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.settings-section {
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.settings-section:nth-child(1) { animation-delay: 0.1s; }
+.settings-section:nth-child(2) { animation-delay: 0.2s; }
+.settings-section:nth-child(3) { animation-delay: 0.3s; }
+.settings-section:nth-child(4) { animation-delay: 0.4s; }
+.settings-section:nth-child(5) { animation-delay: 0.5s; } 

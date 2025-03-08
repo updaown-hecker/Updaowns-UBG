@@ -60,12 +60,8 @@ body {
    flex-direction: column;
    padding: 1.2%;
    position: relative;
-   box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.2), inset 0 0 0 1px
-      rgba(255, 255, 255, 0.07);
+   box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
    border: 1px solid rgba(255, 255, 255, 0.1);
-   flex: 1 1 calc(25% - 40px); /* Adjust based on screen width */
-   max-width: calc(25% - 40px); /* Adjust based on screen width */
-   min-width: 200px; /* Minimum width for smaller screens */
 }
 
 .button::before {
@@ -76,19 +72,14 @@ body {
    right: 0;
    bottom: 0;
    border-radius: 16px;
-   background: linear-gradient(
-      125deg,
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0.05)
-   );
+   background: linear-gradient(125deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
    opacity: 0;
    transition: opacity 0.4s ease;
 }
 
 .button:hover {
    transform: translateY(-8px) scale(1.02);
-   box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3), inset 0 0 0 1px
-      rgba(255, 255, 255, 0.15);
+   box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
    background: linear-gradient(165deg, #243548, #1a2330);
 }
 
@@ -99,7 +90,7 @@ body {
 /* Image styles */
 .button img {
    width: 100%;
-   height: 90%; /* Image takes up 90% of the button's height */
+   height: 180px;
    object-fit: cover;
    border-radius: 12px;
    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
@@ -112,9 +103,8 @@ body {
 }
 
 /* Game title styles */
-.button .game-title {
-   height: 10%; /* Title takes up 10% of the button's height */
-   padding: 8px 10px; /* Adjusted padding for better spacing */
+.game-title {
+   padding: 14px 10px;
    font-size: 0.95rem;
    text-align: left;
    font-weight: 500;
@@ -122,9 +112,6 @@ body {
    border-top: 1px solid rgba(255, 255, 255, 0.07);
    position: relative;
    backdrop-filter: blur(5px);
-   border-radius: 0 0 12px 12px; /* Rounded edges only at the bottom */
-   display: flex;
-   align-items: center; /* Center text vertically */
 }
 
 .button:hover .game-title {
@@ -179,11 +166,11 @@ h1 {
 
 /* Games container styles */
 #gamesContainer {
-   display: flex;
-   flex-wrap: wrap;
-   gap: 20px;
-   justify-content: center;
-   padding: 20px;
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+   gap: 24px;
+   margin-top: 30px;
+   padding: 0 20px;
 }
 
 /* Overlay iframe styles */
@@ -263,49 +250,241 @@ input:checked + .slider:before {
    content: "Rain: On";
    color: rgb(0, 0, 0);
 }
-/* Add these styles to your existing CSS */
+
+#loadingIndicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1f2937;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #3b82f6;
+    border-top: 5px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.loading-text {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.timeout-message {
+    color: #ff6b6b;
+    font-size: 1rem;
+    margin: 15px 0;
+    font-weight: 500;
+}
+
+.timeout-button {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.timeout-button:hover {
+    background-color: #ff5252;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 #iframeContainer {
    position: fixed;
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
-   width: 80%;
-   height: 80%;
-   background-color: rgba(0, 0, 0, 0.9);
+   width: 85%;
+   height: 85%;
+   background: #1f2937;
    z-index: 1000;
-   display: none; /* Hidden by default */
+   display: none;
    flex-direction: column;
-   align-items: center;
-   justify-content: center;
    border-radius: 10px;
+   overflow: hidden;
    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
+#gameObject {
+   width: 100%;
+   height: calc(100% - 40px);
+   border: none;
+   margin: 0;
+   padding: 0;
+   background: #1f2937;
+   display: block;
+}
+
 #iframeControls {
-   position: absolute;
-   top: 10px;
-   right: 10px;
-   z-index: 1001;
+   position: relative;
+   height: 40px;
+   padding: 5px 10px;
+   background: #1f2937;
+   display: flex;
+   justify-content: flex-end;
+   align-items: center;
+   gap: 10px;
 }
 
 #iframeControls button {
    background-color: #3b82f6;
    color: white;
    border: none;
-   padding: 10px 20px;
-   margin: 5px;
+   padding: 8px 16px;
    border-radius: 5px;
    cursor: pointer;
-   font-size: 16px;
+   font-size: 14px;
+   transition: background-color 0.2s;
 }
 
 #iframeControls button:hover {
    background-color: #2563eb;
 }
 
-#gameFrame {
-   width: 100%;
-   height: 100%;
-   border: none;
-   border-radius: 10px;
+
+/* Global Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Apply animations to elements */
+.navbar {
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.nav-logo {
+    animation: fadeIn 0.8s ease-out;
+    will-change: opacity;
+}
+
+.nav-links {
+    animation: slideInRight 0.5s ease-out;
+    will-change: transform, opacity;
+}
+
+.nav-link {
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.nav-link:nth-child(1) { animation-delay: 0.2s; }
+.nav-link:nth-child(2) { animation-delay: 0.3s; }
+.nav-link:nth-child(3) { animation-delay: 0.4s; }
+
+.container {
+    animation: slideUp 0.8s ease-out;
+    will-change: transform, opacity;
+}
+
+h1 {
+    animation: slideUp 0.8s ease-out;
+    will-change: transform, opacity;
+}
+
+.subtitle {
+    animation: slideUp 0.8s ease-out 0.1s;
+    animation-fill-mode: both;
+    will-change: transform, opacity;
+}
+
+.search-container {
+    animation: slideUp 0.8s ease-out 0.2s;
+    animation-fill-mode: both;
+    will-change: transform, opacity;
+}
+
+#gamesContainer .button {
+    animation: scaleIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+/* Stagger game buttons animation with smooth progression */
+#gamesContainer .button:nth-child(1) { animation-delay: 0.05s; }
+#gamesContainer .button:nth-child(2) { animation-delay: 0.1s; }
+#gamesContainer .button:nth-child(3) { animation-delay: 0.15s; }
+#gamesContainer .button:nth-child(4) { animation-delay: 0.2s; }
+#gamesContainer .button:nth-child(5) { animation-delay: 0.25s; }
+#gamesContainer .button:nth-child(6) { animation-delay: 0.3s; }
+#gamesContainer .button:nth-child(7) { animation-delay: 0.35s; }
+#gamesContainer .button:nth-child(8) { animation-delay: 0.4s; }
+#gamesContainer .button:nth-child(9) { animation-delay: 0.45s; }
+#gamesContainer .button:nth-child(10) { animation-delay: 0.5s; }
+#gamesContainer .button:nth-child(11) { animation-delay: 0.55s; }
+#gamesContainer .button:nth-child(12) { animation-delay: 0.6s; }
+#gamesContainer .button:nth-child(13) { animation-delay: 0.65s; }
+#gamesContainer .button:nth-child(14) { animation-delay: 0.7s; }
+#gamesContainer .button:nth-child(15) { animation-delay: 0.75s; }
+#gamesContainer .button:nth-child(16) { animation-delay: 0.8s; }
+#gamesContainer .button:nth-child(17) { animation-delay: 0.85s; }
+#gamesContainer .button:nth-child(18) { animation-delay: 0.9s; }
+#gamesContainer .button:nth-child(19) { animation-delay: 0.95s; }
+#gamesContainer .button:nth-child(20) { animation-delay: 1s; }
+#gamesContainer .button:nth-child(21) { animation-delay: 1.05s; }
+#gamesContainer .button:nth-child(22) { animation-delay: 1.1s; }
+#gamesContainer .button:nth-child(23) { animation-delay: 1.15s; }
+#gamesContainer .button:nth-child(24) { animation-delay: 1.2s; }
+#gamesContainer .button:nth-child(25) { animation-delay: 1.25s; }
+#gamesContainer .button:nth-child(26) { animation-delay: 1.3s; }
+#gamesContainer .button:nth-child(27) { animation-delay: 1.35s; }
+#gamesContainer .button:nth-child(28) { animation-delay: 1.4s; }
+#gamesContainer .button:nth-child(29) { animation-delay: 1.45s; }
+#gamesContainer .button:nth-child(30) { animation-delay: 1.5s; }
+#gamesContainer .button:nth-child(31) { animation-delay: 1.55s; }
+#gamesContainer .button:nth-child(32) { animation-delay: 1.6s; }
+#gamesContainer .button:nth-child(33) { animation-delay: 1.65s; }
+#gamesContainer .button:nth-child(34) { animation-delay: 1.7s; }
+#gamesContainer .button:nth-child(35) { animation-delay: 1.75s; }
+#gamesContainer .button:nth-child(36) { animation-delay: 1.8s; }
+#gamesContainer .button:nth-child(37) { animation-delay: 1.85s; }
+#gamesContainer .button:nth-child(38) { animation-delay: 1.9s; }
+#gamesContainer .button:nth-child(39) { animation-delay: 1.95s; }
+#gamesContainer .button:nth-child(40) { animation-delay: 2s; }
+#gamesContainer .button:nth-child(41) { animation-delay: 2.05s; }
+#gamesContainer .button:nth-child(42) { animation-delay: 2.1s; }
+#gamesContainer .button:nth-child(43) { animation-delay: 2.15s; }
+#gamesContainer .button:nth-child(44) { animation-delay: 2.2s; }
+#gamesContainer .button:nth-child(45) { animation-delay: 2.25s; }
+#gamesContainer .button:nth-child(46) { animation-delay: 2.3s; }
+#gamesContainer .button:nth-child(47) { animation-delay: 2.35s; }
+#gamesContainer .button:nth-child(48) { animation-delay: 2.4s; }
+#gamesContainer .button:nth-child(49) { animation-delay: 2.45s; }
+#gamesContainer .button:nth-child(50) { animation-delay: 2.5s; }
+#gamesContainer .button:nth-child(51) { animation-delay: 2.55s; }
+#gamesContainer .button:nth-child(52) { animation-delay: 2.6s; }

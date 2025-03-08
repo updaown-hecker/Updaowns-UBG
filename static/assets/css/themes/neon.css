@@ -1,0 +1,296 @@
+/* Neon Theme - Performance Optimized */
+:root {
+    --neon-primary: #0ff;
+    --neon-secondary: #f0f;
+    --neon-background: #000;
+    --neon-text: #fff;
+    --neon-accent: #0f0;
+}
+
+@keyframes neonPulse {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.2); }
+}
+
+@keyframes borderFlow {
+    0%, 100% { border-color: var(--neon-primary); }
+    33% { border-color: var(--neon-secondary); }
+    66% { border-color: var(--neon-accent); }
+}
+
+@keyframes textGlow {
+    0%, 100% { text-shadow: 0 0 7px var(--neon-primary); }
+    33% { text-shadow: 0 0 7px var(--neon-secondary); }
+    66% { text-shadow: 0 0 7px var(--neon-accent); }
+}
+
+@keyframes neonFlow {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes glowIn {
+    0% { text-shadow: 0 0 0 transparent; opacity: 0; }
+    100% { text-shadow: 0 0 7px var(--neon-primary); opacity: 1; }
+}
+
+body {
+    background-color: var(--neon-background);
+    color: var(--neon-text);
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated background overlay */
+.theme-neon::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(125deg, 
+            rgba(0, 255, 255, 0.1), 
+            rgba(255, 0, 255, 0.1), 
+            rgba(0, 255, 0, 0.1), 
+            rgba(0, 255, 255, 0.1)
+        );
+    background-size: 400% 400%;
+    animation: neonFlow 15s ease infinite;
+    pointer-events: none;
+    z-index: -1;
+    will-change: background-position;
+}
+
+/* Neon trails */
+.theme-neon::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.1) 0%, transparent 50%);
+    opacity: 0.7;
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.navbar {
+    background: rgba(0,0,0,0.9);
+    border-bottom: 1px solid var(--neon-primary);
+    box-shadow: 0 0 10px var(--neon-primary);
+    position: relative;
+    animation: fadeIn 0.5s ease-out, neonPulse 4s infinite 0.5s;
+    will-change: filter, opacity;
+}
+
+.nav-logo {
+    color: var(--neon-primary);
+    text-shadow: 0 0 10px var(--neon-primary);
+    animation: glowIn 0.8s ease-out, textGlow 8s infinite 0.8s;
+    will-change: text-shadow, opacity;
+}
+
+.nav-link {
+    color: var(--neon-text);
+    text-shadow: 0 0 5px var(--neon-text);
+    position: relative;
+    transition: color 0.2s;
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--neon-primary);
+    transition: width 0.2s;
+    box-shadow: 0 0 5px var(--neon-primary);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.nav-link:nth-child(1) { animation-delay: 0.2s; }
+.nav-link:nth-child(2) { animation-delay: 0.3s; }
+.nav-link:nth-child(3) { animation-delay: 0.4s; }
+
+/* Update button styles to apply to all buttons */
+.button, button, .secondary-button {
+    background: transparent;
+    border: none;
+    color: var(--neon-text);
+    text-shadow: 0 0 5px var(--neon-primary);
+    transition: all 0.3s ease;
+    animation: glowIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.button:hover, button:hover, .secondary-button:hover {
+    transform: translateY(-2px);
+    color: var(--neon-secondary);
+    text-shadow: 0 0 10px var(--neon-secondary);
+}
+
+/* Settings page specific styles */
+.settings-section button {
+    background: transparent;
+    border: none;
+    color: var(--neon-text);
+    text-shadow: 0 0 5px var(--neon-primary);
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+}
+
+.settings-section button:hover {
+    transform: translateY(-2px);
+    color: var(--neon-secondary);
+    text-shadow: 0 0 10px var(--neon-secondary);
+}
+
+/* Input and Select styles */
+.settings-section input[type="text"],
+.settings-section select,
+.input-group {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--neon-primary);
+    color: var(--neon-text);
+    text-shadow: 0 0 5px var(--neon-primary);
+    box-shadow: 0 0 5px var(--neon-primary);
+    transition: all 0.3s ease;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.settings-section input[type="text"]:focus,
+.settings-section select:focus,
+.input-group:focus {
+    background: rgba(0, 0, 0, 0.9);
+    border-color: var(--neon-secondary);
+    box-shadow: 0 0 10px var(--neon-secondary);
+    outline: none;
+}
+
+/* Theme selection dropdown specific styles */
+#themeChoice {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--neon-primary);
+    color: var(--neon-text);
+    text-shadow: 0 0 5px var(--neon-primary);
+    box-shadow: 0 0 5px var(--neon-primary);
+    padding: 8px;
+    border-radius: 4px;
+}
+
+#themeChoice:focus {
+    background: rgba(0, 0, 0, 0.9);
+    border-color: var(--neon-secondary);
+    box-shadow: 0 0 10px var(--neon-secondary);
+    outline: none;
+}
+
+#themeChoice option {
+    background: rgba(0, 0, 0, 0.9);
+    color: var(--neon-text);
+    text-shadow: none;
+}
+
+.game-title {
+    color: var(--neon-text);
+    text-shadow: 0 0 5px var(--neon-text);
+    transition: color 0.2s, text-shadow 0.2s;
+    animation: glowIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.button:hover .game-title {
+    color: var(--neon-secondary);
+    text-shadow: 0 0 7px var(--neon-secondary);
+}
+
+#searchInput {
+    background: rgba(0, 255, 255, 0.1);
+    border: 2px solid var(--neon-primary);
+    color: var(--neon-text);
+    box-shadow: 0 0 5px var(--neon-primary);
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+#searchInput:focus {
+    background: rgba(0, 255, 255, 0.15);
+    box-shadow: 0 0 10px var(--neon-secondary);
+}
+
+/* Update toggle switch styles */
+.toggle-switch .slider {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--neon-primary);
+    box-shadow: 0 0 5px var(--neon-primary);
+}
+
+input:checked + .slider {
+    background-color: var(--neon-primary);
+    box-shadow: 0 0 10px var(--neon-primary);
+}
+
+#iframeControls button {
+    background: var(--neon-background);
+    border: 2px solid var(--neon-primary);
+    color: var(--neon-text);
+    box-shadow: 0 0 5px var(--neon-primary);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#iframeControls button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px var(--neon-secondary);
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--neon-primary);
+    box-shadow: 0 0 5px var(--neon-primary);
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+h1, .subtitle {
+    animation: textGlow 8s infinite;
+    will-change: text-shadow;
+}
+
+.settings-section {
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.settings-section:nth-child(1) { animation-delay: 0.1s; }
+.settings-section:nth-child(2) { animation-delay: 0.2s; }
+.settings-section:nth-child(3) { animation-delay: 0.3s; }
+.settings-section:nth-child(4) { animation-delay: 0.4s; }
+.settings-section:nth-child(5) { animation-delay: 0.5s; } 

@@ -1,0 +1,191 @@
+/* Technology Theme - Performance Optimized */
+:root {
+    --tech-primary: #00ff88;
+    --tech-secondary: #0088ff;
+    --tech-background: #0a0a0a;
+    --tech-text: #ffffff;
+    --tech-accent: #ff0088;
+    --tech-dark: #000000;
+}
+
+@keyframes networkPulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 0.9; }
+    100% { opacity: 0.7; }
+}
+
+@keyframes techGlow {
+    0% { text-shadow: 0 0 5px var(--tech-primary); }
+    50% { text-shadow: 0 0 15px var(--tech-secondary); }
+    100% { text-shadow: 0 0 5px var(--tech-primary); }
+}
+
+@keyframes dataFlow {
+    0% { transform: translateY(0); opacity: 0.7; }
+    50% { transform: translateY(-10px); opacity: 1; }
+    100% { transform: translateY(0); opacity: 0.7; }
+}
+
+body.theme-tech {
+    background-color: var(--tech-dark);
+    color: var(--tech-text);
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Technology Background */
+.theme-tech::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../themes/technology-network-background-free-video [MConverter.eu].webp');
+    background-size: cover;
+    background-position: center;
+    animation: networkPulse 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -2;
+}
+
+/* Overlay gradient */
+.theme-tech::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 255, 136, 0.1),
+        rgba(0, 136, 255, 0.1)
+    );
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Enhanced UI Elements */
+.theme-tech .navbar {
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid var(--tech-primary);
+    backdrop-filter: blur(10px);
+}
+
+.theme-tech .nav-logo {
+    color: var(--tech-primary);
+    font-weight: bold;
+    animation: techGlow 4s ease-in-out infinite;
+}
+
+.theme-tech .nav-link {
+    color: var(--tech-text);
+    opacity: 0.8;
+    transition: all 0.3s;
+}
+
+.theme-tech .nav-link:hover {
+    color: var(--tech-primary);
+    opacity: 1;
+    text-shadow: 0 0 10px var(--tech-primary);
+}
+
+.theme-tech .button,
+.theme-tech button {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--tech-primary);
+    color: var(--tech-text);
+    transition: all 0.3s;
+}
+
+.theme-tech .button:hover,
+.theme-tech button:hover {
+    background: rgba(0, 255, 136, 0.1);
+    border-color: var(--tech-secondary);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+    transform: translateY(-2px);
+}
+
+.theme-tech .container {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--tech-primary);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.theme-tech #searchInput {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--tech-primary);
+    color: var(--tech-text);
+    transition: all 0.3s;
+}
+
+.theme-tech #searchInput:focus {
+    background: rgba(0, 255, 136, 0.1);
+    border-color: var(--tech-secondary);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+}
+
+.theme-tech .game-title {
+    color: var(--tech-text);
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+.theme-tech h1,
+.theme-tech .subtitle {
+    color: var(--tech-text);
+    text-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+}
+
+/* Data Flow Animation Elements */
+.theme-tech .data-stream {
+    position: fixed;
+    width: 2px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--tech-primary), transparent);
+    animation: dataFlow 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.theme-tech .data-stream:nth-child(1) { left: 10%; animation-delay: 0s; }
+.theme-tech .data-stream:nth-child(2) { left: 25%; animation-delay: 0.5s; }
+.theme-tech .data-stream:nth-child(3) { left: 40%; animation-delay: 1s; }
+.theme-tech .data-stream:nth-child(4) { left: 55%; animation-delay: 1.5s; }
+.theme-tech .data-stream:nth-child(5) { left: 70%; animation-delay: 2s; }
+.theme-tech .data-stream:nth-child(6) { left: 85%; animation-delay: 2.5s; }
+
+/* Loading Indicator */
+.theme-tech #loadingIndicator {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid var(--tech-primary);
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+}
+
+.theme-tech .spinner {
+    border-color: var(--tech-primary);
+    border-top-color: transparent;
+}
+
+.theme-tech .loading-text {
+    color: var(--tech-text);
+    text-shadow: 0 0 10px var(--tech-primary);
+}
+
+/* Controls */
+.theme-tech #iframeControls {
+    background: rgba(0, 0, 0, 0.8);
+    border-bottom: 1px solid var(--tech-primary);
+}
+
+.theme-tech #iframeControls button {
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid var(--tech-primary);
+    color: var(--tech-text);
+}
+
+.theme-tech #iframeControls button:hover {
+    background: rgba(0, 255, 136, 0.2);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+} 

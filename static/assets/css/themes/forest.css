@@ -1,0 +1,333 @@
+/* Forest Theme - Performance Optimized */
+:root {
+    --forest-primary: #2ecc71;
+    --forest-secondary: #f1c40f;
+    --forest-background: #243E36;
+    --forest-text: #F7F7F7;
+    --forest-accent: #7D9D9C;
+    --forest-dark: #1a2e25;
+}
+
+@keyframes leafFall {
+    0% { transform: translate(-100vh, -100vh) rotate(0deg); }
+    100% { transform: translate(100vh, 100vh) rotate(360deg); }
+}
+
+@keyframes fireflies {
+    0% { opacity: 0; transform: translate(0, 0); }
+    25% { opacity: 0.5; transform: translate(10px, -10px); }
+    50% { opacity: 0.2; transform: translate(20px, 0); }
+    75% { opacity: 0.5; transform: translate(10px, 10px); }
+    100% { opacity: 0; transform: translate(0, 0); }
+}
+
+@keyframes forestFlow {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+@keyframes mistFlow {
+    0% { transform: translateX(-50%) translateY(0); opacity: 0.5; }
+    50% { transform: translateX(0) translateY(-20px); opacity: 0.7; }
+    100% { transform: translateX(50%) translateY(0); opacity: 0.5; }
+}
+
+@keyframes animalRun1 {
+    0% { transform: translateX(-100px) translateY(0); }
+    25% { transform: translateX(calc(25vw - 25px)) translateY(-5px); }
+    50% { transform: translateX(calc(50vw - 50px)) translateY(0); }
+    75% { transform: translateX(calc(75vw - 75px)) translateY(-5px); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0); }
+}
+
+@keyframes animalRun2 {
+    0% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(-1); }
+    25% { transform: translateX(calc(75vw + 75px)) translateY(-5px) scaleX(-1); }
+    50% { transform: translateX(calc(50vw + 50px)) translateY(0) scaleX(-1); }
+    75% { transform: translateX(calc(25vw + 25px)) translateY(-5px) scaleX(-1); }
+    100% { transform: translateX(-100px) translateY(0) scaleX(-1); }
+}
+
+@keyframes birdFly {
+    0% { transform: translate(-50px, 0) rotate(5deg); }
+    25% { transform: translate(calc(25vw - 12.5px), -30px) rotate(-5deg); }
+    50% { transform: translate(calc(50vw - 25px), -20px) rotate(5deg); }
+    75% { transform: translate(calc(75vw - 37.5px), -30px) rotate(-5deg); }
+    100% { transform: translate(calc(100vw + 50px), 0) rotate(5deg); }
+}
+
+@keyframes forestGlow {
+    0% { text-shadow: 0 0 5px var(--forest-primary); }
+    50% { text-shadow: 0 0 10px var(--forest-secondary); }
+    100% { text-shadow: 0 0 5px var(--forest-primary); }
+}
+
+body {
+    background-color: var(--forest-background);
+    color: var(--forest-text);
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated forest overlay */
+.theme-forest::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(125deg, 
+            rgba(46, 204, 113, 0.2), 
+            rgba(241, 196, 15, 0.2), 
+            rgba(125, 157, 156, 0.2), 
+            rgba(46, 204, 113, 0.2)
+        );
+    background-size: 400% 400%;
+    animation: forestFlow 15s ease infinite;
+    pointer-events: none;
+    z-index: -1;
+    will-change: background-position;
+}
+
+/* Forest mist effect */
+.theme-forest::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(46, 204, 113, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(241, 196, 15, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(125, 157, 156, 0.2) 0%, transparent 50%);
+    opacity: 0.7;
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: -1;
+    animation: mistFlow 20s ease-in-out infinite;
+    will-change: transform, opacity;
+}
+
+/* Simplified leaves effect using one pseudo-element */
+.leaves {
+    position: fixed;
+    top: -20px;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: 
+        linear-gradient(90deg, transparent 40%, rgba(46, 204, 113, 0.1) 50%, transparent 60%),
+        linear-gradient(90deg, transparent 30%, rgba(241, 196, 15, 0.1) 50%, transparent 70%);
+    animation: leafFall 15s linear infinite;
+    animation-delay: calc(var(--leaf-delay, 0) * -5s);
+    will-change: transform;
+    pointer-events: none;
+}
+
+/* Simplified fireflies effect using gradients */
+.fireflies {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 40%, rgba(241, 196, 15, 0.2) 0%, transparent 5%),
+        radial-gradient(circle at 70% 60%, rgba(46, 204, 113, 0.2) 0%, transparent 5%);
+    animation: fireflies 6s ease-in-out infinite;
+    animation-delay: calc(var(--firefly-delay, 0) * -2s);
+    will-change: transform, opacity;
+    pointer-events: none;
+}
+
+/* Animal silhouettes */
+.animal {
+    position: fixed;
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* Deer silhouette */
+.animal:nth-child(1) {
+    width: 50px;
+    height: 40px;
+    bottom: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Cpath d='M10 60 L30 60 L35 50 L45 50 L50 40 L60 45 L70 35 L80 40 L85 35 L90 40 L90 60 L70 60 L65 55 L60 60 L40 60 L35 55 L30 60' fill='rgba(46, 204, 113, 0.2)'/%3E%3C/svg%3E");
+    animation: animalRun1 20s linear infinite;
+}
+
+/* Fox silhouette */
+.animal:nth-child(2) {
+    width: 40px;
+    height: 30px;
+    bottom: 30px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Cpath d='M20 60 L30 50 L40 45 L50 40 L60 45 L70 50 L80 60 L60 60 L50 55 L40 60' fill='rgba(241, 196, 15, 0.2)'/%3E%3C/svg%3E");
+    animation: animalRun2 15s linear infinite;
+    animation-delay: -5s;
+}
+
+/* Bird silhouette */
+.animal:nth-child(3) {
+    width: 30px;
+    height: 20px;
+    top: 100px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Cpath d='M40 40 L50 30 L60 40 M30 45 L50 35 L70 45' stroke='rgba(46, 204, 113, 0.2)' fill='none'/%3E%3C/svg%3E");
+    animation: birdFly 12s linear infinite;
+    animation-delay: -2s;
+}
+
+.navbar {
+    background: var(--forest-dark);
+    border-bottom: 2px solid var(--forest-primary);
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.nav-logo {
+    color: var(--forest-primary);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+    animation: forestGlow 4s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.nav-link {
+    color: var(--forest-text);
+    opacity: 0.8;
+    transition: all 0.2s;
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.nav-link:hover {
+    color: var(--forest-primary);
+    opacity: 1;
+}
+
+.nav-link:nth-child(1) { animation-delay: 0.2s; }
+.nav-link:nth-child(2) { animation-delay: 0.3s; }
+.nav-link:nth-child(3) { animation-delay: 0.4s; }
+
+/* Update button styles to apply to all buttons */
+.button, button, .secondary-button {
+    background: rgba(26, 46, 37, 0.8);
+    border: 1px solid var(--forest-primary);
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+    color: var(--forest-text);
+    transition: all 0.3s ease;
+    animation: forestGlow 4s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.button:hover, button:hover, .secondary-button:hover {
+    background: rgba(26, 46, 37, 0.9);
+    border-color: var(--forest-secondary);
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
+    transform: translateY(-2px);
+    color: var(--forest-secondary);
+}
+
+/* Settings page specific styles */
+.settings-section button {
+    background: rgba(26, 46, 37, 0.8);
+    border: 1px solid var(--forest-primary);
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.2);
+    color: var(--forest-text);
+    transition: all 0.3s ease;
+}
+
+.settings-section button:hover {
+    background: rgba(26, 46, 37, 0.9);
+    border-color: var(--forest-secondary);
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
+    transform: translateY(-2px);
+    color: var(--forest-secondary);
+}
+
+/* Input styles */
+.settings-section input[type="text"],
+.settings-section select,
+.input-group {
+    background: rgba(26, 46, 37, 0.6);
+    border: 1px solid var(--forest-primary);
+    color: var(--forest-text);
+    box-shadow: 0 0 5px rgba(46, 204, 113, 0.1);
+    transition: all 0.3s ease;
+}
+
+.settings-section input[type="text"]:focus,
+.settings-section select:focus,
+.input-group:focus {
+    background: rgba(26, 46, 37, 0.8);
+    border-color: var(--forest-secondary);
+    box-shadow: 0 0 10px rgba(241, 196, 15, 0.2);
+}
+
+.game-title {
+    color: var(--forest-text);
+    font-weight: 500;
+}
+
+.button:hover .game-title {
+    color: var(--forest-primary);
+}
+
+#searchInput {
+    background: var(--forest-dark);
+    border: 2px solid var(--forest-accent);
+    color: var(--forest-text);
+}
+
+#searchInput:focus {
+    border-color: var(--forest-primary);
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.1);
+}
+
+.toggle-switch .slider {
+    background-color: var(--forest-dark);
+    border: 2px solid var(--forest-accent);
+}
+
+input:checked + .slider {
+    background-color: var(--forest-primary);
+    border-color: var(--forest-primary);
+}
+
+#iframeControls button {
+    background: var(--forest-dark);
+    border: 2px solid var(--forest-accent);
+    color: var(--forest-text);
+}
+
+#iframeControls button:hover {
+    border-color: var(--forest-primary);
+}
+
+.container {
+    background: rgba(26, 46, 37, 0.7);
+    border-radius: 10px;
+    border: 1px solid rgba(46, 204, 113, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+h1, .subtitle {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.settings-section {
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.settings-section:nth-child(1) { animation-delay: 0.1s; }
+.settings-section:nth-child(2) { animation-delay: 0.2s; }
+.settings-section:nth-child(3) { animation-delay: 0.3s; }
+.settings-section:nth-child(4) { animation-delay: 0.4s; }
+.settings-section:nth-child(5) { animation-delay: 0.5s; } 

@@ -1,0 +1,718 @@
+/* Ocean Theme - Performance Optimized */
+:root {
+    --ocean-primary: #3498db;
+    --ocean-secondary: #2ecc71;
+    --ocean-background: #1B2631;
+    --ocean-text: #ECF0F1;
+    --ocean-accent: #E74C3C;
+    --ocean-dark: #15293d;
+}
+
+@keyframes waveFlow {
+    0% { transform: translateX(-50%) translateY(0) rotate(-3deg); }
+    50% { transform: translateX(0) translateY(-20px) rotate(3deg); }
+    100% { transform: translateX(50%) translateY(0) rotate(-3deg); }
+}
+
+@keyframes bubbleRise {
+    0% { 
+        transform: translate(var(--bubble-x, 0), 100vh) scale(var(--bubble-scale, 1));
+        opacity: var(--bubble-opacity, 0.7);
+    }
+    50% { 
+        transform: translate(calc(var(--bubble-x, 0) + 30px), 50vh) scale(calc(var(--bubble-scale, 1) * 1.5));
+        opacity: calc(var(--bubble-opacity, 0.7) * 0.8);
+    }
+    100% { 
+        transform: translate(calc(var(--bubble-x, 0) + 60px), -100px) scale(calc(var(--bubble-scale, 1) * 2));
+        opacity: 0;
+    }
+}
+
+@keyframes fishSwim {
+    0% { transform: translateX(-100px) translateY(0); }
+    25% { transform: translateX(calc(25vw - 25px)) translateY(-10px); }
+    50% { transform: translateX(calc(50vw - 50px)) translateY(0); }
+    75% { transform: translateX(calc(75vw - 75px)) translateY(-10px); }
+    100% { transform: translateX(calc(100vw + 100px)) translateY(0); }
+}
+
+@keyframes fishSwimReverse {
+    0% { transform: translateX(calc(100vw + 100px)) translateY(0) scaleX(-1); }
+    25% { transform: translateX(calc(75vw + 75px)) translateY(-10px) scaleX(-1); }
+    50% { transform: translateX(calc(50vw + 50px)) translateY(0) scaleX(-1); }
+    75% { transform: translateX(calc(25vw + 25px)) translateY(-10px) scaleX(-1); }
+    100% { transform: translateX(-100px) translateY(0) scaleX(-1); }
+}
+
+@keyframes oceanFlow {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+@keyframes oceanGlow {
+    0% { text-shadow: 0 0 5px var(--ocean-primary); }
+    50% { text-shadow: 0 0 10px var(--ocean-secondary); }
+    100% { text-shadow: 0 0 5px var(--ocean-primary); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+body {
+    background: linear-gradient(135deg, #1B2631, #2C3E50);
+    color: var(--ocean-text);
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated ocean overlay */
+.theme-ocean::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(125deg, 
+            rgba(52, 152, 219, 0.2), 
+            rgba(46, 204, 113, 0.2), 
+            rgba(52, 152, 219, 0.2)
+        );
+    background-size: 400% 400%;
+    animation: oceanFlow 15s ease infinite;
+    pointer-events: none;
+    z-index: -1;
+    will-change: background-position;
+}
+
+/* Deep water effect */
+.theme-ocean::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(52, 152, 219, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(46, 204, 113, 0.2) 0%, transparent 50%);
+    opacity: 0.7;
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: -1;
+    animation: waveFlow 20s ease-in-out infinite;
+    will-change: transform;
+}
+
+/* Simplified waves */
+.waves {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100px;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(52, 152, 219, 0.1) 50%,
+        rgba(52, 152, 219, 0.2) 100%
+    );
+    animation: waveFlow 10s linear infinite;
+    will-change: transform;
+    pointer-events: none;
+}
+
+/* Bubbles */
+.bubble-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bubble {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), transparent);
+    pointer-events: none;
+    will-change: transform, opacity;
+    filter: blur(1px);
+}
+
+/* Small bubbles */
+.bubble:nth-child(1) { 
+    width: 4px; 
+    height: 4px; 
+    --bubble-x: 10vw; 
+    --bubble-scale: 0.6; 
+    --bubble-opacity: 0.4; 
+    animation: bubbleRise 4s ease-in infinite; 
+}
+
+.bubble:nth-child(2) { 
+    width: 6px; 
+    height: 6px; 
+    --bubble-x: 25vw; 
+    --bubble-scale: 0.7; 
+    --bubble-opacity: 0.5; 
+    animation: bubbleRise 5s ease-in infinite 0.5s; 
+}
+
+.bubble:nth-child(3) { 
+    width: 5px; 
+    height: 5px; 
+    --bubble-x: 40vw; 
+    --bubble-scale: 0.8; 
+    --bubble-opacity: 0.6; 
+    animation: bubbleRise 6s ease-in infinite 1s; 
+}
+
+/* Medium bubbles */
+.bubble:nth-child(4) { 
+    width: 8px; 
+    height: 8px; 
+    --bubble-x: 55vw; 
+    --bubble-scale: 0.9; 
+    --bubble-opacity: 0.7; 
+    animation: bubbleRise 7s ease-in infinite 1.5s; 
+}
+
+.bubble:nth-child(5) { 
+    width: 10px; 
+    height: 10px; 
+    --bubble-x: 70vw; 
+    --bubble-scale: 1.0; 
+    --bubble-opacity: 0.8; 
+    animation: bubbleRise 8s ease-in infinite 2s; 
+}
+
+.bubble:nth-child(6) { 
+    width: 9px; 
+    height: 9px; 
+    --bubble-x: 85vw; 
+    --bubble-scale: 1.1; 
+    --bubble-opacity: 0.7; 
+    animation: bubbleRise 9s ease-in infinite 2.5s; 
+}
+
+/* Large bubbles */
+.bubble:nth-child(7) { 
+    width: 12px; 
+    height: 12px; 
+    --bubble-x: 15vw; 
+    --bubble-scale: 1.2; 
+    --bubble-opacity: 0.8; 
+    animation: bubbleRise 10s ease-in infinite 3s; 
+}
+
+.bubble:nth-child(8) { 
+    width: 14px; 
+    height: 14px; 
+    --bubble-x: 30vw; 
+    --bubble-scale: 1.3; 
+    --bubble-opacity: 0.9; 
+    animation: bubbleRise 11s ease-in infinite 3.5s; 
+}
+
+.bubble:nth-child(9) { 
+    width: 13px; 
+    height: 13px; 
+    --bubble-x: 45vw; 
+    --bubble-scale: 1.4; 
+    --bubble-opacity: 0.8; 
+    animation: bubbleRise 12s ease-in infinite 4s; 
+}
+
+/* Extra large bubbles */
+.bubble:nth-child(10) { 
+    width: 16px; 
+    height: 16px; 
+    --bubble-x: 60vw; 
+    --bubble-scale: 1.5; 
+    --bubble-opacity: 0.9; 
+    animation: bubbleRise 13s ease-in infinite 4.5s; 
+}
+
+.bubble:nth-child(11) { 
+    width: 18px; 
+    height: 18px; 
+    --bubble-x: 75vw; 
+    --bubble-scale: 1.6; 
+    --bubble-opacity: 1.0; 
+    animation: bubbleRise 14s ease-in infinite 5s; 
+}
+
+.bubble:nth-child(12) { 
+    width: 15px; 
+    height: 15px; 
+    --bubble-x: 90vw; 
+    --bubble-scale: 1.7; 
+    --bubble-opacity: 0.9; 
+    animation: bubbleRise 15s ease-in infinite 5.5s; 
+}
+
+/* Additional Micro Bubbles */
+.bubble:nth-child(13) { 
+    width: 3px; 
+    height: 3px; 
+    --bubble-x: 22vw; 
+    --bubble-scale: 0.5; 
+    --bubble-opacity: 0.3; 
+    animation: bubbleRise 3s ease-in infinite 0.2s; 
+}
+
+.bubble:nth-child(14) { 
+    width: 2px; 
+    height: 2px; 
+    --bubble-x: 48vw; 
+    --bubble-scale: 0.4; 
+    --bubble-opacity: 0.4; 
+    animation: bubbleRise 4s ease-in infinite 1.7s; 
+}
+
+.bubble:nth-child(15) { 
+    width: 4px; 
+    height: 4px; 
+    --bubble-x: 88vw; 
+    --bubble-scale: 0.6; 
+    --bubble-opacity: 0.5; 
+    animation: bubbleRise 5s ease-in infinite 2.3s; 
+}
+
+/* Additional Medium-Large Bubbles */
+.bubble:nth-child(16) { 
+    width: 11px; 
+    height: 11px; 
+    --bubble-x: 35vw; 
+    --bubble-scale: 1.2; 
+    --bubble-opacity: 0.8; 
+    animation: bubbleRise 9s ease-in infinite 3.2s; 
+}
+
+.bubble:nth-child(17) { 
+    width: 13px; 
+    height: 13px; 
+    --bubble-x: 65vw; 
+    --bubble-scale: 1.3; 
+    --bubble-opacity: 0.7; 
+    animation: bubbleRise 11s ease-in infinite 4.8s; 
+}
+
+/* Cluster Bubbles (groups of small bubbles) */
+.bubble:nth-child(18) { 
+    width: 5px; 
+    height: 5px; 
+    --bubble-x: 15vw; 
+    --bubble-scale: 0.7; 
+    --bubble-opacity: 0.6; 
+    animation: bubbleRise 7s ease-in infinite 0.5s; 
+}
+
+.bubble:nth-child(19) { 
+    width: 4px; 
+    height: 4px; 
+    --bubble-x: 17vw; 
+    --bubble-scale: 0.6; 
+    --bubble-opacity: 0.5; 
+    animation: bubbleRise 6s ease-in infinite 0.7s; 
+}
+
+.bubble:nth-child(20) { 
+    width: 3px; 
+    height: 3px; 
+    --bubble-x: 16vw; 
+    --bubble-scale: 0.5; 
+    --bubble-opacity: 0.4; 
+    animation: bubbleRise 5s ease-in infinite 0.9s; 
+}
+
+/* Fast Rising Small Bubbles */
+.bubble:nth-child(21) { 
+    width: 4px; 
+    height: 4px; 
+    --bubble-x: 80vw; 
+    --bubble-scale: 0.6; 
+    --bubble-opacity: 0.5; 
+    animation: bubbleRise 4s ease-in infinite 0.3s; 
+}
+
+.bubble:nth-child(22) { 
+    width: 5px; 
+    height: 5px; 
+    --bubble-x: 82vw; 
+    --bubble-scale: 0.7; 
+    --bubble-opacity: 0.6; 
+    animation: bubbleRise 4.5s ease-in infinite 0.6s; 
+}
+
+.bubble:nth-child(23) { 
+    width: 3px; 
+    height: 3px; 
+    --bubble-x: 78vw; 
+    --bubble-scale: 0.5; 
+    --bubble-opacity: 0.4; 
+    animation: bubbleRise 3.5s ease-in infinite 0.9s; 
+}
+
+/* Slow Rising Large Bubbles */
+.bubble:nth-child(24) { 
+    width: 20px; 
+    height: 20px; 
+    --bubble-x: 45vw; 
+    --bubble-scale: 1.8; 
+    --bubble-opacity: 0.9; 
+    animation: bubbleRise 16s ease-in infinite 2s; 
+}
+
+.bubble:nth-child(25) { 
+    width: 22px; 
+    height: 22px; 
+    --bubble-x: 55vw; 
+    --bubble-scale: 2.0; 
+    --bubble-opacity: 0.8; 
+    animation: bubbleRise 18s ease-in infinite 4s; 
+}
+
+/* Fish */
+.fish {
+    position: fixed;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.fish:nth-child(1) {
+    width: 30px;
+    height: 20px;
+    bottom: 30%;
+    background: rgba(52, 152, 219, 0.3);
+    clip-path: path('M5,10 L20,5 L20,15 L5,10 M20,10 L25,5 L25,15 L20,10');
+    animation: fishSwim 15s linear infinite;
+}
+
+.fish:nth-child(2) {
+    width: 40px;
+    height: 25px;
+    bottom: 50%;
+    background: rgba(46, 204, 113, 0.3);
+    clip-path: path('M5,12 L25,5 L25,20 L5,12 M25,12 L32,8 L32,17 L25,12');
+    animation: fishSwimReverse 20s linear infinite;
+}
+
+/* Enhanced animations for elements */
+.navbar {
+    background: rgba(21, 41, 61, 0.8);
+    border-bottom: 1px solid rgba(52, 152, 219, 0.5);
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.nav-logo {
+    color: var(--ocean-primary);
+    font-weight: bold;
+    animation: oceanGlow 4s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.nav-link {
+    color: var(--ocean-text);
+    opacity: 0.8;
+    transition: all 0.2s;
+    animation: fadeIn 0.5s ease-out;
+    animation-fill-mode: both;
+}
+
+.nav-link:nth-child(1) { animation-delay: 0.2s; }
+.nav-link:nth-child(2) { animation-delay: 0.3s; }
+.nav-link:nth-child(3) { animation-delay: 0.4s; }
+
+.button, button, .secondary-button {
+    background: transparent;
+    border: none;
+    color: var(--ocean-text);
+    text-shadow: 0 0 5px var(--ocean-primary);
+    transition: all 0.3s ease;
+    animation: oceanGlow 4s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.container {
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.settings-section {
+    animation: slideUp 0.8s ease-out;
+    animation-fill-mode: both;
+}
+
+.settings-section:nth-child(1) { animation-delay: 0.1s; }
+.settings-section:nth-child(2) { animation-delay: 0.2s; }
+.settings-section:nth-child(3) { animation-delay: 0.3s; }
+.settings-section:nth-child(4) { animation-delay: 0.4s; }
+.settings-section:nth-child(5) { animation-delay: 0.5s; }
+
+/* Ensure UI elements stay above background */
+.navbar {
+    position: relative;
+    z-index: 1;
+}
+
+.nav-logo {
+    text-shadow: 0 0 10px rgba(102, 184, 255, 0.3);
+}
+
+.nav-link:hover {
+    color: var(--ocean-accent);
+    opacity: 1;
+}
+
+/* Update button styles to apply to all buttons */
+.button:hover, button:hover, .secondary-button:hover {
+    background: rgba(21, 41, 61, 0.9);
+    border-color: rgba(52, 152, 219, 0.8);
+    box-shadow: 0 0 15px rgba(102, 184, 255, 0.4);
+    transform: translateY(-2px);
+    color: var(--ocean-accent);
+}
+
+/* Settings page specific styles */
+.settings-section button {
+    background: rgba(21, 41, 61, 0.8);
+    border: 1px solid rgba(52, 152, 219, 0.5);
+    box-shadow: 0 0 10px rgba(102, 184, 255, 0.2);
+    color: var(--ocean-text);
+    transition: all 0.3s ease;
+}
+
+.settings-section button:hover {
+    background: rgba(21, 41, 61, 0.9);
+    border-color: rgba(52, 152, 219, 0.8);
+    box-shadow: 0 0 15px rgba(102, 184, 255, 0.4);
+    transform: translateY(-2px);
+    color: var(--ocean-accent);
+}
+
+/* Input styles */
+.settings-section input[type="text"],
+.settings-section select,
+.input-group {
+    background: rgba(21, 41, 61, 0.6);
+    border: 1px solid rgba(52, 152, 219, 0.3);
+    color: var(--ocean-text);
+    box-shadow: 0 0 5px rgba(102, 184, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.settings-section input[type="text"]:focus,
+.settings-section select:focus,
+.input-group:focus {
+    background: rgba(21, 41, 61, 0.8);
+    border-color: rgba(52, 152, 219, 0.6);
+    box-shadow: 0 0 10px rgba(102, 184, 255, 0.3);
+}
+
+.game-title {
+    color: var(--ocean-text);
+    font-weight: 500;
+}
+
+.button:hover .game-title {
+    color: var(--ocean-accent);
+}
+
+#searchInput {
+    background: rgba(21, 41, 61, 0.8);
+    border: 1px solid var(--ocean-accent);
+    color: var(--ocean-text);
+}
+
+#searchInput:focus {
+    background: rgba(52, 152, 219, 0.1);
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
+}
+
+.toggle-switch .slider {
+    background-color: var(--ocean-dark);
+    border: 1px solid var(--ocean-accent);
+}
+
+input:checked + .slider {
+    background-color: var(--ocean-accent);
+}
+
+#iframeControls button {
+    background: rgba(21, 41, 61, 0.8);
+    border: 1px solid var(--ocean-accent);
+    color: var(--ocean-text);
+}
+
+#iframeControls button:hover {
+    background: rgba(52, 152, 219, 0.2);
+}
+
+.container {
+    background: rgba(21, 41, 61, 0.5);
+    border-radius: 10px;
+    border: 1px solid rgba(52, 152, 219, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+h1, .subtitle {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Giant Bubbles */
+.bubble:nth-child(26) { 
+    width: 30px; 
+    height: 30px; 
+    --bubble-x: 20vw; 
+    --bubble-scale: 2.2; 
+    --bubble-opacity: 0.9; 
+    animation: bubbleRise 20s ease-in infinite 1s; 
+}
+
+.bubble:nth-child(27) { 
+    width: 35px; 
+    height: 35px; 
+    --bubble-x: 40vw; 
+    --bubble-scale: 2.4; 
+    --bubble-opacity: 0.85; 
+    animation: bubbleRise 22s ease-in infinite 3s; 
+}
+
+.bubble:nth-child(28) { 
+    width: 40px; 
+    height: 40px; 
+    --bubble-x: 70vw; 
+    --bubble-scale: 2.6; 
+    --bubble-opacity: 0.8; 
+    animation: bubbleRise 25s ease-in infinite 5s; 
+}
+
+/* Tiny Micro Bubbles */
+.bubble:nth-child(29) { 
+    width: 1px; 
+    height: 1px; 
+    --bubble-x: 25vw; 
+    --bubble-scale: 0.3; 
+    --bubble-opacity: 0.3; 
+    animation: bubbleRise 2s ease-in infinite 0.1s; 
+}
+
+.bubble:nth-child(30) { 
+    width: 1.5px; 
+    height: 1.5px; 
+    --bubble-x: 45vw; 
+    --bubble-scale: 0.35; 
+    --bubble-opacity: 0.35; 
+    animation: bubbleRise 2.5s ease-in infinite 0.3s; 
+}
+
+.bubble:nth-child(31) { 
+    width: 2px; 
+    height: 2px; 
+    --bubble-x: 65vw; 
+    --bubble-scale: 0.4; 
+    --bubble-opacity: 0.4; 
+    animation: bubbleRise 3s ease-in infinite 0.5s; 
+}
+
+/* Rapid Rising Tiny Clusters */
+.bubble:nth-child(32) { 
+    width: 2px; 
+    height: 2px; 
+    --bubble-x: 30vw; 
+    --bubble-scale: 0.4; 
+    --bubble-opacity: 0.4; 
+    animation: bubbleRise 2s ease-in infinite 0.2s; 
+}
+
+.bubble:nth-child(33) { 
+    width: 2.5px; 
+    height: 2.5px; 
+    --bubble-x: 31vw; 
+    --bubble-scale: 0.45; 
+    --bubble-opacity: 0.45; 
+    animation: bubbleRise 2.2s ease-in infinite 0.4s; 
+}
+
+.bubble:nth-child(34) { 
+    width: 1.8px; 
+    height: 1.8px; 
+    --bubble-x: 32vw; 
+    --bubble-scale: 0.35; 
+    --bubble-opacity: 0.35; 
+    animation: bubbleRise 1.8s ease-in infinite 0.6s; 
+}
+
+/* Massive Slow Bubbles */
+.bubble:nth-child(35) { 
+    width: 45px; 
+    height: 45px; 
+    --bubble-x: 50vw; 
+    --bubble-scale: 2.8; 
+    --bubble-opacity: 0.75; 
+    animation: bubbleRise 28s ease-in infinite 0s; 
+}
+
+.bubble:nth-child(36) { 
+    width: 50px; 
+    height: 50px; 
+    --bubble-x: 75vw; 
+    --bubble-scale: 3.0; 
+    --bubble-opacity: 0.7; 
+    animation: bubbleRise 30s ease-in infinite 5s; 
+}
+
+/* Quick Small Bubble Trails */
+.bubble:nth-child(37) { 
+    width: 3px; 
+    height: 3px; 
+    --bubble-x: 85vw; 
+    --bubble-scale: 0.5; 
+    --bubble-opacity: 0.5; 
+    animation: bubbleRise 3s ease-in infinite 0.1s; 
+}
+
+.bubble:nth-child(38) { 
+    width: 2.5px; 
+    height: 2.5px; 
+    --bubble-x: 86vw; 
+    --bubble-scale: 0.45; 
+    --bubble-opacity: 0.45; 
+    animation: bubbleRise 2.8s ease-in infinite 0.3s; 
+}
+
+.bubble:nth-child(39) { 
+    width: 2px; 
+    height: 2px; 
+    --bubble-x: 87vw; 
+    --bubble-scale: 0.4; 
+    --bubble-opacity: 0.4; 
+    animation: bubbleRise 2.6s ease-in infinite 0.5s; 
+}
+
+/* Extra Giant Bubble */
+.bubble:nth-child(40) { 
+    width: 60px; 
+    height: 60px; 
+    --bubble-x: 30vw; 
+    --bubble-scale: 3.5; 
+    --bubble-opacity: 0.6; 
+    animation: bubbleRise 35s ease-in infinite 8s; 
+} 

@@ -31,7 +31,11 @@
     <title>Google</title>
     <link rel="icon" href="/assets/favicon/google.ico">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/settings.css">
+    <link rel="stylesheet" href="assets/css/settings.css">
+    <script src="assets/js/panic.js"></script>
+    <script src="assets/js/background.js"></script>
+    <script src="assets/js/theme-loader.js"></script>
+    <script src="assets/js/background-elements.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -61,12 +65,22 @@
             <!-- Set Panic Key -->
             <div class="settings-section">
                 <h2>Set Panic Key</h2>
-                <p class="setting-description">Quick exit site with one press. Used for redirects when about:blank is opened. For multiple key strokes separate them with a comma. Ex. "A,B,C"</p>
+                <p class="setting-description">Press any key to set it as your panic key. This key will redirect you to Google when pressed.</p>
                 <div class="input-group">
-                    <input type="text" id="panicKey" placeholder="Enter key combination">
+                    <input type="text" id="panicKey" placeholder="Click here and press a key" readonly>
                 </div>
-                <input type="text" id="panicUrl" placeholder="https://classroom.google.com/">
+                <input type="text" id="panicUrl" placeholder="https://www.google.com/">
                 <button class="secondary-button" id="savePanicKey">Save</button>
+                <button class="secondary-button" id="resetPanicKey">Reset</button>
+            </div>
+
+            <!-- Key Recording Modal -->
+            <div id="keyRecordingModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h3>Recording Key Combination</h3>
+                    <p>Press the key(s) you want to use. Press Enter to save or Escape to cancel.</p>
+                    <div id="recordedKeys">No keys recorded yet...</div>
+                </div>
             </div>
 
             <!-- Tab Cloaker -->
@@ -86,16 +100,33 @@
                 </div>
             </div>
 
-            <!-- Set Background Image -->
+            <!-- Set Background Media -->
             <div class="settings-section">
-                <h2>Set Background Image</h2>
-                <p class="setting-description">Change the site's background image.</p>
-                <input type="text" id="bgImageUrl" placeholder="Enter image URL" class="input-group">
+                <h2>Set Background Media</h2>
+                <p class="setting-description">Set a background image, GIF, or video. Enter a URL or upload a file.</p>
+                <div class="input-group">
+                    <input type="text" id="bgUrl" placeholder="Enter media URL (image, GIF, or video)" class="input-group">
+                    <input type="file" id="bgFile" accept="image/*,video/*" style="display: none;">
+                    <button class="secondary-button" id="uploadBg">Upload File</button>
+                </div>
                 <div class="button-group">
                     <button class="secondary-button" id="saveBg">Save</button>
                     <button class="secondary-button" id="resetBg">Reset</button>
                 </div>
+                <div id="bgPreview" style="margin-top: 10px; max-width: 200px; display: none;">
+                    <p>Preview:</p>
+                    <img id="bgImagePreview" style="max-width: 100%; display: none;">
+                    <video id="bgVideoPreview" style="max-width: 100%; display: none;" loop muted></video>
+                </div>
             </div>
+
+            <style>
+            #bgPreview {
+                background: rgba(0,0,0,0.1);
+                padding: 10px;
+                border-radius: 5px;
+            }
+            </style>
 
             <!-- Particles -->
 <div class="settings-section">
@@ -122,9 +153,11 @@
                 <p class="setting-description">Pick from a variety of themes to customize your experience.</p>
                 <select id="themeChoice" class="input-group">
                     <option value="default">Default Theme</option>
-                    <option value="dark">Dark Theme</option>
-                    <option value="light">Light Theme</option>
-                    <option value="custom">Custom Theme</option>
+                    <option value="neon">Neon Theme</option>
+                    <option value="sunset">Sunset Theme</option>
+                    <option value="forest">Forest Theme</option>
+                    <option value="ocean">Ocean Theme</option>
+                    <option value="tech">Tech Theme</option>
                 </select>
             </div>
         </div>
@@ -230,30 +263,146 @@
             win.document.body.appendChild(iframe);
         });
 
-        // Background Image
-        const bgImageUrl = document.getElementById('bgImageUrl');
-        const saveBg = document.getElementById('saveBg');
-        const resetBg = document.getElementById('resetBg');
+        // Background Media Functionality
+        const bgUrlInput = document.getElementById('bgUrl');
+        const bgFileInput = document.getElementById('bgFile');
+        const uploadBgBtn = document.getElementById('uploadBg');
+        const saveBgBtn = document.getElementById('saveBg');
+        const resetBgBtn = document.getElementById('resetBg');
+        const bgPreview = document.getElementById('bgPreview');
+        const bgImagePreview = document.getElementById('bgImagePreview');
+        const bgVideoPreview = document.getElementById('bgVideoPreview');
 
-        saveBg.addEventListener('click', () => {
-            const url = bgImageUrl.value;
-            localStorage.setItem('backgroundImage', url);
-            document.body.style.backgroundImage = `url(${url})`;
-            alert('Background image saved!');
+        // Handle file upload button
+        uploadBgBtn.addEventListener('click', () => {
+            bgFileInput.click();
         });
 
-        resetBg.addEventListener('click', () => {
-            localStorage.removeItem('backgroundImage');
+        // Handle file selection
+        bgFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const dataUrl = e.target.result;
+                    bgUrlInput.value = dataUrl;
+                    showPreview(dataUrl);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle URL input
+        bgUrlInput.addEventListener('input', () => {
+            showPreview(bgUrlInput.value);
+        });
+
+        // Preview function
+        function showPreview(url) {
+            if (!url) {
+                bgPreview.style.display = 'none';
+                return;
+            }
+
+            bgPreview.style.display = 'block';
+            
+            // Reset previews
+            bgImagePreview.style.display = 'none';
+            bgVideoPreview.style.display = 'none';
+            
+            if (url.match(/\.(mp4|webm|ogg)$/i) || url.startsWith('data:video')) {
+                // Video
+                bgVideoPreview.src = url;
+                bgVideoPreview.style.display = 'block';
+                bgVideoPreview.play();
+            } else {
+                // Image or GIF
+                bgImagePreview.src = url;
+                bgImagePreview.style.display = 'block';
+            }
+        }
+
+        // Save background
+        saveBgBtn.addEventListener('click', () => {
+            const url = bgUrlInput.value;
+            if (!url) {
+                alert('Please enter a URL or upload a file');
+                return;
+            }
+
+            const settings = {
+                type: url.match(/\.(mp4|webm|ogg)$/i) || url.startsWith('data:video') ? 'video' : 'image',
+                url: url
+            };
+
+            localStorage.setItem('backgroundSettings', JSON.stringify(settings));
+            applyBackground(settings);
+            alert('Background saved!');
+        });
+
+        // Reset background
+        resetBgBtn.addEventListener('click', () => {
+            localStorage.removeItem('backgroundSettings');
+            bgUrlInput.value = '';
+            bgPreview.style.display = 'none';
             document.body.style.backgroundImage = 'none';
-            bgImageUrl.value = '';
-            alert('Background image reset!');
+            removeBackgroundVideo();
+            alert('Background reset!');
         });
+
+        // Apply background function
+        function applyBackground(settings) {
+            removeBackgroundVideo();
+            
+            if (settings.type === 'video') {
+                const video = document.createElement('video');
+                video.id = 'backgroundVideo';
+                video.src = settings.url;
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+                video.style.position = 'fixed';
+                video.style.right = '0';
+                video.style.bottom = '0';
+                video.style.minWidth = '100%';
+                video.style.minHeight = '100%';
+                video.style.width = 'auto';
+                video.style.height = 'auto';
+                video.style.zIndex = '-1';
+                video.style.objectFit = 'cover';
+                document.body.appendChild(video);
+                document.body.style.backgroundImage = 'none';
+            } else {
+                document.body.style.backgroundImage = `url(${settings.url})`;
+                document.body.style.backgroundSize = 'cover';
+                document.body.style.backgroundPosition = 'center';
+                document.body.style.backgroundRepeat = 'no-repeat';
+                document.body.style.backgroundAttachment = 'fixed';
+            }
+        }
+
+        // Remove background video function
+        function removeBackgroundVideo() {
+            const existingVideo = document.getElementById('backgroundVideo');
+            if (existingVideo) {
+                existingVideo.remove();
+            }
+        }
+
+        // Load saved background on page load
+        const savedBackground = localStorage.getItem('backgroundSettings');
+        if (savedBackground) {
+            const settings = JSON.parse(savedBackground);
+            bgUrlInput.value = settings.url;
+            showPreview(settings.url);
+            applyBackground(settings);
+        }
 
         // Particles Toggle
-        const particlesToggle = document.getElementById('particlesToggle');
+        const particlesToggle = document.getElementById('toggle-rain');
         
         particlesToggle.addEventListener('change', () => {
-            localStorage.setItem('particles', particlesToggle.checked);
+            localStorage.setItem('rainEnabled', particlesToggle.checked);
             if (particlesToggle.checked) {
                 initParticles();
             } else {
@@ -264,11 +413,35 @@
         // Theme Selection
         const themeChoice = document.getElementById('themeChoice');
         
+        function applyTheme(theme) {
+            // Remove any existing theme stylesheet
+            const existingTheme = document.querySelector('link[data-theme]');
+            if (existingTheme) {
+                existingTheme.remove();
+            }
+
+            // If not default theme, add the new theme stylesheet
+            if (theme !== 'default') {
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = `assets/css/themes/${theme}.css`;
+                link.setAttribute('data-theme', theme);
+                document.head.appendChild(link);
+            }
+        }
+        
         themeChoice.addEventListener('change', () => {
             const selectedTheme = themeChoice.value;
             localStorage.setItem('theme', selectedTheme);
             applyTheme(selectedTheme);
         });
+
+        // Load theme setting on page load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            themeChoice.value = savedTheme;
+            applyTheme(savedTheme);
+        }
 
         // Load all settings on page load
         window.addEventListener('load', () => {
@@ -281,27 +454,50 @@
             const panicUrl = localStorage.getItem('panicUrl');
             if (panicKey) document.getElementById('panicKey').value = panicKey;
             if (panicUrl) document.getElementById('panicUrl').value = panicUrl;
+        });
 
-            // Load background image
-            const bgImage = localStorage.getItem('backgroundImage');
-            if (bgImage) {
-                bgImageUrl.value = bgImage;
-                document.body.style.backgroundImage = `url(${bgImage})`;
+        // Add panic key functionality
+        const panicKeyInput = document.getElementById('panicKey');
+        const panicUrlInput = document.getElementById('panicUrl');
+        const savePanicKeyBtn = document.getElementById('savePanicKey');
+        const resetPanicKeyBtn = document.getElementById('resetPanicKey');
+
+        // Load existing settings
+        const savedPanicKey = localStorage.getItem('panicKey');
+        const savedPanicUrl = localStorage.getItem('panicUrl');
+        if (savedPanicKey) panicKeyInput.value = savedPanicKey;
+        if (savedPanicUrl) panicUrlInput.value = savedPanicUrl;
+
+        // Handle key input
+        panicKeyInput.addEventListener('keydown', (e) => {
+            e.preventDefault();
+            // Ignore modifier keys
+            if (['Control', 'Alt', 'Shift', 'Meta'].includes(e.key)) return;
+            panicKeyInput.value = e.key;
+        });
+
+        // Save settings
+        savePanicKeyBtn.addEventListener('click', () => {
+            const panicKey = panicKeyInput.value;
+            const panicUrl = panicUrlInput.value || 'https://www.google.com/';
+            
+            if (!panicKey) {
+                alert('Please press a key first');
+                return;
             }
 
-            // Load particles setting
-            const particles = localStorage.getItem('particles') === 'true';
-            particlesToggle.checked = particles;
-            if (particles) {
-                initParticles();
-            }
+            localStorage.setItem('panicKey', panicKey);
+            localStorage.setItem('panicUrl', panicUrl);
+            alert('Panic key settings saved!');
+        });
 
-            // Load theme setting
-            const theme = localStorage.getItem('theme');
-            if (theme) {
-                themeChoice.value = theme;
-                applyTheme(theme);
-            }
+        // Reset settings
+        resetPanicKeyBtn.addEventListener('click', () => {
+            localStorage.removeItem('panicKey');
+            localStorage.removeItem('panicUrl');
+            panicKeyInput.value = '';
+            panicUrlInput.value = '';
+            alert('Panic key settings reset!');
         });
     </script>
     <script>
