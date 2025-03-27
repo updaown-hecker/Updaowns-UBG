@@ -1,0 +1,438 @@
+/* Midnight Theme - Performance Optimized */
+:root {
+    --midnight-primary: #6a11cb;
+    --midnight-secondary: #2575fc;
+    --midnight-background: #0f0c29;
+    --midnight-text: #f8f9fa;
+    --midnight-accent: #c471ed;
+    --midnight-dark: #070619;
+}
+
+@keyframes starTwinkle {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.1; }
+}
+
+@keyframes midnightGlow {
+    0% { text-shadow: 0 0 5px var(--midnight-primary); }
+    50% { text-shadow: 0 0 10px var(--midnight-secondary); }
+    100% { text-shadow: 0 0 5px var(--midnight-primary); }
+}
+
+@keyframes auroraFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes moonGlow {
+    0% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.5); }
+    100% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); }
+}
+
+@keyframes starShoot {
+    0% { transform: translate(-5vw, -5vh) scale(0.5); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translate(105vw, 105vh) scale(0.1); opacity: 0; }
+}
+
+@keyframes buttonPulse {
+    0% { transform: scale(1); box-shadow: 0 0 5px var(--midnight-primary); }
+    50% { transform: scale(1.03); box-shadow: 0 0 15px var(--midnight-secondary); }
+    100% { transform: scale(1); box-shadow: 0 0 5px var(--midnight-primary); }
+}
+
+@keyframes constellationConnect {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 0; }
+}
+
+body {
+    background-color: var(--midnight-background);
+    color: var(--midnight-text);
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated midnight gradient overlay */
+.theme-midnight::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(15, 12, 41, 0.9), 
+        rgba(48, 43, 99, 0.8), 
+        rgba(36, 36, 62, 0.9)
+    );
+    background-size: 400% 400%;
+    animation: auroraFlow 15s ease infinite;
+    pointer-events: none;
+    z-index: -2;
+    will-change: background-position;
+}
+
+/* Stars effect */
+.theme-midnight::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, 0.8) 50%, transparent 100%),
+        radial-gradient(1px 1px at 20% 20%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
+        radial-gradient(1px 1px at 30% 30%, rgba(255, 255, 255, 0.9) 50%, transparent 100%),
+        radial-gradient(1px 1px at 40% 40%, rgba(255, 255, 255, 0.6) 50%, transparent 100%),
+        radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.8) 50%, transparent 100%),
+        radial-gradient(1px 1px at 60% 60%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
+        radial-gradient(1px 1px at 70% 70%, rgba(255, 255, 255, 0.9) 50%, transparent 100%),
+        radial-gradient(1px 1px at 80% 80%, rgba(255, 255, 255, 0.6) 50%, transparent 100%),
+        radial-gradient(1px 1px at 90% 90%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
+    background-repeat: repeat;
+    background-size: 200px 200px;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Moon effect */
+.moon {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    top: 40px;
+    right: 40px;
+    background: radial-gradient(circle at 30% 30%, 
+        rgba(255, 255, 255, 0.9), 
+        rgba(240, 240, 255, 0.8) 30%, 
+        rgba(210, 210, 240, 0.6) 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    animation: moonGlow 5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+    will-change: box-shadow;
+}
+
+/* Moon craters */
+.moon::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 25%;
+    width: 15px;
+    height: 15px;
+    background: rgba(210, 210, 240, 0.4);
+    border-radius: 50%;
+    box-shadow: 
+        15px 10px 0 -3px rgba(210, 210, 240, 0.3),
+        -10px 20px 0 -5px rgba(210, 210, 240, 0.2);
+}
+
+/* Shooting star */
+.shooting-star {
+    position: fixed;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, white, transparent);
+    opacity: 0;
+    animation: starShoot 6s ease-in-out infinite;
+    animation-delay: calc(var(--star-shoot-delay, 0) * 10s);
+    transform-origin: center;
+    pointer-events: none;
+    z-index: -1;
+    will-change: transform, opacity;
+}
+
+/* Aurora effect */
+.aurora {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, 
+        rgba(106, 17, 203, 0.2) 0%, 
+        rgba(37, 117, 252, 0.1) 50%, 
+        transparent 100%);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.navbar {
+    background: var(--midnight-dark);
+    border-bottom: 2px solid var(--midnight-primary);
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.nav-logo {
+    color: var(--midnight-primary);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
+    animation: midnightGlow 4s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.nav-link {
+    color: var(--midnight-text);
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--midnight-secondary);
+    opacity: 1;
+    text-shadow: 0 0 5px var(--midnight-secondary);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--midnight-primary), var(--midnight-secondary));
+    border: none;
+    color: var(--midnight-text);
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    animation: buttonPulse 4s infinite;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 20px rgba(106, 17, 203, 0.7), 0 0 40px rgba(37, 117, 252, 0.4);
+    animation: none;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(30deg);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.btn-primary:hover::after {
+    transform: rotate(30deg) translate(50%, 50%);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--midnight-primary);
+    color: var(--midnight-primary);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(106, 17, 203, 0.1);
+    box-shadow: 0 0 15px rgba(106, 17, 203, 0.5);
+    transform: translateY(-3px) scale(1.05);
+    color: var(--midnight-secondary);
+}
+
+.btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(106, 17, 203, 0.2), transparent);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.btn-secondary:hover::before {
+    left: 100%;
+}
+
+.secondary-button {
+    background-color: transparent;
+    border: 1px solid var(--midnight-primary);
+    color: var(--midnight-primary);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px;
+}
+
+.secondary-button:hover {
+    background-color: rgba(106, 17, 203, 0.1);
+    box-shadow: 0 0 15px rgba(106, 17, 203, 0.5);
+    transform: translateY(-3px) scale(1.05);
+    color: var(--midnight-secondary);
+}
+
+.secondary-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(106, 17, 203, 0.2), transparent);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.secondary-button:hover::before {
+    left: 100%;
+}
+
+.card {
+    background-color: rgba(15, 12, 41, 0.7);
+    border: 1px solid var(--midnight-primary);
+    box-shadow: 0 0 15px rgba(106, 17, 203, 0.2);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(106, 17, 203, 0.4);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--midnight-primary), var(--midnight-secondary));
+}
+
+.card-title {
+    color: var(--midnight-secondary);
+    font-weight: 600;
+}
+
+.card-img-top {
+    border-bottom: 1px solid rgba(106, 17, 203, 0.2);
+}
+
+input, select, textarea {
+    background-color: rgba(7, 6, 25, 0.7);
+    border: 1px solid var(--midnight-primary);
+    color: var(--midnight-text);
+}
+
+input:focus, select:focus, textarea:focus {
+    background-color: rgba(7, 6, 25, 0.9);
+    border-color: var(--midnight-secondary);
+    box-shadow: 0 0 10px rgba(106, 17, 203, 0.3);
+    color: var(--midnight-text);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Settings page specific */
+.settings-section {
+    background-color: rgba(15, 12, 41, 0.7);
+    border: 1px solid var(--midnight-primary);
+    box-shadow: 0 0 15px rgba(106, 17, 203, 0.2);
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.settings-section h2 {
+    color: var(--midnight-secondary);
+    border-bottom: 1px solid var(--midnight-primary);
+    animation: midnightGlow 4s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.setting-description {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.toggle-switch .slider {
+    background-color: var(--midnight-dark);
+    border: 1px solid var(--midnight-primary);
+}
+
+.toggle-switch .slider:before {
+    background-color: var(--midnight-primary);
+}
+
+.toggle-switch input:checked + .slider {
+    background-color: var(--midnight-secondary);
+}
+
+.toggle-switch input:checked + .slider:before {
+    background-color: var(--midnight-text);
+}
+
+/* Twinkling stars */
+.star {
+    position: fixed;
+    width: 2px;
+    height: 2px;
+    background-color: white;
+    border-radius: 50%;
+    animation: starTwinkle 3s infinite;
+    animation-delay: calc(var(--star-delay, 0) * -1s);
+    will-change: opacity;
+    pointer-events: none;
+}
+
+/* Animation delays for staggered appearance */
+.settings-section:nth-child(1) { animation-delay: 0.1s; }
+.settings-section:nth-child(2) { animation-delay: 0.2s; }
+.settings-section:nth-child(3) { animation-delay: 0.3s; }
+.settings-section:nth-child(4) { animation-delay: 0.4s; }
+.settings-section:nth-child(5) { animation-delay: 0.5s; }
+
+/* Game card hover effect */
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(106, 17, 203, 0.6);
+}
+
+.game-card:hover .card-title {
+    color: var(--midnight-secondary);
+    text-shadow: 0 0 10px rgba(37, 117, 252, 0.5);
+}
+
+.game-card:hover img {
+    filter: brightness(1.2) contrast(1.1) saturate(1.2);
+}

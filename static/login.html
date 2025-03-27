@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSHBZ8D1X7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KSHBZ8D1X7');
+    </script>
+    <script>
+        // Check if about:blank is enabled and if we're not already in an about:blank page
+        if (localStorage.getItem('aboutBlank') === 'true' && window.location.href !== 'about:blank') {
+            const win = window.open();
+            win.document.body.style.margin = '0';
+            win.document.body.style.height = '100vh';
+            const iframe = win.document.createElement('iframe');
+            iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.margin = '0';
+            iframe.src = window.location.href;
+            win.document.body.appendChild(iframe);
+            window.location.replace('about:blank');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" href="/assets/favicon/google.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/settings.css">
+    <script src="assets/js/panic.js"></script>
+    <script src="assets/js/background.js"></script>
+    <script src="assets/js/theme-loader.js"></script>
+    <script src="assets/js/background-elements.js"></script>
+    <script src="assets/js/particles-loader.js"></script>
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #444;
+        }
+        
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .auth-tab.active {
+            border-bottom: 2px solid var(--accent-color, #7289da);
+            color: var(--accent-color, #7289da);
+        }
+        
+        .auth-form {
+            display: none;
+        }
+        
+        .auth-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #333;
+            color: #fff;
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #333;
+            color: #fff;
+        }
+        
+        .auth-button {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-color, #7289da);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .auth-button:hover {
+            background: var(--accent-hover, #5a6ebd);
+        }
+        
+        .auth-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .auth-message.error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            color: #ff6b6b;
+        }
+        
+        .auth-message.success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            color: #6bff6b;
+        }
+        
+        .selection-group {
+            margin-top: 20px;
+        }
+        
+        .selection-title {
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .selection-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .selection-option {
+            padding: 8px;
+            background: #444;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .selection-option.selected {
+            background: var(--accent-color, #7289da);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Unblocked Games</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Games</a>
+            <a href="apps.html" class="nav-link">Apps</a>
+            <a href="settings.html" class="nav-link">Settings</a>
+            <a href="login.html" class="nav-link" id="authLink">Login</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <div class="auth-tab active" data-tab="login">Login</div>
+                <div class="auth-tab" data-tab="register">Register</div>
+            </div>
+            
+            <div class="auth-form active" id="login-form">
+                <div class="form-group">
+                    <label for="login-username">Username</label>
+                    <input type="text" id="login-username" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password">
+                </div>
+                <button class="auth-button" id="login-button">Login</button>
+                <div class="auth-message" id="login-message"></div>
+            </div>
+            
+            <div class="auth-form" id="register-form">
+                <div class="form-group">
+                    <label for="register-username">Username</label>
+                    <input type="text" id="register-username" placeholder="Choose a username">
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Choose a password">
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" placeholder="Confirm your password">
+                </div>
+                
+                <div class="selection-group">
+                    <div class="selection-title">Choose 2 Free Themes</div>
+                    <div class="selection-options" id="theme-options">
+                        <div class="selection-option" data-theme="default">Default</div>
+                        <div class="selection-option" data-theme="neon">Neon</div>
+                        <div class="selection-option" data-theme="sunset">Sunset</div>
+                        <div class="selection-option" data-theme="forest">Forest</div>
+                        <div class="selection-option" data-theme="ocean">Ocean</div>
+                        <div class="selection-option" data-theme="tech">Tech</div>
+                        <div class="selection-option" data-theme="cyberpunk">Cyberpunk</div>
+                        <div class="selection-option" data-theme="midnight">Midnight</div>
+                        <div class="selection-option" data-theme="pastel">Pastel</div>
+                    </div>
+                </div>
+                
+                <div class="selection-group">
+                    <div class="selection-title">Choose 2 Free Particles</div>
+                    <div class="selection-options" id="particle-options">
+                        <div class="selection-option" data-particle="rain">Rain</div>
+                        <div class="selection-option" data-particle="snow">Snow</div>
+                        <div class="selection-option" data-particle="confetti">Confetti</div>
+                        <div class="selection-option" data-particle="bubbles">Bubbles</div>
+                        <div class="selection-option" data-particle="fireflies">Fireflies</div>
+                    </div>
+                </div>
+                
+                <button class="auth-button" id="register-button">Register</button>
+                <div class="auth-message" id="register-message"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authForms = document.querySelectorAll('.auth-form');
+        
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show active form
+                authForms.forEach(form => {
+                    form.classList.remove('active');
+                    if (form.id === `${tabName}-form`) {
+                        form.classList.add('active');
+                    }
+                });
+                
+                // Clear messages
+                document.querySelectorAll('.auth-message').forEach(msg => {
+                    msg.style.display = 'none';
+                    msg.textContent = '';
+                    msg.classList.remove('error', 'success');
+                });
+            });
+        });
+        
+        // Theme and particle selection
+        const themeOptions = document.querySelectorAll('#theme-options .selection-option');
+        const particleOptions = document.querySelectorAll('#particle-options .selection-option');
+        
+        function setupSelectionLimit(options, limit) {
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    const isSelected = option.classList.contains('selected');
+                    const selectedCount = document.querySelectorAll(`#${option.parentElement.id} .selected`).length;
+                    
+                    if (isSelected) {
+                        option.classList.remove('selected');
+                    } else if (selectedCount < limit) {
+                        option.classList.add('selected');
+                    }
+                });
+            });
+        }
+        
+        setupSelectionLimit(themeOptions, 2);
+        setupSelectionLimit(particleOptions, 2);
+        
+        // Login functionality
+        const loginButton = document.getElementById('login-button');
+        const loginMessage = document.getElementById('login-message');
+        
+        loginButton.addEventListener('click', async () => {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            
+            if (!username || !password) {
+                showMessage(loginMessage, 'Please enter both username and password', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store token and user data
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userData', JSON.stringify(data.user));
+                    
+                    showMessage(loginMessage, 'Login successful! Redirecting...', 'success');
+                    
+                    // Apply user's theme and particles
+                    if (data.user.selectedTheme) {
+                        localStorage.setItem('theme', data.user.selectedTheme);
+                    }
+                    
+                    if (data.user.selectedParticles && data.user.selectedParticles.length > 0) {
+                        data.user.selectedParticles.forEach(particle => {
+                            localStorage.setItem(`particle_${particle}`, 'true');
+                        });
+                    }
+                    
+                    // Redirect after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    showMessage(loginMessage, data.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showMessage(loginMessage, 'An error occurred during login', 'error');
+            }
+        });
+        
+        // Registration functionality
+        const registerButton = document.getElementById('register-button');
+        const registerMessage = document.getElementById('register-message');
+        
+        registerButton.addEventListener('click', async () => {
+            const username = document.getElementById('register-username').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            // Basic validation
+            if (!username || !email || !password || !confirmPassword) {
+                showMessage(registerMessage, 'Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showMessage(registerMessage, 'Passwords do not match', 'error');
+                return;
+            }
+            
+            // Get selected themes and particles
+            const selectedThemes = Array.from(document.querySelectorAll('#theme-options .selected'))
+                .map(option => option.getAttribute('data-theme'));
+            
+            const selectedParticles = Array.from(document.querySelectorAll('#particle-options .selected'))
+                .map(option => option.getAttribute('data-particle'));
+            
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        password,
+                        selectedThemes,
+                        selectedParticles
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store token and user data
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userData', JSON.stringify(data.user));
+                    
+                    showMessage(registerMessage, 'Registration successful! Redirecting...', 'success');
+                    
+                    // Apply user's selected theme and particles
+                    if (selectedThemes.length > 0) {
+                        localStorage.setItem('theme', selectedThemes[0]);
+                    }
+                    
+                    selectedParticles.forEach(particle => {
+                        localStorage.setItem(`particle_${particle}`, 'true');
+                    });
+                    
+                    // Redirect after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    showMessage(registerMessage, data.message || 'Registration failed', 'error');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showMessage(registerMessage, 'An error occurred during registration', 'error');
+            }
+        });
+        
+        // Helper function to show messages
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.classList.remove('error', 'success');
+            element.classList.add(type);
+            element.style.display = 'block';
+        }
+        
+        // Check if user is already logged in
+        function checkAuthStatus() {
+            const authToken = localStorage.getItem('authToken');
+            const authLink = document.getElementById('authLink');
+            
+            if (authToken) {
+                authLink.textContent = 'Account';
+                
+                // If on login page and already logged in, redirect to account page
+                if (window.location.pathname.includes('login.html')) {
+                    window.location.href = 'account.html';
+                }
+            } else {
+                authLink.textContent = 'Login';
+            }
+        }
+        
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', checkAuthStatus);
+    </script>
+</body>
+</html>

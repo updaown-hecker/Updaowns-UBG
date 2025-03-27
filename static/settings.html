@@ -36,6 +36,7 @@
     <script src="assets/js/background.js"></script>
     <script src="assets/js/theme-loader.js"></script>
     <script src="assets/js/background-elements.js"></script>
+    <script src="assets/js/particles-loader.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -44,10 +45,23 @@
             <a href="index.html" class="nav-link">Games</a>
             <a href="apps.html" class="nav-link">Apps</a>
             <a href="settings.html" class="nav-link">Settings</a>
+            <a href="login.html" class="nav-link" id="authLink">Login</a>
         </div>
     </nav>
     
     <div class="container">
+        <div id="account-status" style="text-align: center; margin-bottom: 20px; display: none;">
+            <div style="background: rgba(30, 30, 30, 0.8); padding: 15px; border-radius: 10px; display: inline-flex; align-items: center; gap: 15px;">
+                <div id="user-info" style="text-align: left;">
+                    <div id="username" style="font-weight: bold; font-size: 18px;"></div>
+                    <a href="account.html" style="color: var(--accent-color, #7289da); text-decoration: none; font-size: 14px;">View Account</a>
+                </div>
+                <div style="display: flex; align-items: center; background: rgba(255, 215, 0, 0.1); padding: 8px 15px; border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                    <div style="width: 20px; height: 20px; background: #ffd700; border-radius: 50%; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333;">$</div>
+                    <span id="coin-amount" style="font-weight: 600; font-size: 16px; color: #ffd700;">0</span>
+                </div>
+            </div>
+        </div>
         <div class="settings-grid">
             <!-- About:Blank Section -->
             <div class="settings-section">
@@ -129,23 +143,50 @@
             </style>
 
             <!-- Particles -->
-<div class="settings-section">
-    <div class="setting-header">
-        <h2>Particles</h2>
-        <label class="Rain">
-            <input type="checkbox" id="toggle-rain">
-            <span class="switch"></span>
-        </label>
-    </div>
-    <ul>
-        <li>
-    <p class="setting-description">Enable or disable the rain effect on the site.</p>
-        </li>
-        <li>
-            <p class="setting-description">More effects will be added soon but for rn this is the only one!</p>
-                </li>
-    </ul>
-</div>
+            <div class="settings-section">
+                <div class="setting-header">
+                    <h2>Particles</h2>
+                </div>
+                <p class="setting-description">Choose from a variety of particle effects to enhance your experience.</p>
+                <div class="particles-options">
+                    <div class="particle-option">
+                        <label for="toggle-rain">Rain</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-rain">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="particle-option">
+                        <label for="toggle-snow">Snow</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-snow">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="particle-option">
+                        <label for="toggle-confetti">Confetti</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-confetti">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="particle-option">
+                        <label for="toggle-bubbles">Bubbles</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-bubbles">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="particle-option">
+                        <label for="toggle-fireflies">Fireflies</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toggle-fireflies">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <p class="setting-note">Note: Using multiple particle effects at once may affect performance on some devices.</p>
+            </div>
 
             <!-- Themes -->
             <div class="settings-section">
@@ -158,7 +199,13 @@
                     <option value="forest">Forest Theme</option>
                     <option value="ocean">Ocean Theme</option>
                     <option value="tech">Tech Theme</option>
+                    <option value="cyberpunk">Cyberpunk Theme</option>
+                    <option value="midnight">Midnight Theme</option>
+                    <option value="pastel">Pastel Theme</option>
                 </select>
+                <p id="theme-lock-message" style="margin-top: 10px; font-size: 14px; color: #ff9800; display: none;">
+                    Some themes require an account and can be unlocked with coins. <a href="account.html" style="color: #7289da;">View Account</a>
+                </p>
             </div>
         </div>
     </div>
@@ -400,15 +447,63 @@
 
         // Particles Toggle
         const particlesToggle = document.getElementById('toggle-rain');
+        const snowToggle = document.getElementById('toggle-snow');
+        const confettiToggle = document.getElementById('toggle-confetti');
+        const bubblesToggle = document.getElementById('toggle-bubbles');
+        const firefliesToggle = document.getElementById('toggle-fireflies');
         
         particlesToggle.addEventListener('change', () => {
             localStorage.setItem('rainEnabled', particlesToggle.checked);
             if (particlesToggle.checked) {
-                initParticles();
+                loadParticles('rain');
             } else {
-                destroyParticles();
+                unloadParticles('rain');
             }
         });
+
+        snowToggle.addEventListener('change', () => {
+            localStorage.setItem('snowEnabled', snowToggle.checked);
+            if (snowToggle.checked) {
+                loadParticles('snow');
+            } else {
+                unloadParticles('snow');
+            }
+        });
+
+        confettiToggle.addEventListener('change', () => {
+            localStorage.setItem('confettiEnabled', confettiToggle.checked);
+            if (confettiToggle.checked) {
+                loadParticles('confetti');
+            } else {
+                unloadParticles('confetti');
+            }
+        });
+
+        bubblesToggle.addEventListener('change', () => {
+            localStorage.setItem('bubblesEnabled', bubblesToggle.checked);
+            if (bubblesToggle.checked) {
+                loadParticles('bubbles');
+            } else {
+                unloadParticles('bubbles');
+            }
+        });
+
+        firefliesToggle.addEventListener('change', () => {
+            localStorage.setItem('firefliesEnabled', firefliesToggle.checked);
+            if (firefliesToggle.checked) {
+                loadParticles('fireflies');
+            } else {
+                unloadParticles('fireflies');
+            }
+        });
+
+        function loadParticles(type) {
+            particlesLoader.load(type);
+        }
+
+        function unloadParticles(type) {
+            particlesLoader.unload(type);
+        }
 
         // Theme Selection
         const themeChoice = document.getElementById('themeChoice');
@@ -454,6 +549,25 @@
             const panicUrl = localStorage.getItem('panicUrl');
             if (panicKey) document.getElementById('panicKey').value = panicKey;
             if (panicUrl) document.getElementById('panicUrl').value = panicUrl;
+
+            // Load particle settings
+            const rainEnabled = localStorage.getItem('rainEnabled') === 'true';
+            const snowEnabled = localStorage.getItem('snowEnabled') === 'true';
+            const confettiEnabled = localStorage.getItem('confettiEnabled') === 'true';
+            const bubblesEnabled = localStorage.getItem('bubblesEnabled') === 'true';
+            const firefliesEnabled = localStorage.getItem('firefliesEnabled') === 'true';
+
+            particlesToggle.checked = rainEnabled;
+            snowToggle.checked = snowEnabled;
+            confettiToggle.checked = confettiEnabled;
+            bubblesToggle.checked = bubblesEnabled;
+            firefliesToggle.checked = firefliesEnabled;
+
+            if (rainEnabled) loadParticles('rain');
+            if (snowEnabled) loadParticles('snow');
+            if (confettiEnabled) loadParticles('confetti');
+            if (bubblesEnabled) loadParticles('bubbles');
+            if (firefliesEnabled) loadParticles('fireflies');
         });
 
         // Add panic key functionality
@@ -526,45 +640,73 @@
         
         // Apply settings when page loads
         document.addEventListener('DOMContentLoaded', applySettings);
-        // Toggle rain effect with localStorage persistence
-    const toggleRainSwitch = document.getElementById('toggle-rain');
-    let rainOverlay = null;
-
-    // Load saved state from localStorage
-    const isRainEnabled = localStorage.getItem('rainEnabled') === 'true';
-    toggleRainSwitch.checked = isRainEnabled;
-
-    if (isRainEnabled) {
-        // Create the iframe for rain.html if it was enabled before
-        rainOverlay = document.createElement('iframe');
-        rainOverlay.id = 'rain-overlay';
-        rainOverlay.src = 'assets/particles/rain.html'; // Path to your rain.html file
-        document.body.appendChild(rainOverlay);
-    }
-
-    // Toggle rain effect on switch change
-    toggleRainSwitch.addEventListener('change', (event) => {
-        const isChecked = event.target.checked;
-
-        if (isChecked) {
-            // Enable rain effect
-            if (!rainOverlay) {
-                rainOverlay = document.createElement('iframe');
-                rainOverlay.id = 'rain-overlay';
-                rainOverlay.src = 'assets/particles/rain.html'; // Path to your rain.html file
-                document.body.appendChild(rainOverlay);
-            }
-        } else {
-            // Disable rain effect
-            if (rainOverlay) {
-                rainOverlay.remove();
-                rainOverlay = null;
+        
+        // Check authentication status and update UI
+        function checkAuthStatus() {
+            const authToken = localStorage.getItem('authToken');
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const authLink = document.getElementById('authLink');
+            const accountStatus = document.getElementById('account-status');
+            const themeLockMessage = document.getElementById('theme-lock-message');
+            
+            if (authToken && userData) {
+                // User is logged in
+                authLink.textContent = 'Account';
+                authLink.href = 'account.html';
+                
+                // Show account status
+                if (accountStatus) {
+                    accountStatus.style.display = 'block';
+                    document.getElementById('username').textContent = userData.username || 'User';
+                    document.getElementById('coin-amount').textContent = userData.coins || '0';
+                }
+                
+                // Check if themes are unlocked
+                if (themeLockMessage) {
+                    const themeSelect = document.getElementById('themeChoice');
+                    const unlockedThemes = userData.unlockedThemes || ['default'];
+                    
+                    // Disable locked themes
+                    Array.from(themeSelect.options).forEach(option => {
+                        if (!unlockedThemes.includes(option.value)) {
+                            option.disabled = true;
+                            option.text += ' (Locked)';
+                        }
+                    });
+                    
+                    themeLockMessage.style.display = 'block';
+                }
+                
+                // Check if particles are unlocked
+                const particleToggles = document.querySelectorAll('.particle-option input[type="checkbox"]');
+                const unlockedParticles = userData.unlockedParticles || [];
+                
+                particleToggles.forEach(toggle => {
+                    const particleId = toggle.id.replace('toggle-', '');
+                    if (!unlockedParticles.includes(particleId)) {
+                        toggle.disabled = true;
+                        toggle.parentElement.parentElement.querySelector('label').textContent += ' (Locked)';
+                    }
+                });
+            } else {
+                // User is not logged in
+                authLink.textContent = 'Login';
+                authLink.href = 'login.html';
+                
+                // Hide account status
+                if (accountStatus) {
+                    accountStatus.style.display = 'none';
+                }
+                
+                // Show theme lock message
+                if (themeLockMessage) {
+                    themeLockMessage.style.display = 'block';
+                }
             }
         }
-
-        // Save the state to localStorage
-        localStorage.setItem('rainEnabled', isChecked);
-    });
+        
+        // Run auth check when page loads
+        document.addEventListener('DOMContentLoaded', checkAuthStatus);
     </script>
 </body>
-</html> 
+</html>

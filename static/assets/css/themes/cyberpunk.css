@@ -1,0 +1,381 @@
+/* Cyberpunk Theme - Performance Optimized */
+:root {
+    --cyberpunk-primary: #00f0ff;
+    --cyberpunk-secondary: #ff00a0;
+    --cyberpunk-background: #0a0a20;
+    --cyberpunk-text: #ffffff;
+    --cyberpunk-accent: #ffff00;
+    --cyberpunk-dark: #050510;
+}
+
+@keyframes neonPulse {
+    0% { text-shadow: 0 0 5px var(--cyberpunk-primary), 0 0 10px var(--cyberpunk-primary); }
+    50% { text-shadow: 0 0 10px var(--cyberpunk-primary), 0 0 20px var(--cyberpunk-primary), 0 0 30px var(--cyberpunk-primary); }
+    100% { text-shadow: 0 0 5px var(--cyberpunk-primary), 0 0 10px var(--cyberpunk-primary); }
+}
+
+@keyframes gridMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 50px 50px; }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+@keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+@keyframes dataFlow {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+}
+
+@keyframes buttonGlow {
+    0% { box-shadow: 0 0 5px var(--cyberpunk-primary); }
+    50% { box-shadow: 0 0 15px var(--cyberpunk-primary), 0 0 30px var(--cyberpunk-secondary); }
+    100% { box-shadow: 0 0 5px var(--cyberpunk-primary); }
+}
+
+@keyframes textFlicker {
+    0% { opacity: 1; }
+    3% { opacity: 0.8; }
+    6% { opacity: 1; }
+    9% { opacity: 0.8; }
+    12% { opacity: 1; }
+    50% { opacity: 1; }
+    70% { opacity: 0.7; }
+    72% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+body {
+    background-color: var(--cyberpunk-background);
+    color: var(--cyberpunk-text);
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated grid overlay */
+.theme-cyberpunk::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: -1;
+    animation: gridMove 20s linear infinite;
+    will-change: background-position;
+}
+
+/* Scanline effect */
+.theme-cyberpunk::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to bottom, 
+        rgba(255, 0, 160, 0) 0%,
+        rgba(255, 0, 160, 0.2) 50%,
+        rgba(255, 0, 160, 0) 100%);
+    pointer-events: none;
+    z-index: 2;
+    animation: scanline 5s linear infinite;
+    will-change: transform;
+}
+
+/* Data flow effect */
+.data-flow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(0, 240, 255, 0.05) 20%,
+        rgba(0, 240, 255, 0.05) 30%,
+        transparent 50%,
+        transparent 70%,
+        rgba(255, 0, 160, 0.05) 80%,
+        rgba(255, 0, 160, 0.05) 90%,
+        transparent 100%);
+    background-size: 200% 100%;
+    pointer-events: none;
+    z-index: -1;
+    animation: dataFlow 10s linear infinite;
+    will-change: background-position;
+}
+
+.navbar {
+    background: var(--cyberpunk-dark);
+    border-bottom: 2px solid var(--cyberpunk-primary);
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.nav-logo {
+    color: var(--cyberpunk-primary);
+    font-weight: 600;
+    animation: neonPulse 2s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.nav-link {
+    color: var(--cyberpunk-text);
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--cyberpunk-secondary);
+    opacity: 1;
+    text-shadow: 0 0 5px var(--cyberpunk-secondary);
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, var(--cyberpunk-primary), var(--cyberpunk-secondary));
+    border: none;
+    color: var(--cyberpunk-dark);
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    animation: buttonGlow 3s infinite;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.7);
+    animation: none;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: rotate(30deg);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.btn-primary:hover::after {
+    transform: rotate(30deg) translate(50%, 50%);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid var(--cyberpunk-primary);
+    color: var(--cyberpunk-primary);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    transform: translateY(-2px) scale(1.05);
+}
+
+.btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.btn-secondary:hover::before {
+    left: 100%;
+}
+
+.card {
+    background-color: rgba(10, 10, 32, 0.7);
+    border: 1px solid var(--cyberpunk-primary);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyberpunk-primary), var(--cyberpunk-secondary));
+}
+
+.card-title {
+    color: var(--cyberpunk-primary);
+    font-weight: 600;
+}
+
+.card-img-top {
+    border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+input, select, textarea {
+    background-color: rgba(5, 5, 16, 0.7);
+    border: 1px solid var(--cyberpunk-primary);
+    color: var(--cyberpunk-text);
+}
+
+input:focus, select:focus, textarea:focus {
+    background-color: rgba(5, 5, 16, 0.9);
+    border-color: var(--cyberpunk-secondary);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    color: var(--cyberpunk-text);
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Settings page specific */
+.settings-section {
+    background-color: rgba(10, 10, 32, 0.7);
+    border: 1px solid var(--cyberpunk-primary);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.settings-section h2 {
+    color: var(--cyberpunk-primary);
+    border-bottom: 1px solid var(--cyberpunk-primary);
+    animation: neonPulse 2s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.setting-description {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.toggle-switch .slider {
+    background-color: var(--cyberpunk-dark);
+    border: 1px solid var(--cyberpunk-primary);
+}
+
+.toggle-switch .slider:before {
+    background-color: var(--cyberpunk-primary);
+}
+
+.toggle-switch input:checked + .slider {
+    background-color: var(--cyberpunk-secondary);
+}
+
+.toggle-switch input:checked + .slider:before {
+    background-color: var(--cyberpunk-text);
+}
+
+.secondary-button {
+    background-color: transparent;
+    border: 1px solid var(--cyberpunk-primary);
+    color: var(--cyberpunk-primary);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+.secondary-button:hover {
+    background-color: rgba(0, 240, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+    transform: translateY(-2px) scale(1.05);
+}
+
+.secondary-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.secondary-button:hover::before {
+    left: 100%;
+}
+
+/* Game card hover effect */
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+}
+
+.game-card:hover .card-title {
+    animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+    animation-delay: 0.5s;
+    color: var(--cyberpunk-secondary);
+}
+
+.game-card:hover img {
+    filter: brightness(1.2) contrast(1.1);
+}
+
+/* Animation delays for staggered appearance */
+.settings-section:nth-child(1) { animation-delay: 0.1s; }
+.settings-section:nth-child(2) { animation-delay: 0.2s; }
+.settings-section:nth-child(3) { animation-delay: 0.3s; }
+.settings-section:nth-child(4) { animation-delay: 0.4s; }
+.settings-section:nth-child(5) { animation-delay: 0.5s; }

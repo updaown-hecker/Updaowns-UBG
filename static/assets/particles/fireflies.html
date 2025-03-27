@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fireflies Effect</title>
+  <style>
+    html, body {
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="firefliesCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("firefliesCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Set canvas dimensions to fill the screen
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Firefly class
+    class Firefly {
+      constructor() {
+        this.size = Math.random() * 4 + 2;
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.speedX = (Math.random() - 0.5) * 1.5;
+        this.speedY = (Math.random() - 0.5) * 1.5;
+        this.glowSize = this.size * 5;
+        this.baseOpacity = Math.random() * 0.5 + 0.2;
+        this.opacity = this.baseOpacity;
+        this.pulseSpeed = Math.random() * 0.01 + 0.005;
+        this.pulseAngle = Math.random() * Math.PI * 2;
+        this.hue = Math.random() * 40 + 40; // Yellow to orange hues
+        this.lifespan = Math.random() * 500 + 500;
+        this.age = 0;
+      }
+
+      move() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        
+        // Pulse the opacity for a glowing effect
+        this.pulseAngle += this.pulseSpeed;
+        this.opacity = this.baseOpacity + Math.sin(this.pulseAngle) * 0.3;
+        
+        // Slightly change direction randomly
+        if (Math.random() < 0.05) {
+          this.speedX += (Math.random() - 0.5) * 0.2;
+          this.speedY += (Math.random() - 0.5) * 0.2;
+          
+          // Limit speed
+          const speed = Math.sqrt(this.speedX * this.speedX + this.speedY * this.speedY);
+          if (speed > 2) {
+            this.speedX = (this.speedX / speed) * 2;
+            this.speedY = (this.speedY / speed) * 2;
+          }
+        }
+        
+        // Bounce off edges
+        if (this.x < 0 || this.x > canvas.width) {
+          this.speedX *= -1;
+        }
+        if (this.y < 0 || this.y > canvas.height) {
+          this.speedY *= -1;
+        }
+        
+        // Age the firefly
+        this.age++;
+        if (this.age > this.lifespan) {
+          this.reset();
+        }
+      }
+
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.speedX = (Math.random() - 0.5) * 1.5;
+        this.speedY = (Math.random() - 0.5) * 1.5;
+        this.age = 0;
+        this.lifespan = Math.random() * 500 + 500;
+      }
+
+      draw() {
+        // Draw glow
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.glowSize, 0, Math.PI * 2);
+        const gradient = ctx.createRadialGradient(
+          this.x, this.y, 0,
+          this.x, this.y, this.glowSize
+        );
+        gradient.addColorStop(0, `hsla(${this.hue}, 100%, 70%, ${this.opacity})`);
+        gradient.addColorStop(1, `hsla(${this.hue}, 100%, 50%, 0)`);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+        
+        // Draw core
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${this.hue}, 100%, 80%, ${this.opacity * 1.5})`;
+        ctx.fill();
+      }
+    }
+
+    // Create an array of fireflies
+    const fireflies = Array.from({ length: 70 }, () => new Firefly());
+
+    // Animation loop
+    function animateFireflies() {
+      // Clear with a semi-transparent black to create trails
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      fireflies.forEach(firefly => {
+        firefly.move();
+        firefly.draw();
+      });
+      requestAnimationFrame(animateFireflies);
+    }
+
+    animateFireflies();
+  </script>
+</body>
+</html>

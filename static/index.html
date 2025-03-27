@@ -19,6 +19,8 @@
     <script src="assets/js/background.js"></script>
     <script src="assets/js/theme-loader.js"></script>
     <script src="assets/js/background-elements.js"></script>
+    <script src="assets/js/particles-loader.js"></script>
+    <script src="assets/js/coin-tracker.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -27,9 +29,23 @@
             <a href="index.html" class="nav-link">Games</a>
             <a href="apps.html" class="nav-link">Apps</a>
             <a href="settings.html" class="nav-link">Settings</a>
+            <a href="help.html" class="nav-link">Help</a>
+            <a href="login.html" class="nav-link" id="authLink">Login</a>
         </div>
     </nav>
     <div class="container">
+        <div id="account-status" style="text-align: center; margin-bottom: 20px; display: none;">
+            <div style="background: rgba(30, 30, 30, 0.8); padding: 15px; border-radius: 10px; display: inline-flex; align-items: center; gap: 15px;">
+                <div id="user-info" style="text-align: left;">
+                    <div id="username" style="font-weight: bold; font-size: 18px;"></div>
+                    <a href="account.html" style="color: var(--accent-color, #7289da); text-decoration: none; font-size: 14px;">View Account</a>
+                </div>
+                <div style="display: flex; align-items: center; background: rgba(255, 215, 0, 0.1); padding: 8px 15px; border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.3);">
+                    <div style="width: 20px; height: 20px; background: #ffd700; border-radius: 50%; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333;">$</div>
+                    <span id="coin-amount" style="font-weight: 600; font-size: 16px; color: #ffd700;">0</span>
+                </div>
+            </div>
+        </div>
         <h1>Play Unblocked Games</h1>
         <p class="subtitle">Access and play games anywhere</p>
         <p class="subtitle"><strong>Note:</strong> Some games may take longer to open if you are new to the site!</p>
@@ -40,6 +56,27 @@
         <!-- Search Feature -->
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Search games...">
+        </div>
+
+        <!-- Coin Information -->
+        <div id="coin-info" style="background: rgba(30, 30, 30, 0.8); border-radius: 10px; padding: 15px; margin: 20px 0; text-align: center;">
+            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 10px;">
+                <div style="width: 30px; height: 30px; background: #ffd700; border-radius: 50%; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333;">$</div>
+                <h3 style="margin: 0; color: #ffd700;">Earn Coins While Playing!</h3>
+            </div>
+            <p style="margin: 0 0 10px 0;">Play games to earn coins and unlock awesome themes and particle effects!</p>
+            <div style="display: flex; justify-content: center; gap: 15px;">
+                <div style="background: rgba(50, 50, 50, 0.5); padding: 8px 12px; border-radius: 5px;">
+                    <strong>1 coin</strong> per minute of gameplay
+                </div>
+                <div style="background: rgba(50, 50, 50, 0.5); padding: 8px 12px; border-radius: 5px;">
+                    <strong>Themes:</strong> 50 coins each
+                </div>
+                <div style="background: rgba(50, 50, 50, 0.5); padding: 8px 12px; border-radius: 5px;">
+                    <strong>Particles:</strong> 30 coins each
+                </div>
+            </div>
+            <a href="help.html" style="display: inline-block; margin-top: 10px; color: #7289da; text-decoration: none;">Learn more about coins →</a>
         </div>
 
         <div id="gamesContainer"></div>
@@ -57,11 +94,7 @@
         <object id="gameObject" type="text/html" style="width: 100%; height: 100%;" data=""></object>
     </div>
 
-    <!-- Toggle Switch -->
-    <label class="toggle-switch">
-    <input type="checkbox" id="toggle-rain">
-    <span class="slider"></span>
-    </label>
+    
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -204,63 +237,86 @@ var games =[
   });
 });
 
-const toggleRainSwitch = document.getElementById("toggle-rain");
-let rainOverlay = null;
-
-const isRainEnabled = localStorage.getItem("rainEnabled") === "true";
-toggleRainSwitch.checked = isRainEnabled;
-
-if (isRainEnabled) {
-  rainOverlay = document.createElement("iframe");
-  rainOverlay.id = "rain-overlay";
-  rainOverlay.src = "assets/particles/rain.html";
-  document.body.appendChild(rainOverlay);
+// Check authentication status and update UI
+function checkAuthStatus() {
+    const authToken = localStorage.getItem('authToken');
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const authLink = document.getElementById('authLink');
+    const accountStatus = document.getElementById('account-status');
+    
+    if (authToken && userData) {
+        // User is logged in
+        authLink.textContent = 'Account';
+        authLink.href = 'account.html';
+        
+        // Show account status
+        if (accountStatus) {
+            accountStatus.style.display = 'block';
+            document.getElementById('username').textContent = userData.username || 'User';
+            document.getElementById('coin-amount').textContent = userData.coins || '0';
+        }
+    } else {
+        // User is not logged in
+        authLink.textContent = 'Login';
+        authLink.href = 'login.html';
+        
+        // Hide account status
+        if (accountStatus) {
+            accountStatus.style.display = 'none';
+        }
+    }
+}
+        
+// Initialize coin tracker when a game is opened
+function openGame(url, name) {
+    // Start tracking coins if user is logged in
+    const authToken = localStorage.getItem('authToken');
+    if (authToken && window.coinTracker) {
+        // Use the game name as the ID
+        window.coinTracker.init(name);
+    }
+            
+    // Open the game
+    iframeContainer.style.display = "flex";
+    gameObject.src = url;
+    gameObject.onload = function() {
+        loadingIndicator.style.display = "none";
+    };
+    loadingIndicator.style.display = "block";
 }
 
-toggleRainSwitch.addEventListener("change", event => {
-  const isChecked = event.target.checked;
-
-  if (isChecked) {
-    if (!rainOverlay) {
-      rainOverlay = document.createElement("iframe");
-      rainOverlay.id = "rain-overlay";
-      rainOverlay.src = "assets/particles/rain.html";
-      document.body.appendChild(rainOverlay);
-    }
-  } else {
-    if (rainOverlay) {
-      rainOverlay.remove();
-      rainOverlay = null;
-    }
-  }
-
-  localStorage.setItem("rainEnabled", isChecked);
+// Run auth check when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    checkAuthStatus();
+    applySettings();
 });
-// Apply saved settings
-        const applySettings = () => {
-            const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
-            
-            // Set default title if no settings exist
-            document.title = settings.pageTitle || 'Google';
-            
-            // Set default favicon if no settings exist
-            const faviconPath = settings.cloakPreset ? {
-                'google': 'assets/favicon/google.ico',
-                'drive': 'assets/favicon/drive.ico',
-                'classroom': 'assets/favicon/classroom.ico',
-                'canvas': 'assets/favicon/canvas.ico'
-            }[settings.cloakPreset] : 'assets/favicon/google.ico';
 
-            const links = document.querySelectorAll('link[rel="icon"]');
-            links.forEach(link => link.remove());
-            const newLink = document.createElement('link');
-            newLink.rel = 'icon';
-            newLink.href = faviconPath;
-            document.head.appendChild(newLink);
-        };
+// Apply saved settings
+const applySettings = () => {
+    const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+            
+    // Set default title if no settings exist
+    document.title = settings.pageTitle || 'Google';
+            
+    // Set default favicon if no settings exist
+    const faviconPath = settings.cloakPreset ? {
+        'google': 'assets/favicon/google.ico',
+        'drive': 'assets/favicon/drive.ico',
+        'classroom': 'assets/favicon/classroom.ico',
+        'canvas': 'assets/favicon/canvas.ico'
+    }[settings.cloakPreset] : 'assets/favicon/google.ico';
+
+    const links = document.querySelectorAll('link[rel="icon"]');
+    links.forEach(link => link.remove());
+    const newLink = document.createElement('link');
+    newLink.rel = 'icon';
+    newLink.href = faviconPath;
+    document.head.appendChild(newLink);
+};
         
-        // Apply settings when page loads
-        document.addEventListener('DOMContentLoaded', applySettings);
-        </script>
+// Apply settings when page loads
+document.addEventListener('DOMContentLoaded', applySettings);
+    </script>
+
 </body>
 </html>

@@ -1,0 +1,376 @@
+/* Pastel Theme - Performance Optimized */
+:root {
+    --pastel-primary: #ffafcc;
+    --pastel-secondary: #a2d2ff;
+    --pastel-background: #feeafa;
+    --pastel-text: #5e5e5e;
+    --pastel-accent: #bde0fe;
+    --pastel-dark: #cdb4db;
+}
+
+@keyframes pastelFloat {
+    0% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+    100% { transform: translateY(0) rotate(0); }
+}
+
+@keyframes pastelGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes bubbleFloat {
+    0% { transform: translate(0, 0); opacity: 0; }
+    50% { opacity: 0.7; }
+    100% { transform: translate(var(--bubble-x, 20px), calc(-1 * var(--bubble-y, 100px))); opacity: 0; }
+}
+
+@keyframes pastelGlow {
+    0% { text-shadow: 0 0 5px rgba(255, 175, 204, 0.5); }
+    50% { text-shadow: 0 0 10px rgba(162, 210, 255, 0.5); }
+    100% { text-shadow: 0 0 5px rgba(255, 175, 204, 0.5); }
+}
+
+@keyframes buttonFloat {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes softSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.05); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.05); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes rainbowBorder {
+    0% { border-color: var(--pastel-primary); }
+    33% { border-color: var(--pastel-secondary); }
+    66% { border-color: var(--pastel-dark); }
+    100% { border-color: var(--pastel-primary); }
+}
+
+body {
+    background-color: var(--pastel-background);
+    color: var(--pastel-text);
+    font-family: "Inter", sans-serif;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated pastel gradient overlay */
+.theme-pastel::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(255, 175, 204, 0.2), 
+        rgba(162, 210, 255, 0.2), 
+        rgba(205, 180, 219, 0.2), 
+        rgba(189, 224, 254, 0.2)
+    );
+    background-size: 400% 400%;
+    animation: pastelGradient 15s ease infinite;
+    pointer-events: none;
+    z-index: -1;
+    will-change: background-position;
+}
+
+/* Soft clouds effect */
+.theme-pastel::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0%, transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.8) 0%, transparent 60%);
+    opacity: 0.5;
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Floating bubbles */
+.bubble {
+    position: fixed;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, 
+        rgba(255, 255, 255, 0.9), 
+        rgba(255, 175, 204, 0.6) 70%);
+    box-shadow: 0 0 10px rgba(255, 175, 204, 0.3);
+    opacity: 0;
+    animation: bubbleFloat calc(var(--bubble-duration, 10) * 1s) ease-in infinite;
+    animation-delay: calc(var(--bubble-delay, 0) * -5s);
+    will-change: transform, opacity;
+    pointer-events: none;
+}
+
+.bubble:nth-child(even) {
+    background: radial-gradient(circle at 30% 30%, 
+        rgba(255, 255, 255, 0.9), 
+        rgba(162, 210, 255, 0.6) 70%);
+    box-shadow: 0 0 10px rgba(162, 210, 255, 0.3);
+}
+
+/* Floating hearts */
+.heart {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='rgba(255, 175, 204, 0.6)' d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    animation: pastelFloat calc(var(--heart-duration, 15) * 1s) ease-in-out infinite;
+    animation-delay: calc(var(--heart-delay, 0) * -5s);
+    pointer-events: none;
+}
+
+/* Rainbow spinner */
+.rainbow-spinner {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: var(--pastel-primary);
+    border-right-color: var(--pastel-secondary);
+    border-bottom-color: var(--pastel-accent);
+    border-left-color: var(--pastel-dark);
+    opacity: 0.3;
+    animation: softSpin 15s linear infinite;
+    pointer-events: none;
+}
+
+.navbar {
+    background: var(--pastel-dark);
+    border-bottom: 2px solid var(--pastel-primary);
+    position: relative;
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.nav-logo {
+    color: var(--pastel-text);
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(255, 175, 204, 0.5);
+    animation: pastelGlow 4s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.nav-link {
+    color: var(--pastel-text);
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--pastel-primary);
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(255, 175, 204, 0.5);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--pastel-primary), var(--pastel-secondary));
+    border: none;
+    color: white;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(255, 175, 204, 0.3);
+    transition: all 0.4s ease;
+    animation: buttonFloat 3s ease-in-out infinite;
+}
+
+.btn-primary:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(255, 175, 204, 0.5);
+    animation: heartbeat 1.5s infinite;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        rgba(255, 175, 204, 0.5), 
+        rgba(162, 210, 255, 0.5), 
+        rgba(205, 180, 219, 0.5));
+    background-size: 200% 200%;
+    animation: pastelGradient 3s ease infinite;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+}
+
+.btn-primary:hover::after {
+    opacity: 0.5;
+}
+
+.btn-secondary {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 2px solid var(--pastel-primary);
+    color: var(--pastel-text);
+    font-weight: 500;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(255, 175, 204, 0.2);
+    transition: all 0.4s ease;
+    animation: rainbowBorder 6s ease-in-out infinite;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 20px rgba(255, 175, 204, 0.4);
+    transform: translateY(-5px) scale(1.03);
+    color: var(--pastel-primary);
+}
+
+.secondary-button {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 2px solid var(--pastel-primary);
+    color: var(--pastel-text);
+    transition: all 0.4s ease;
+    border-radius: 25px;
+    box-shadow: 0 4px 10px rgba(255, 175, 204, 0.2);
+    font-weight: 500;
+    animation: rainbowBorder 6s ease-in-out infinite;
+}
+
+.secondary-button:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 20px rgba(255, 175, 204, 0.4);
+    transform: translateY(-5px) scale(1.03);
+    color: var(--pastel-primary);
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--pastel-primary);
+    box-shadow: 0 0 15px rgba(255, 175, 204, 0.2);
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(255, 175, 204, 0.4);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--pastel-primary), var(--pastel-secondary));
+}
+
+.card-title {
+    color: var(--pastel-text);
+    font-weight: 600;
+}
+
+.card-img-top {
+    border-bottom: 1px solid rgba(255, 175, 204, 0.2);
+}
+
+input, select, textarea {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--pastel-primary);
+    color: var(--pastel-text);
+}
+
+input:focus, select:focus, textarea:focus {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-color: var(--pastel-secondary);
+    box-shadow: 0 0 10px rgba(255, 175, 204, 0.3);
+    color: var(--pastel-text);
+}
+
+.form-control::placeholder {
+    color: rgba(94, 94, 94, 0.5);
+}
+
+/* Settings page specific */
+.settings-section {
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid var(--pastel-primary);
+    box-shadow: 0 0 15px rgba(255, 175, 204, 0.2);
+    animation: fadeIn 0.5s ease-out;
+    will-change: opacity;
+}
+
+.settings-section h2 {
+    color: var(--pastel-text);
+    border-bottom: 1px solid var(--pastel-primary);
+    animation: pastelGlow 4s ease-in-out infinite;
+    will-change: text-shadow;
+}
+
+.setting-description {
+    color: rgba(94, 94, 94, 0.8);
+}
+
+.toggle-switch .slider {
+    background-color: var(--pastel-dark);
+    border: 1px solid var(--pastel-primary);
+}
+
+.toggle-switch .slider:before {
+    background-color: white;
+}
+
+.toggle-switch input:checked + .slider {
+    background-color: var(--pastel-primary);
+}
+
+.toggle-switch input:checked + .slider:before {
+    background-color: white;
+}
+
+/* Game card hover effect */
+.game-card:hover {
+    transform: translateY(-8px) rotate(1deg);
+    box-shadow: 0 15px 30px rgba(255, 175, 204, 0.4);
+    border-color: var(--pastel-secondary);
+}
+
+.game-card:hover .card-title {
+    color: var(--pastel-primary);
+    animation: pastelGlow 2s ease-in-out infinite;
+}
+
+.game-card:hover img {
+    filter: brightness(1.1) contrast(1.05) saturate(1.2);
+    transform: scale(1.05);
+    transition: all 0.5s ease;
+}
+
+/* Animation delays for staggered appearance */
+.settings-section:nth-child(1) { animation-delay: 0.1s; }
+.settings-section:nth-child(2) { animation-delay: 0.2s; }
+.settings-section:nth-child(3) { animation-delay: 0.3s; }
+.settings-section:nth-child(4) { animation-delay: 0.4s; }
+.settings-section:nth-child(5) { animation-delay: 0.5s; }

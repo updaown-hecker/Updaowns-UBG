@@ -250,6 +250,56 @@ input:checked + .slider:before {
 .secondary-button:hover {
     background: var(--border);
 }
+
+/* Particle options styling */
+.particles-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 15px;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.particle-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.particle-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.particle-option label:first-child {
+    font-weight: 500;
+    color: var(--text);
+}
+
+.setting-note {
+    font-size: 0.85rem;
+    color: var(--secondary-text);
+    font-style: italic;
+    margin-top: 5px;
+    opacity: 0.8;
+}
+
+/* Style for iframe overlays */
+iframe[id$="-overlay"] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    pointer-events: none;
+    z-index: -1;
+}
+
 /* Add styles for the overlay iframe */
 #rain-overlay {
 position: fixed;

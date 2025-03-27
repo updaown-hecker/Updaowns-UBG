@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bubbles Effect</title>
+  <style>
+    html, body {
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bubblesCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("bubblesCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Set canvas dimensions to fill the screen
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    // Bubble class
+    class Bubble {
+      constructor() {
+        this.size = Math.random() * 30 + 10;
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + this.size;
+        this.speed = Math.random() * 2 + 0.5;
+        this.opacity = Math.random() * 0.4 + 0.1;
+        this.hue = Math.random() * 60 + 180; // Blue to cyan hues
+        this.wobbleSpeed = Math.random() * 0.03 + 0.01;
+        this.wobbleDistance = Math.random() * 2 + 1;
+        this.wobbleAngle = Math.random() * Math.PI * 2;
+        this.glowIntensity = Math.random() * 0.5 + 0.2;
+      }
+
+      rise() {
+        this.y -= this.speed;
+        this.wobbleAngle += this.wobbleSpeed;
+        this.x += Math.sin(this.wobbleAngle) * this.wobbleDistance;
+        
+        if (this.y < -this.size) {
+          this.reset();
+        }
+      }
+
+      reset() {
+        this.size = Math.random() * 30 + 10;
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + this.size;
+        this.speed = Math.random() * 2 + 0.5;
+        this.opacity = Math.random() * 0.4 + 0.1;
+        this.hue = Math.random() * 60 + 180;
+      }
+
+      draw() {
+        // Draw bubble
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        
+        // Create gradient for bubble
+        const gradient = ctx.createRadialGradient(
+          this.x - this.size * 0.3, 
+          this.y - this.size * 0.3, 
+          0, 
+          this.x, 
+          this.y, 
+          this.size
+        );
+        gradient.addColorStop(0, `hsla(${this.hue}, 100%, 90%, ${this.opacity * 1.5})`);
+        gradient.addColorStop(0.5, `hsla(${this.hue}, 100%, 70%, ${this.opacity})`);
+        gradient.addColorStop(1, `hsla(${this.hue}, 100%, 50%, ${this.opacity * 0.5})`);
+        
+        ctx.fillStyle = gradient;
+        ctx.fill();
+        
+        // Draw highlight
+        ctx.beginPath();
+        ctx.arc(this.x - this.size * 0.3, this.y - this.size * 0.3, this.size * 0.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 1.5})`;
+        ctx.fill();
+        
+        // Draw glow
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 1.2, 0, Math.PI * 2);
+        const glowGradient = ctx.createRadialGradient(
+          this.x, this.y, this.size * 0.8, 
+          this.x, this.y, this.size * 1.2
+        );
+        glowGradient.addColorStop(0, `hsla(${this.hue}, 100%, 70%, ${this.opacity * this.glowIntensity})`);
+        glowGradient.addColorStop(1, `hsla(${this.hue}, 100%, 70%, 0)`);
+        ctx.fillStyle = glowGradient;
+        ctx.fill();
+      }
+    }
+
+    // Create an array of bubbles
+    const bubbles = Array.from({ length: 50 }, () => new Bubble());
+
+    // Animation loop
+    function animateBubbles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      bubbles.forEach(bubble => {
+        bubble.rise();
+        bubble.draw();
+      });
+      requestAnimationFrame(animateBubbles);
+    }
+
+    animateBubbles();
+  </script>
+</body>
+</html>

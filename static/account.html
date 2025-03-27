@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSHBZ8D1X7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KSHBZ8D1X7');
+    </script>
+    <script>
+        // Check if about:blank is enabled and if we're not already in an about:blank page
+        if (localStorage.getItem('aboutBlank') === 'true' && window.location.href !== 'about:blank') {
+            const win = window.open();
+            win.document.body.style.margin = '0';
+            win.document.body.style.height = '100vh';
+            const iframe = win.document.createElement('iframe');
+            iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.margin = '0';
+            iframe.src = window.location.href;
+            win.document.body.appendChild(iframe);
+            window.location.replace('about:blank');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" href="/assets/favicon/google.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/settings.css">
+    <script src="assets/js/panic.js"></script>
+    <script src="assets/js/background.js"></script>
+    <script src="assets/js/theme-loader.js"></script>
+    <script src="assets/js/background-elements.js"></script>
+    <script src="assets/js/particles-loader.js"></script>
+    <style>
+        .account-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .account-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .account-info h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .account-info p {
+            margin: 5px 0 0;
+            opacity: 0.7;
+        }
+        
+        .coin-display {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 10px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .coin-icon {
+            width: 24px;
+            height: 24px;
+            background: #ffd700;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .coin-amount {
+            font-weight: 600;
+            font-size: 18px;
+            color: #ffd700;
+        }
+        
+        .account-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .account-section {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .account-section h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .item-card {
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .item-card.locked {
+            opacity: 0.5;
+            filter: grayscale(0.8);
+        }
+        
+        .item-card.active {
+            border: 2px solid var(--accent-color, #7289da);
+        }
+        
+        .item-card:hover {
+            background: rgba(60, 60, 60, 0.7);
+        }
+        
+        .item-name {
+            font-weight: 500;
+            margin: 5px 0;
+        }
+        
+        .item-price {
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 5px;
+            color: #ffd700;
+        }
+        
+        .item-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .unlock-button {
+            background: var(--accent-color, #7289da);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin-top: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
+        }
+        
+        .unlock-button:hover {
+            background: var(--accent-hover, #5a6ebd);
+        }
+        
+        .logout-button {
+            background: #ff5555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .logout-button:hover {
+            background: #e04444;
+        }
+        
+        .stats-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .stats-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .stats-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .stats-label {
+            opacity: 0.7;
+        }
+        
+        .stats-value {
+            font-weight: 500;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .notification.error {
+            border-left: 4px solid #f44336;
+        }
+        
+        /* For users not logged in */
+        .not-logged-in {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .not-logged-in h2 {
+            margin-bottom: 20px;
+        }
+        
+        .login-redirect {
+            display: inline-block;
+            background: var(--accent-color, #7289da);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .login-redirect:hover {
+            background: var(--accent-hover, #5a6ebd);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Unblocked Games</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Games</a>
+            <a href="apps.html" class="nav-link">Apps</a>
+            <a href="settings.html" class="nav-link">Settings</a>
+            <a href="account.html" class="nav-link active" id="authLink">Account</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- Content will be dynamically loaded based on authentication status -->
+        <div id="account-content"></div>
+    </div>
+    
+    <!-- Notification element -->
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        // Check authentication status
+        function checkAuth() {
+            const authToken = localStorage.getItem('authToken');
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const accountContent = document.getElementById('account-content');
+            const authLink = document.getElementById('authLink');
+            
+            if (authToken && userData) {
+                authLink.textContent = 'Account';
+                loadAccountPage(userData);
+            } else {
+                authLink.textContent = 'Login';
+                loadLoginPrompt();
+            }
+        }
+        
+        // Load login prompt for users not logged in
+        function loadLoginPrompt() {
+            const accountContent = document.getElementById('account-content');
+            accountContent.innerHTML = `
+                <div class="not-logged-in">
+                    <h2>You need to be logged in to view this page</h2>
+                    <p>Create an account to earn coins and unlock themes and particles!</p>
+                    <a href="login.html" class="login-redirect">Login or Register</a>
+                </div>
+            `;
+        }
+        
+        // Load account page for logged in users
+        function loadAccountPage(userData) {
+            // Fetch latest user data from server
+            fetchUserProfile()
+                .then(data => {
+                    if (data.success) {
+                        renderAccountPage(data.user);
+                    } else {
+                        // If token is invalid, log out
+                        logout();
+                        loadLoginPrompt();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching profile:', error);
+                    // Use cached user data if server request fails
+                    renderAccountPage(userData);
+                });
+        }
+        
+        // Fetch user profile from server
+        async function fetchUserProfile() {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/auth/profile', {
+                    method: 'GET',
+                    headers: {
+                        'x-auth-token': token
+                    }
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Profile fetch error:', error);
+                throw error;
+            }
+        }
+        
+        // Render account page with user data
+        function renderAccountPage(user) {
+            const accountContent = document.getElementById('account-content');
+            
+            // Update localStorage with latest user data
+            localStorage.setItem('userData', JSON.stringify(user));
+            
+            accountContent.innerHTML = `
+                <div class="account-container">
+                    <div class="account-header">
+                        <div class="account-info">
+                            <h1>Welcome, ${user.username}</h1>
+                            <p>${user.email}</p>
+                        </div>
+                        <div class="account-actions">
+                            <div class="coin-display">
+                                <div class="coin-icon">$</div>
+                                <span class="coin-amount">${user.coins}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="account-grid">
+                        <div class="account-section">
+                            <h2>Themes</h2>
+                            <div class="item-grid" id="themes-grid">
+                                <!-- Themes will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <div class="account-section">
+                            <h2>Particle Effects</h2>
+                            <div class="item-grid" id="particles-grid">
+                                <!-- Particles will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <div class="account-section">
+                            <h2>Account Stats</h2>
+                            <ul class="stats-list">
+                                <li>
+                                    <span class="stats-label">Account Created</span>
+                                    <span class="stats-value">${new Date(user.createdAt).toLocaleDateString()}</span>
+                                </li>
+                                <li>
+                                    <span class="stats-label">Last Login</span>
+                                    <span class="stats-value">${new Date(user.lastLogin).toLocaleDateString()}</span>
+                                </li>
+                                <li>
+                                    <span class="stats-label">Total Coins</span>
+                                    <span class="stats-value">${user.coins}</span>
+                                </li>
+                                <li>
+                                    <span class="stats-label">Unlocked Themes</span>
+                                    <span class="stats-value">${user.unlockedThemes.length}</span>
+                                </li>
+                                <li>
+                                    <span class="stats-label">Unlocked Particles</span>
+                                    <span class="stats-value">${user.unlockedParticles.length}</span>
+                                </li>
+                            </ul>
+                            <button class="logout-button" id="logout-button" style="margin-top: 15px; width: 100%;">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Load themes
+            loadThemes(user.unlockedThemes, user.selectedTheme);
+            
+            // Load particles
+            loadParticles(user.unlockedParticles, user.selectedParticles);
+            
+            // Add logout event listener
+            document.getElementById('logout-button').addEventListener('click', logout);
+        }
+        
+        // Load themes grid
+        function loadThemes(unlockedThemes, selectedTheme) {
+            const themesGrid = document.getElementById('themes-grid');
+            const allThemes = [
+                { id: 'default', name: 'Default', price: 0, icon: '🎨' },
+                { id: 'neon', name: 'Neon', price: 50, icon: '🌈' },
+                { id: 'sunset', name: 'Sunset', price: 50, icon: '🌅' },
+                { id: 'forest', name: 'Forest', price: 50, icon: '🌲' },
+                { id: 'ocean', name: 'Ocean', price: 50, icon: '🌊' },
+                { id: 'tech', name: 'Tech', price: 50, icon: '💻' },
+                { id: 'cyberpunk', name: 'Cyberpunk', price: 50, icon: '🤖' },
+                { id: 'midnight', name: 'Midnight', price: 50, icon: '🌙' },
+                { id: 'pastel', name: 'Pastel', price: 50, icon: '🎀' }
+            ];
+            
+            let html = '';
+            
+            allThemes.forEach(theme => {
+                const isUnlocked = unlockedThemes.includes(theme.id);
+                const isActive = selectedTheme === theme.id;
+                
+                html += `
+                    <div class="item-card ${isUnlocked ? '' : 'locked'} ${isActive ? 'active' : ''}" 
+                         data-theme="${theme.id}" 
+                         data-unlocked="${isUnlocked}">
+                        <div class="item-icon">${theme.icon}</div>
+                        <div class="item-name">${theme.name}</div>
+                        ${isUnlocked 
+                            ? (isActive 
+                                ? '<div class="item-price">Active</div>' 
+                                : '<button class="unlock-button activate-theme">Activate</button>') 
+                            : `<div class="item-price">${theme.price} coins</div>
+                               <button class="unlock-button purchase-theme">Unlock</button>`
+                        }
+                    </div>
+                `;
+            });
+            
+            themesGrid.innerHTML = html;
+            
+            // Add event listeners for theme activation and purchase
+            document.querySelectorAll('.activate-theme').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const themeId = this.closest('.item-card').getAttribute('data-theme');
+                    activateTheme(themeId);
+                });
+            });
+            
+            document.querySelectorAll('.purchase-theme').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const themeId = this.closest('.item-card').getAttribute('data-theme');
+                    const theme = allThemes.find(t => t.id === themeId);
+                    purchaseTheme(themeId, theme.price);
+                });
+            });
+        }
+        
+        // Load particles grid
+        function loadParticles(unlockedParticles, selectedParticles) {
+            const particlesGrid = document.getElementById('particles-grid');
+            const allParticles = [
+                { id: 'rain', name: 'Rain', price: 30, icon: '🌧️' },
+                { id: 'snow', name: 'Snow', price: 30, icon: '❄️' },
+                { id: 'confetti', name: 'Confetti', price: 30, icon: '🎉' },
+                { id: 'bubbles', name: 'Bubbles', price: 30, icon: '🫧' },
+                { id: 'fireflies', name: 'Fireflies', price: 30, icon: '✨' }
+            ];
+            
+            let html = '';
+            
+            allParticles.forEach(particle => {
+                const isUnlocked = unlockedParticles.includes(particle.id);
+                const isActive = selectedParticles.includes(particle.id);
+                
+                html += `
+                    <div class="item-card ${isUnlocked ? '' : 'locked'} ${isActive ? 'active' : ''}" 
+                         data-particle="${particle.id}" 
+                         data-unlocked="${isUnlocked}">
+                        <div class="item-icon">${particle.icon}</div>
+                        <div class="item-name">${particle.name}</div>
+                        ${isUnlocked 
+                            ? (isActive 
+                                ? '<button class="unlock-button deactivate-particle">Deactivate</button>' 
+                                : '<button class="unlock-button activate-particle">Activate</button>') 
+                            : `<div class="item-price">${particle.price} coins</div>
+                               <button class="unlock-button purchase-particle">Unlock</button>`
+                        }
+                    </div>
+                `;
+            });
+            
+            particlesGrid.innerHTML = html;
+            
+            // Add event listeners for particle activation/deactivation and purchase
+            document.querySelectorAll('.activate-particle').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const particleId = this.closest('.item-card').getAttribute('data-particle');
+                    toggleParticle(particleId, true);
+                });
+            });
+            
+            document.querySelectorAll('.deactivate-particle').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const particleId = this.closest('.item-card').getAttribute('data-particle');
+                    toggleParticle(particleId, false);
+                });
+            });
+            
+            document.querySelectorAll('.purchase-particle').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const particleId = this.closest('.item-card').getAttribute('data-particle');
+                    const particle = allParticles.find(p => p.id === particleId);
+                    purchaseParticle(particleId, particle.price);
+                });
+            });
+        }
+        
+        // Activate theme
+        async function activateTheme(themeId) {
+            // Update theme in localStorage
+            localStorage.setItem('theme', themeId);
+            
+            // Update user data
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            userData.selectedTheme = themeId;
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Refresh the page to apply theme
+            showNotification('Theme activated!', 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+        
+        // Toggle particle effect
+        function toggleParticle(particleId, activate) {
+            // Update particle in localStorage
+            localStorage.setItem(`particle_${particleId}`, activate ? 'true' : 'false');
+            
+            // Update user data
+            const userData = JSON.parse(localStorage.getItem('userData'));
+            if (activate) {
+                if (!userData.selectedParticles.includes(particleId)) {
+                    userData.selectedParticles.push(particleId);
+                }
+            } else {
+                userData.selectedParticles = userData.selectedParticles.filter(p => p !== particleId);
+            }
+            localStorage.setItem('userData', JSON.stringify(userData));
+            
+            // Refresh the page to apply changes
+            showNotification(activate ? 'Particle effect activated!' : 'Particle effect deactivated!', 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        }
+        
+        // Purchase theme
+        async function purchaseTheme(themeId, price) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/coins/purchase/theme', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify({ themeName: themeId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update user data
+                    const userData = JSON.parse(localStorage.getItem('userData'));
+                    userData.coins = data.remainingCoins;
+                    userData.unlockedThemes = data.unlockedThemes;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    showNotification(`Successfully purchased ${themeId} theme!`, 'success');
+                    
+                    // Refresh account page
+                    loadAccountPage(userData);
+                } else {
+                    showNotification(data.message || 'Purchase failed', 'error');
+                }
+            } catch (error) {
+                console.error('Theme purchase error:', error);
+                showNotification('An error occurred during purchase', 'error');
+            }
+        }
+        
+        // Purchase particle effect
+        async function purchaseParticle(particleId, price) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/coins/purchase/particle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify({ particleName: particleId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update user data
+                    const userData = JSON.parse(localStorage.getItem('userData'));
+                    userData.coins = data.remainingCoins;
+                    userData.unlockedParticles = data.unlockedParticles;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    showNotification(`Successfully purchased ${particleId} particle effect!`, 'success');
+                    
+                    // Refresh account page
+                    loadAccountPage(userData);
+                } else {
+                    showNotification(data.message || 'Purchase failed', 'error');
+                }
+            } catch (error) {
+                console.error('Particle purchase error:', error);
+                showNotification('An error occurred during purchase', 'error');
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            
+            // Reset theme and particles to default
+            localStorage.setItem('theme', 'default');
+            document.querySelectorAll('[id^="particle_"]').forEach(key => {
+                localStorage.removeItem(key);
+            });
+            
+            showNotification('You have been logged out', 'success');
+            
+            // Redirect to login page
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1000);
+        }
+        
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + type;
+            notification.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
+</body>
+</html>

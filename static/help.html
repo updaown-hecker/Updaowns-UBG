@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSHBZ8D1X7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KSHBZ8D1X7');
+    </script>
+    <script>
+        // Check if about:blank is enabled and if we're not already in an about:blank page
+        if (localStorage.getItem('aboutBlank') === 'true' && window.location.href !== 'about:blank') {
+            const win = window.open();
+            win.document.body.style.margin = '0';
+            win.document.body.style.height = '100vh';
+            const iframe = win.document.createElement('iframe');
+            iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.margin = '0';
+            iframe.src = window.location.href;
+            win.document.body.appendChild(iframe);
+            window.location.replace('about:blank');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" href="/assets/favicon/google.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/settings.css">
+    <script src="assets/js/panic.js"></script>
+    <script src="assets/js/background.js"></script>
+    <script src="assets/js/theme-loader.js"></script>
+    <script src="assets/js/background-elements.js"></script>
+    <script src="assets/js/particles-loader.js"></script>
+    <style>
+        .help-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .help-section {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .help-section h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            color: var(--accent-color, #7289da);
+        }
+        
+        .help-section h3 {
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .help-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .coin-info {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .coin-icon {
+            width: 40px;
+            height: 40px;
+            background: #ffd700;
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .coin-details h3 {
+            margin: 0 0 5px 0;
+            color: #ffd700;
+        }
+        
+        .coin-details p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .steps-list {
+            list-style-type: none;
+            counter-reset: steps;
+            padding: 0;
+        }
+        
+        .steps-list li {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 15px;
+            counter-increment: steps;
+        }
+        
+        .steps-list li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--accent-color, #7289da);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .price-table th, .price-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .price-table th {
+            background: rgba(70, 70, 70, 0.7);
+            font-weight: 600;
+            color: var(--accent-color, #7289da);
+        }
+        
+        .price-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .price-table .price {
+            color: #ffd700;
+            font-weight: 600;
+        }
+        
+        .tip-box {
+            background: rgba(114, 137, 218, 0.1);
+            border-left: 4px solid var(--accent-color, #7289da);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .tip-box h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--accent-color, #7289da);
+        }
+        
+        .tip-box p {
+            margin: 0;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--accent-color, #7289da);
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Unblocked Games</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Games</a>
+            <a href="apps.html" class="nav-link">Apps</a>
+            <a href="settings.html" class="nav-link">Settings</a>
+            <a href="help.html" class="nav-link active">Help</a>
+            <a href="login.html" class="nav-link" id="authLink">Login</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="help-container">
+            <div class="help-section">
+                <h2>Welcome to Unblocked Games!</h2>
+                <p>This help page will guide you through the features of our site, including how to earn and use coins, unlock themes and particles, and customize your experience.</p>
+                
+                <div class="coin-info">
+                    <div class="coin-icon">$</div>
+                    <div class="coin-details">
+                        <h3>Coin System</h3>
+                        <p>Earn coins by playing games and use them to unlock awesome themes and particle effects!</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="help-section">
+                <h2>How to Earn Coins</h2>
+                <p>Coins are earned based on how long you play games on our site. The longer you play, the more coins you earn!</p>
+                
+                <h3>Earning Rate:</h3>
+                <ul>
+                    <li>You earn <strong>1 coin per minute</strong> of gameplay</li>
+                    <li>Coins are automatically added to your account when you finish playing a game</li>
+                    <li>You must be logged in to earn and collect coins</li>
+                </ul>
+                
+                <h3>Step-by-Step Guide:</h3>
+                <ol class="steps-list">
+                    <li>Create an account or log in to your existing account</li>
+                    <li>Choose a game from our collection and start playing</li>
+                    <li>The longer you play, the more coins you'll earn</li>
+                    <li>When you exit the game, your coins will be automatically added to your account</li>
+                    <li>Check your coin balance in the top navigation bar or on your account page</li>
+                </ol>
+                
+                <div class="tip-box">
+                    <h4>Pro Tip!</h4>
+                    <p>Games track your play time even if you switch tabs or minimize the browser. However, if you close the game or log out, your session will end and coins will be awarded based on your play time.</p>
+                </div>
+            </div>
+            
+            <div class="help-section">
+                <h2>Using Your Coins</h2>
+                <p>Coins can be used to unlock various customization options for your experience on our site.</p>
+                
+                <h3>What You Can Buy:</h3>
+                <table class="price-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Themes</td>
+                            <td>Change the color scheme and appearance of the site</td>
+                            <td class="price">50 coins</td>
+                        </tr>
+                        <tr>
+                            <td>Particle Effects</td>
+                            <td>Add cool visual effects to the background</td>
+                            <td class="price">30 coins</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>Available Themes:</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <div class="feature-title">Default</div>
+                        <div class="feature-desc">The standard theme (Free)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌈</div>
+                        <div class="feature-title">Neon</div>
+                        <div class="feature-desc">Bright neon colors (50 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌅</div>
+                        <div class="feature-title">Sunset</div>
+                        <div class="feature-desc">Warm sunset colors (50 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌲</div>
+                        <div class="feature-title">Forest</div>
+                        <div class="feature-desc">Natural green tones (50 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌊</div>
+                        <div class="feature-title">Ocean</div>
+                        <div class="feature-desc">Cool blue ocean theme (50 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💻</div>
+                        <div class="feature-title">Tech</div>
+                        <div class="feature-desc">Modern tech-inspired (50 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <div class="feature-title">Cyberpunk</div>
+                        <div class="feature-desc">Futuristic cyberpunk style (50 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌙</div>
+                        <div class="feature-title">Midnight</div>
+                        <div class="feature-desc">Dark night theme (50 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎀</div>
+                        <div class="feature-title">Pastel</div>
+                        <div class="feature-desc">Soft pastel colors (50 coins)</div>
+                    </div>
+                </div>
+                
+                <h3>Available Particle Effects:</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🌧️</div>
+                        <div class="feature-title">Rain</div>
+                        <div class="feature-desc">Falling raindrops (30 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">❄️</div>
+                        <div class="feature-title">Snow</div>
+                        <div class="feature-desc">Gentle snowfall (30 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎉</div>
+                        <div class="feature-title">Confetti</div>
+                        <div class="feature-desc">Colorful confetti (30 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🫧</div>
+                        <div class="feature-title">Bubbles</div>
+                        <div class="feature-desc">Floating bubbles (30 coins)</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <div class="feature-title">Fireflies</div>
+                        <div class="feature-desc">Glowing fireflies (30 coins)</div>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>New User Bonus!</h4>
+                    <p>When you create a new account, you get to choose 2 free themes and 2 free particle effects to start with!</p>
+                </div>
+            </div>
+            
+            <div class="help-section">
+                <h2>Managing Your Account</h2>
+                <p>Your account page is where you can view your coin balance, unlock new themes and particles, and manage your account settings.</p>
+                
+                <h3>Account Features:</h3>
+                <ul>
+                    <li><strong>View Coin Balance:</strong> See how many coins you have earned</li>
+                    <li><strong>Unlock Items:</strong> Spend your coins to unlock new themes and particle effects</li>
+                    <li><strong>Activate Items:</strong> Choose which theme and particles to display</li>
+                    <li><strong>View Stats:</strong> See your account creation date, last login, and other stats</li>
+                </ul>
+                
+                <p>To access your account page, click on the "Account" link in the navigation bar after logging in.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Check authentication status and update UI
+        function checkAuthStatus() {
+            const authToken = localStorage.getItem('authToken');
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const authLink = document.getElementById('authLink');
+            
+            if (authToken && userData) {
+                // User is logged in
+                authLink.textContent = 'Account';
+                authLink.href = 'account.html';
+            } else {
+                // User is not logged in
+                authLink.textContent = 'Login';
+                authLink.href = 'login.html';
+            }
+        }
+        
+        // Run auth check when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuthStatus();
+        });
+    </script>
+</body>
+</html>

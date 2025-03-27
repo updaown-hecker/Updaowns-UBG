@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSHBZ8D1X7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KSHBZ8D1X7');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="icon" href="/assets/favicon/google.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/settings.css">
+    <script src="assets/js/panic.js"></script>
+    <script src="assets/js/background.js"></script>
+    <script src="assets/js/theme-loader.js"></script>
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .admin-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--accent-color, #7289da);
+            margin: 0;
+        }
+        
+        .admin-section {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .admin-section h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+        
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .user-table th, .user-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-table th {
+            background: rgba(50, 50, 50, 0.5);
+            font-weight: 500;
+            color: var(--accent-color, #7289da);
+        }
+        
+        .user-table tr:hover {
+            background: rgba(50, 50, 50, 0.3);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: var(--accent-color, #7289da);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a6ebd;
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #d32f2f;
+        }
+        
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #f57c00;
+        }
+        
+        .btn-success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #388E3C;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: #2a2a2a;
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-title {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        
+        .modal-close:hover {
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-container h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--accent-color, #7289da);
+        }
+        
+        .notification {
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .notification.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.4);
+            color: #f44336;
+        }
+        
+        .notification.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.4);
+            color: #4CAF50;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+        }
+        
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .badge-success {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid rgba(76, 175, 80, 0.4);
+        }
+        
+        .badge-warning {
+            background: rgba(255, 152, 0, 0.2);
+            color: #ff9800;
+            border: 1px solid rgba(255, 152, 0, 0.4);
+        }
+        
+        .badge-danger {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+            border: 1px solid rgba(244, 67, 54, 0.4);
+        }
+        
+        .badge-primary {
+            background: rgba(66, 133, 244, 0.2);
+            color: #4285f4;
+            border: 1px solid rgba(66, 133, 244, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Unblocked Games</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Games</a>
+            <a href="apps.html" class="nav-link">Apps</a>
+            <a href="settings.html" class="nav-link">Settings</a>
+            <a href="help.html" class="nav-link">Help</a>
+            <a href="login.html" class="nav-link" id="authLink">Login</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <!-- Admin Login Section -->
+        <div id="admin-login" class="login-container">
+            <h2>Admin Login</h2>
+            <div id="login-notification" class="notification"></div>
+            
+            <div class="form-group">
+                <label for="admin-username">Username</label>
+                <input type="text" id="admin-username" placeholder="Enter admin username">
+            </div>
+            
+            <div class="form-group">
+                <label for="admin-password">Password</label>
+                <input type="password" id="admin-password" placeholder="Enter admin password">
+            </div>
+            
+            <button id="admin-login-btn" class="btn btn-primary" style="width: 100%;">Login</button>
+        </div>
+        
+        <!-- Admin Dashboard Section -->
+        <div id="admin-dashboard" class="admin-container" style="display: none;">
+            <div class="admin-header">
+                <h1 class="admin-title">Admin Dashboard</h1>
+                <button id="admin-logout-btn" class="btn btn-danger">Logout</button>
+            </div>
+            
+            <div id="admin-panel"></div>
+            
+            <div class="admin-section">
+                <h2>User Management</h2>
+                
+                <div class="search-bar">
+                    <input type="text" id="user-search" placeholder="Search users by username or email...">
+                </div>
+                
+                <table class="user-table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Coins</th>
+                            <th>Themes</th>
+                            <th>Particles</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                        <!-- User rows will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit User Modal -->
+    <div id="edit-user-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit User</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            
+            <div id="edit-notification" class="notification"></div>
+            
+            <form id="edit-user-form">
+                <input type="hidden" id="edit-user-id">
+                
+                <div class="form-group">
+                    <label for="edit-username">Username</label>
+                    <input type="text" id="edit-username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-email">Email</label>
+                    <input type="email" id="edit-email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-role">Role</label>
+                    <select id="edit-role">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                        <option value="owner">Owner</option>
+                    </select>
+                    <small class="form-text text-muted">
+                        <strong>Role hierarchy:</strong><br>
+                        - Owner: Full access to all accounts<br>
+                        - Admin: Can manage regular users only<br>
+                        - User: Regular access
+                    </small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-coins">Coins</label>
+                    <input type="number" id="edit-coins" min="0">
+                </div>
+                
+                <div class="form-group">
+                    <label>Unlocked Themes</label>
+                    <div class="checkbox-group" id="edit-themes">
+                        <!-- Theme checkboxes will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Unlocked Particles</label>
+                    <div class="checkbox-group" id="edit-particles">
+                        <!-- Particle checkboxes will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-password">New Password (leave blank to keep current)</label>
+                    <input type="password" id="edit-password" placeholder="Enter new password">
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-danger" id="delete-user-btn">Delete User</button>
+                    <button type="button" class="btn btn-warning modal-close-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Confirm Delete Modal -->
+    <div id="confirm-delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Delete</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            
+            <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-warning modal-close-btn">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-btn">Delete User</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Available themes and particles
+        const allThemes = [
+            { id: 'default', name: 'Default' },
+            { id: 'neon', name: 'Neon' },
+            { id: 'sunset', name: 'Sunset' },
+            { id: 'forest', name: 'Forest' },
+            { id: 'ocean', name: 'Ocean' },
+            { id: 'tech', name: 'Tech' },
+            { id: 'cyberpunk', name: 'Cyberpunk' },
+            { id: 'midnight', name: 'Midnight' },
+            { id: 'pastel', name: 'Pastel' }
+        ];
+        
+        const allParticles = [
+            { id: 'rain', name: 'Rain' },
+            { id: 'snow', name: 'Snow' },
+            { id: 'confetti', name: 'Confetti' },
+            { id: 'bubbles', name: 'Bubbles' },
+            { id: 'fireflies', name: 'Fireflies' }
+        ];
+        
+        // Admin login
+        document.getElementById('admin-login-btn').addEventListener('click', async () => {
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value;
+            
+            if (!username || !password) {
+                showNotification('login-notification', 'Please enter both username and password', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Store admin token and user data
+                    storeAdminData(data);
+                    
+                    // Show admin dashboard
+                    document.getElementById('admin-login').style.display = 'none';
+                    document.getElementById('admin-dashboard').style.display = 'block';
+                    
+                    // Load users
+                    loadUsers();
+                } else {
+                    showNotification('login-notification', data.message || 'Invalid credentials', 'error');
+                }
+            } catch (error) {
+                console.error('Admin login error:', error);
+                showNotification('login-notification', 'An error occurred during login', 'error');
+            }
+        });
+        
+        // Store admin user data in localStorage
+        function storeAdminData(data) {
+            localStorage.setItem('adminToken', data.token);
+            localStorage.setItem('adminUser', JSON.stringify({
+                id: data.user.id,
+                username: data.user.username,
+                email: data.user.email,
+                role: data.user.role
+            }));
+        }
+        
+        // Admin logout
+        document.getElementById('admin-logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminUser');
+            document.getElementById('admin-login').style.display = 'block';
+            document.getElementById('admin-dashboard').style.display = 'none';
+        });
+        
+        // Load users
+        async function loadUsers() {
+            try {
+                const token = localStorage.getItem('adminToken');
+                
+                if (!token) {
+                    document.getElementById('admin-login').style.display = 'block';
+                    document.getElementById('admin-dashboard').style.display = 'none';
+                    return;
+                }
+                
+                const response = await fetch('/api/admin/users', {
+                    headers: {
+                        'x-admin-token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderUserTable(data.users);
+                } else {
+                    // Admin token is invalid
+                    localStorage.removeItem('adminToken');
+                    localStorage.removeItem('adminUser');
+                    document.getElementById('admin-login').style.display = 'block';
+                    document.getElementById('admin-dashboard').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+        
+        // Render user table
+        function renderUserTable(users) {
+            const tableBody = document.getElementById('user-table-body');
+            tableBody.innerHTML = '';
+            
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                
+                // Format date
+                const createdDate = new Date(user.createdAt).toLocaleDateString();
+                
+                // Role badge class
+                const roleBadgeClass = user.role === 'owner' ? 'badge-primary' : 
+                                     (user.role === 'admin' ? 'badge-danger' : 'badge-success');
+                
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td><span class="badge ${roleBadgeClass}">${user.role || 'user'}</span></td>
+                    <td>${user.coins}</td>
+                    <td>${user.unlockedThemes.length}</td>
+                    <td>${user.unlockedParticles.length}</td>
+                    <td>${createdDate}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary edit-user-btn" data-id="${user.id}">Edit</button>
+                        </div>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to edit buttons
+            document.querySelectorAll('.edit-user-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const userId = button.getAttribute('data-id');
+                    openEditModal(userId, users);
+                });
+            });
+            
+            // Show notification based on admin role
+            const currentUser = JSON.parse(localStorage.getItem('adminUser'));
+            if (currentUser && currentUser.role) {
+                const roleNotice = document.createElement('div');
+                roleNotice.className = 'alert ' + (currentUser.role === 'owner' ? 'alert-primary' : 'alert-warning');
+                roleNotice.innerHTML = `<strong>You are logged in as: ${currentUser.role.toUpperCase()}</strong><br>
+                    ${currentUser.role === 'owner' ? 'You have full access to all user accounts.' : 
+                    'You can only manage regular user accounts. Owner and admin accounts cannot be modified.'}`;
+                document.getElementById('admin-panel').insertBefore(roleNotice, document.getElementById('admin-panel').firstChild);
+            }
+        }
+        
+        // Open edit user modal
+        function openEditModal(userId, users) {
+            const user = users.find(u => u.id === userId);
+            
+            if (!user) return;
+            
+            // Populate form fields
+            document.getElementById('edit-user-id').value = user.id;
+            document.getElementById('edit-username').value = user.username;
+            document.getElementById('edit-email').value = user.email;
+            document.getElementById('edit-role').value = user.role || 'user';
+            document.getElementById('edit-coins').value = user.coins;
+            document.getElementById('edit-password').value = '';
+            
+            // Populate theme checkboxes
+            const themesContainer = document.getElementById('edit-themes');
+            themesContainer.innerHTML = '';
+            
+            allThemes.forEach(theme => {
+                const isChecked = user.unlockedThemes.includes(theme.id);
+                
+                const checkboxItem = document.createElement('div');
+                checkboxItem.className = 'checkbox-item';
+                checkboxItem.innerHTML = `
+                    <input type="checkbox" id="theme-${theme.id}" value="${theme.id}" ${isChecked ? 'checked' : ''}>
+                    <label for="theme-${theme.id}">${theme.name}</label>
+                `;
+                
+                themesContainer.appendChild(checkboxItem);
+            });
+            
+            // Populate particle checkboxes
+            const particlesContainer = document.getElementById('edit-particles');
+            particlesContainer.innerHTML = '';
+            
+            allParticles.forEach(particle => {
+                const isChecked = user.unlockedParticles.includes(particle.id);
+                
+                const checkboxItem = document.createElement('div');
+                checkboxItem.className = 'checkbox-item';
+                checkboxItem.innerHTML = `
+                    <input type="checkbox" id="particle-${particle.id}" value="${particle.id}" ${isChecked ? 'checked' : ''}>
+                    <label for="particle-${particle.id}">${particle.name}</label>
+                `;
+                
+                particlesContainer.appendChild(checkboxItem);
+            });
+            
+            // Show modal
+            document.getElementById('edit-user-modal').classList.add('active');
+        }
+        
+        // Close modals
+        document.querySelectorAll('.modal-close, .modal-close-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.modal').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            });
+        });
+        
+        // Submit edit user form
+        document.getElementById('edit-user-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const userId = document.getElementById('edit-user-id').value;
+            const username = document.getElementById('edit-username').value.trim();
+            const email = document.getElementById('edit-email').value.trim();
+            const role = document.getElementById('edit-role').value;
+            const coins = parseInt(document.getElementById('edit-coins').value);
+            const password = document.getElementById('edit-password').value;
+            
+            // Get selected themes
+            const unlockedThemes = [];
+            document.querySelectorAll('#edit-themes input[type="checkbox"]:checked').forEach(checkbox => {
+                unlockedThemes.push(checkbox.value);
+            });
+            
+            // Get selected particles
+            const unlockedParticles = [];
+            document.querySelectorAll('#edit-particles input[type="checkbox"]:checked').forEach(checkbox => {
+                unlockedParticles.push(checkbox.value);
+            });
+            
+            // Validate form
+            if (!username || !email) {
+                showNotification('edit-notification', 'Username and email are required', 'error');
+                return;
+            }
+            
+            try {
+                const token = localStorage.getItem('adminToken');
+                
+                if (!token) {
+                    showNotification('edit-notification', 'Admin session expired. Please login again.', 'error');
+                    return;
+                }
+                
+                const response = await fetch(`/api/admin/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-admin-token': token
+                    },
+                    body: JSON.stringify({
+                        username,
+                        email,
+                        role,
+                        coins,
+                        password: password || undefined,
+                        unlockedThemes,
+                        unlockedParticles
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('edit-notification', 'User updated successfully', 'success');
+                    
+                    // Reload users after a short delay
+                    setTimeout(() => {
+                        document.getElementById('edit-user-modal').classList.remove('active');
+                        loadUsers();
+                    }, 1500);
+                } else {
+                    showNotification('edit-notification', data.message || 'Failed to update user', 'error');
+                }
+            } catch (error) {
+                console.error('Error updating user:', error);
+                showNotification('edit-notification', 'An error occurred while updating user', 'error');
+            }
+        });
+        
+        // Delete user button
+        document.getElementById('delete-user-btn').addEventListener('click', () => {
+            document.getElementById('edit-user-modal').classList.remove('active');
+            document.getElementById('confirm-delete-modal').classList.add('active');
+        });
+        
+        // Confirm delete user
+        document.getElementById('confirm-delete-btn').addEventListener('click', async () => {
+            const userId = document.getElementById('edit-user-id').value;
+            
+            try {
+                const token = localStorage.getItem('adminToken');
+                
+                if (!token) {
+                    document.getElementById('confirm-delete-modal').classList.remove('active');
+                    showNotification('login-notification', 'Admin session expired. Please login again.', 'error');
+                    return;
+                }
+                
+                const response = await fetch(`/api/admin/users/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'x-admin-token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('confirm-delete-modal').classList.remove('active');
+                    loadUsers();
+                } else {
+                    document.getElementById('confirm-delete-modal').classList.remove('active');
+                    showNotification('login-notification', data.message || 'Failed to delete user', 'error');
+                }
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                document.getElementById('confirm-delete-modal').classList.remove('active');
+                showNotification('login-notification', 'An error occurred while deleting user', 'error');
+            }
+        });
+        
+        // Search users
+        document.getElementById('user-search').addEventListener('input', async (e) => {
+            const searchTerm = e.target.value.trim().toLowerCase();
+            
+            try {
+                const token = localStorage.getItem('adminToken');
+                
+                if (!token) return;
+                
+                const response = await fetch('/api/admin/users', {
+                    headers: {
+                        'x-admin-token': token
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Filter users based on search term
+                    const filteredUsers = data.users.filter(user => 
+                        user.username.toLowerCase().includes(searchTerm) || 
+                        user.email.toLowerCase().includes(searchTerm)
+                    );
+                    
+                    renderUserTable(filteredUsers);
+                }
+            } catch (error) {
+                console.error('Error searching users:', error);
+            }
+        });
+        
+        // Helper function to show notifications
+        function showNotification(elementId, message, type) {
+            const notification = document.getElementById(elementId);
+            notification.textContent = message;
+            notification.className = 'notification';
+            notification.classList.add(type);
+            notification.style.display = 'block';
+            
+            // Hide notification after 5 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Check if admin is already logged in
+        function checkAdminAuth() {
+            const token = localStorage.getItem('adminToken');
+            
+            if (token) {
+                document.getElementById('admin-login').style.display = 'none';
+                document.getElementById('admin-dashboard').style.display = 'block';
+                loadUsers();
+            } else {
+                document.getElementById('admin-login').style.display = 'block';
+                document.getElementById('admin-dashboard').style.display = 'none';
+            }
+        }
+        
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', checkAdminAuth);
+    </script>
+</body>
+</html>
