@@ -1,0 +1,29 @@
+# robots.txt for Updaown's Unblocked Games
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+Disallow: /data/
+
+# Allow Google to index everything except admin areas
+User-agent: Googlebot
+Allow: /
+Disallow: /admin.html
+Disallow: /api/
+Disallow: /data/
+
+# Block AI crawlers from scraping content
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://updaowns-ubg.com/sitemap.xml

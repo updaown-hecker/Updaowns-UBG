@@ -9,26 +9,23 @@
         gtag('js', new Date());
         gtag('config', 'G-KSHBZ8D1X7');
     </script>
-    <script>
-        // Check if about:blank is enabled and if we're not already in an about:blank page
-        if (localStorage.getItem('aboutBlank') === 'true' && window.location.href !== 'about:blank') {
-            const win = window.open();
-            win.document.body.style.margin = '0';
-            win.document.body.style.height = '100vh';
-            const iframe = win.document.createElement('iframe');
-            iframe.style.border = 'none';
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.margin = '0';
-            iframe.src = window.location.href;
-            win.document.body.appendChild(iframe);
-            window.location.replace('about:blank');
-        }
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google</title>
-    <link rel="icon" href="/assets/favicon/google.ico">
+    <meta name="description" content="Manage your account at Updaown's Unblocked Games. View your stats, active powerups, themes, and particle effects. Change your password and customize your gaming experience.">
+    <meta name="keywords" content="game account, user profile, powerups, themes, particles, unblocked games, game stats">
+    <meta name="author" content="Updaown">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="My Account - Updaown's Unblocked Games">
+    <meta property="og:description" content="Manage your account, view your stats, and customize your gaming experience at Updaown's Unblocked Games.">
+    <meta property="og:image" content="/assets/favicon/icon-512.png">
+    <meta property="og:url" content="https://updaowns-ubg.com/account.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#7289da">
+    <title>My Account - Updaown's Unblocked Games</title>
+    <link rel="icon" href="assets/favicon/google.ico">
+    <link rel="apple-touch-icon" href="assets/favicon/icon-192.png">
+    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/settings.css">
     <script src="assets/js/panic.js"></script>
@@ -36,6 +33,19 @@
     <script src="assets/js/theme-loader.js"></script>
     <script src="assets/js/background-elements.js"></script>
     <script src="assets/js/particles-loader.js"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "name": "My Account - Updaown's Unblocked Games",
+      "description": "Manage your account, view your stats, and customize your gaming experience.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Updaown's Unblocked Games",
+        "url": "https://updaowns-ubg.com"
+      }
+    }
+    </script>
     <style>
         .account-container {
             max-width: 800px;
