@@ -1,0 +1,48 @@
+[
+  {
+    "id": "1743102522745",
+    "username": "admin",
+    "email": "admin@gmail.com",
+    "password": "admin123",
+    "coins": 99991119,
+    "unlockedThemes": [
+      "default",
+      "neon",
+      "sunset",
+      "forest",
+      "cyberpunk",
+      "pastel",
+      "tech",
+      "ocean",
+      "midnight"
+    ],
+    "unlockedParticles": [
+      "rain",
+      "confetti",
+      "bubbles",
+      "stars",
+      "snow",
+      "matrix",
+      "fireflies",
+      "geometric"
+    ],
+    "selectedTheme": "default",
+    "selectedParticles": [
+      "rain"
+    ],
+    "createdAt": "2025-03-27T19:08:42.745Z",
+    "lastLogin": "2025-03-27T22:27:28.979Z",
+    "role": "owner",
+    "powerups": {
+      "coinBoost": 5,
+      "autoClicker": 3,
+      "luckyFinder": 5
+    },
+    "passwordHistory": [
+      "admin123",
+      "admin321",
+      "admin123",
+      "admin231"
+    ]
+  }
+]
