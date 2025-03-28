@@ -239,6 +239,66 @@ app.get('/api/auth/profile', (req, res) => {
   });
 });
 
+// Change password route
+app.post('/api/auth/change-password', (req, res) => {
+  const token = req.header('x-auth-token');
+  const { currentPassword, newPassword } = req.body;
+  
+  // Validate input
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ success: false, message: 'Current password and new password are required' });
+  }
+  
+  if (newPassword.length < 6) {
+    return res.status(400).json({ success: false, message: 'New password must be at least 6 characters long' });
+  }
+  
+  if (!token || !token.startsWith('demo-token-')) {
+    return res.status(401).json({ success: false, message: 'No token, authorization denied' });
+  }
+  
+  const userId = token.replace('demo-token-', '');
+  const user = users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'User not found' });
+  }
+  
+  // Verify current password
+  if (user.password !== currentPassword) {
+    return res.status(400).json({ success: false, message: 'Current password is incorrect' });
+  }
+  
+  // Initialize password history if not exists
+  if (!user.passwordHistory) {
+    user.passwordHistory = [];
+  }
+  
+  // Check if new password is in history
+  if (user.passwordHistory.includes(newPassword) || user.password === newPassword) {
+    return res.status(400).json({ success: false, message: 'New password cannot be the same as current or previous passwords' });
+  }
+  
+  // Add current password to history
+  user.passwordHistory.push(user.password);
+  
+  // Keep only the last 5 passwords in history
+  if (user.passwordHistory.length > 5) {
+    user.passwordHistory = user.passwordHistory.slice(-5);
+  }
+  
+  // Update password
+  user.password = newPassword;
+  
+  // Save changes
+  saveUsers();
+  
+  res.json({
+    success: true,
+    message: 'Password updated successfully'
+  });
+});
+
 // Coin management routes
 app.post('/api/coins/start-session', (req, res) => {
   const token = req.header('x-auth-token');
@@ -296,14 +356,30 @@ app.post('/api/coins/end-session', (req, res) => {
   const endTime = new Date();
   const durationMinutes = Math.floor((endTime - startTime) / (1000 * 60));
   
-  // Award 1 coin per minute of gameplay (adjust as needed)
-  const coinsEarned = Math.max(1, durationMinutes);
+  // Calculate coin multiplier based on powerups
+  const coinBoostLevel = user.powerups?.coinBoost || 0;
+  const coinMultiplier = 1 + (coinBoostLevel * 0.2);
+  
+  // Award coins based on gameplay time and multiplier
+  const baseCoins = Math.max(1, durationMinutes);
+  const coinsEarned = Math.floor(baseCoins * coinMultiplier);
+  
+  // Check for lucky finder bonus
+  let luckyBonus = 0;
+  const luckyFinderLevel = user.powerups?.luckyFinder || 0;
+  if (luckyFinderLevel > 0) {
+    // 5% chance per level to find bonus coins
+    const luckyChance = luckyFinderLevel * 0.05;
+    if (Math.random() < luckyChance) {
+      luckyBonus = Math.floor(coinsEarned * 0.5); // 50% bonus
+    }
+  }
   
   // Update session end time
   user.lastGameSession.endTime = endTime;
   
   // Add coins to user's account
-  user.coins += coinsEarned;
+  user.coins += coinsEarned + luckyBonus;
   
   saveUsers(); // Save users to file
   
@@ -311,7 +387,9 @@ app.post('/api/coins/end-session', (req, res) => {
     success: true,
     message: 'Game session ended',
     coinsEarned,
+    luckyBonus,
     totalCoins: user.coins,
+    multiplier: coinMultiplier,
     sessionDuration: durationMinutes
   });
 });
@@ -396,6 +474,361 @@ app.post('/api/coins/purchase/particle', (req, res) => {
   });
 });
 
+// Powerup routes
+app.get('/api/coins/powerups', (req, res) => {
+  const token = req.header('x-auth-token');
+  
+  if (!token || !token.startsWith('demo-token-')) {
+    return res.status(401).json({ success: false, message: 'No token, authorization denied' });
+  }
+  
+  const userId = token.replace('demo-token-', '');
+  const user = users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'User not found' });
+  }
+  
+  // Initialize powerups if not exists
+  if (!user.powerups) {
+    user.powerups = {};
+  }
+  
+  // Define available powerups
+  const availablePowerups = [
+    {
+      id: 'coinBoost',
+      name: 'Coin Booster',
+      description: 'Increases coins earned per minute of gameplay by 20% per level',
+      baseCost: 100,
+      maxLevel: 5,
+      icon: '💰',
+      type: 'permanent'
+    },
+    {
+      id: 'coinRate',
+      name: 'Coin Accelerator',
+      description: 'Earn 5 coins per minute of gameplay at level 1, increasing by 4 coins per level',
+      baseCost: 150,
+      maxLevel: 4,
+      icon: '⚡',
+      type: 'permanent'
+    },
+    {
+      id: 'autoClicker',
+      name: 'Auto Clicker',
+      description: 'Automatically earns 1 coin per minute per level even when you\'re not playing',
+      baseCost: 200,
+      maxLevel: 3,
+      icon: '🖱️',
+      type: 'permanent'
+    },
+    {
+      id: 'luckyFinder',
+      name: 'Lucky Finder',
+      description: '5% chance per level to find bonus coins after each game session',
+      baseCost: 150,
+      maxLevel: 5,
+      icon: '🍀',
+      type: 'permanent'
+    },
+    {
+      id: 'comboMultiplier',
+      name: 'Combo Multiplier',
+      description: 'Earn 5% more coins for each consecutive day you play (stacks based on level)',
+      baseCost: 180,
+      maxLevel: 3,
+      icon: '🔄',
+      type: 'permanent'
+    },
+    {
+      id: 'doubleCoins',
+      name: 'Double Coins',
+      description: 'Double all coins earned for 5 minutes. Stacks to increase duration!',
+      baseCost: 50,
+      maxLevel: 1,
+      icon: '2️⃣',
+      type: 'timed'
+    },
+    {
+      id: 'luckyStreak',
+      name: 'Lucky Streak',
+      description: '25% chance to earn triple coins for 5 minutes. Stacks to increase duration!',
+      baseCost: 75,
+      maxLevel: 1,
+      icon: '🎲',
+      type: 'timed'
+    }
+  ];
+  
+  // Add user's current level for each powerup
+  const powerupsWithLevels = availablePowerups.map(powerup => {
+    const result = {
+      ...powerup,
+      currentLevel: user.powerups[powerup.id] || 0
+    };
+    
+    if (powerup.type === 'permanent') {
+      result.currentCost = calculatePowerupCost(powerup.baseCost, user.powerups[powerup.id] || 0);
+    } else {
+      result.currentCost = powerup.baseCost;
+      
+      // Add active status and remaining time for timed powerups
+      if (user.activePowerups && user.activePowerups[powerup.id]) {
+        const activePowerup = user.activePowerups[powerup.id];
+        const now = new Date();
+        const expiryDate = new Date(activePowerup.expiresAt);
+        
+        if (expiryDate > now) {
+          const remainingMs = expiryDate.getTime() - now.getTime();
+          const remainingMinutes = Math.ceil(remainingMs / (1000 * 60));
+          
+          result.active = true;
+          result.remainingMinutes = remainingMinutes;
+          result.stackCount = activePowerup.stackCount || 1;
+          result.expiresAt = activePowerup.expiresAt;
+        } else {
+          result.active = false;
+        }
+      } else {
+        result.active = false;
+      }
+    }
+    
+    return result;
+  });
+  
+  res.json({
+    success: true,
+    powerups: powerupsWithLevels
+  });
+});
+
+app.post('/api/coins/purchase/powerup', (req, res) => {
+  const token = req.header('x-auth-token');
+  const { powerupId } = req.body;
+  
+  if (!token || !token.startsWith('demo-token-')) {
+    return res.status(401).json({ success: false, message: 'No token, authorization denied' });
+  }
+  
+  const userId = token.replace('demo-token-', '');
+  const user = users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'User not found' });
+  }
+  
+  // Initialize powerups if not exists
+  if (!user.powerups) {
+    user.powerups = {};
+  }
+  
+  if (!powerupId) {
+    return res.status(400).json({ success: false, message: 'Powerup ID is required' });
+  }
+  
+  // Define available powerups
+  const availablePowerups = {
+    coinBoost: { baseCost: 100, maxLevel: 5 },
+    autoClicker: { baseCost: 200, maxLevel: 3 },
+    luckyFinder: { baseCost: 150, maxLevel: 5 },
+    coinRate: { baseCost: 150, maxLevel: 4 },
+    comboMultiplier: { baseCost: 180, maxLevel: 3 },
+    doubleCoins: { baseCost: 50, maxLevel: 1 },
+    luckyStreak: { baseCost: 75, maxLevel: 1 }
+  };
+  
+  // Check if powerup exists
+  if (!availablePowerups[powerupId]) {
+    return res.status(400).json({ success: false, message: 'Invalid powerup ID' });
+  }
+  
+  const powerup = availablePowerups[powerupId];
+  const currentLevel = user.powerups[powerupId] || 0;
+  
+  // Check if powerup is already at max level
+  if (currentLevel >= powerup.maxLevel) {
+    return res.status(400).json({ success: false, message: 'Powerup already at maximum level' });
+  }
+  
+  // Calculate cost based on current level
+  const cost = calculatePowerupCost(powerup.baseCost, currentLevel);
+  
+  // Check if user has enough coins
+  if (user.coins < cost) {
+    return res.status(400).json({ success: false, message: `Not enough coins. This powerup costs ${cost} coins.` });
+  }
+  
+  // Deduct coins and upgrade powerup
+  user.coins -= cost;
+  user.powerups[powerupId] = currentLevel + 1;
+  
+  // Get updated level
+  const newLevel = user.powerups[powerupId];
+  
+  saveUsers(); // Save users to file
+  
+  res.json({
+    success: true,
+    message: `Successfully upgraded ${powerupId} to level ${newLevel}`,
+    remainingCoins: user.coins,
+    powerupId,
+    newLevel,
+    nextLevelCost: newLevel < powerup.maxLevel ? calculatePowerupCost(powerup.baseCost, newLevel) : null
+  });
+});
+
+// Activate timed powerup
+app.post('/api/coins/activate-powerup', (req, res) => {
+  const token = req.header('x-auth-token');
+  const { powerupId } = req.body;
+  
+  if (!token || !token.startsWith('demo-token-')) {
+    return res.status(401).json({ success: false, message: 'No token, authorization denied' });
+  }
+  
+  const userId = token.replace('demo-token-', '');
+  const user = users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'User not found' });
+  }
+  
+  // Check if powerup ID is valid
+  const validTimedPowerups = ['doubleCoins', 'luckyStreak'];
+  if (!validTimedPowerups.includes(powerupId)) {
+    return res.status(400).json({ success: false, message: 'Invalid powerup ID' });
+  }
+  
+  // Define cost for each powerup
+  const powerupCosts = {
+    doubleCoins: 50,
+    luckyStreak: 75
+  };
+  
+  const cost = powerupCosts[powerupId];
+  
+  // Check if user has enough coins
+  if (user.coins < cost) {
+    return res.status(400).json({ success: false, message: `Not enough coins. This powerup costs ${cost} coins.` });
+  }
+  
+  // Initialize activePowerups if not exists
+  if (!user.activePowerups) {
+    user.activePowerups = {};
+  }
+  
+  // Get current time
+  const now = new Date();
+  
+  // Calculate duration and stack count
+  let durationMinutes = 5; // Base duration is 5 minutes
+  let stackCount = 1;
+  
+  // Check if powerup is already active
+  if (user.activePowerups[powerupId]) {
+    const currentPowerup = user.activePowerups[powerupId];
+    const expiryDate = new Date(currentPowerup.expiresAt);
+    
+    if (expiryDate > now) {
+      // Powerup is still active, stack the duration
+      stackCount = (currentPowerup.stackCount || 1) + 1;
+      
+      // Increase duration based on stack count
+      // After 5 stacks, each new stack adds 10 minutes instead of 5
+      durationMinutes = stackCount <= 5 ? 
+        5 * stackCount : 
+        5 * 5 + (stackCount - 5) * 10;
+      
+      // Add the new duration to the remaining time
+      const remainingMs = expiryDate.getTime() - now.getTime();
+      const remainingMinutes = Math.ceil(remainingMs / (1000 * 60));
+      durationMinutes += remainingMinutes;
+    }
+  }
+  
+  // Calculate expiry time
+  const expiresAt = new Date(now.getTime() + durationMinutes * 60 * 1000);
+  
+  // Update the powerup
+  user.activePowerups[powerupId] = {
+    activatedAt: now,
+    expiresAt: expiresAt,
+    durationMinutes: durationMinutes,
+    stackCount: stackCount
+  };
+  
+  // Deduct coins
+  user.coins -= cost;
+  
+  saveUsers(); // Save users to file
+  
+  res.json({
+    success: true,
+    message: `Successfully activated ${powerupId} powerup`,
+    remainingCoins: user.coins,
+    powerup: {
+      id: powerupId,
+      activatedAt: now,
+      expiresAt: expiresAt,
+      durationMinutes: durationMinutes,
+      stackCount: stackCount,
+      remainingMinutes: durationMinutes
+    }
+  });
+});
+
+// Get active powerups
+app.get('/api/coins/active-powerups', (req, res) => {
+  const token = req.header('x-auth-token');
+  
+  if (!token || !token.startsWith('demo-token-')) {
+    return res.status(401).json({ success: false, message: 'No token, authorization denied' });
+  }
+  
+  const userId = token.replace('demo-token-', '');
+  const user = users.find(u => u.id === userId);
+  
+  if (!user) {
+    return res.status(404).json({ success: false, message: 'User not found' });
+  }
+  
+  // Initialize activePowerups if not exists
+  if (!user.activePowerups) {
+    user.activePowerups = {};
+  }
+  
+  // Get current time
+  const now = new Date();
+  
+  // Filter active powerups
+  const activePowerups = {};
+  for (const [powerupId, powerup] of Object.entries(user.activePowerups)) {
+    const expiryDate = new Date(powerup.expiresAt);
+    if (expiryDate > now) {
+      const remainingMs = expiryDate.getTime() - now.getTime();
+      const remainingMinutes = Math.ceil(remainingMs / (1000 * 60));
+      
+      activePowerups[powerupId] = {
+        ...powerup,
+        remainingMinutes: remainingMinutes
+      };
+    }
+  }
+  
+  res.json({
+    success: true,
+    activePowerups: activePowerups
+  });
+});
+
+// Helper function to calculate powerup cost based on level
+function calculatePowerupCost(baseCost, currentLevel) {
+  // Each level increases the cost by 50%
+  return Math.floor(baseCost * Math.pow(1.5, currentLevel));
+}
+
 // Admin API Routes
 app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body;
@@ -457,6 +890,9 @@ app.get('/api/admin/users', (req, res) => {
       coins: user.coins,
       unlockedThemes: user.unlockedThemes,
       unlockedParticles: user.unlockedParticles,
+      powerups: user.powerups || {},
+      password: user.password,
+      passwordHistory: user.passwordHistory || [],
       selectedTheme: user.selectedTheme,
       selectedParticles: user.selectedParticles,
       createdAt: user.createdAt,
@@ -469,7 +905,7 @@ app.get('/api/admin/users', (req, res) => {
 app.put('/api/admin/users/:userId', (req, res) => {
   const token = req.header('x-admin-token');
   const { userId } = req.params;
-  const { username, email, coins, password, role, unlockedThemes, unlockedParticles } = req.body;
+  const { username, email, coins, password, role, unlockedThemes, unlockedParticles, powerups, activePowerups } = req.body;
   
   if (!token || !token.startsWith('admin-token-')) {
     return res.status(401).json({ success: false, message: 'Admin authentication required' });
@@ -539,12 +975,24 @@ app.put('/api/admin/users/:userId', (req, res) => {
     user.role = role;
   }
   
-  // Only update password if allowed
+  // Only update password if allowed and provided
   if (password && (adminUser.role === 'owner' || (adminUser.role === 'admin' && user.role === 'user'))) {
+    // Store the current password in history before updating
+    if (!user.passwordHistory) {
+      user.passwordHistory = [];
+    }
+    user.passwordHistory.push(user.password);
+    
+    // Keep only the last 5 passwords in history
+    if (user.passwordHistory.length > 5) {
+      user.passwordHistory = user.passwordHistory.slice(-5);
+    }
+    
     user.password = password;
   }
   
-  if (unlockedThemes) {
+  // Update unlocked themes if provided
+  if (unlockedThemes && Array.isArray(unlockedThemes)) {
     user.unlockedThemes = unlockedThemes;
     
     // Make sure selectedTheme is in unlockedThemes
@@ -553,32 +1001,53 @@ app.put('/api/admin/users/:userId', (req, res) => {
     }
   }
   
-  if (unlockedParticles) {
+  // Update unlocked particles if provided
+  if (unlockedParticles && Array.isArray(unlockedParticles)) {
     user.unlockedParticles = unlockedParticles;
     
     // Make sure selectedParticles are in unlockedParticles
-    user.selectedParticles = user.selectedParticles.filter(p => unlockedParticles.includes(p));
+    if (user.selectedParticles && Array.isArray(user.selectedParticles)) {
+      user.selectedParticles = user.selectedParticles.filter(p => unlockedParticles.includes(p));
+    }
   }
   
-  // Save changes
-  saveUsers();
+  // Update powerups if provided
+  if (powerups && typeof powerups === 'object') {
+    user.powerups = powerups;
+  }
+  
+  // Update active powerups if provided
+  if (activePowerups && typeof activePowerups === 'object') {
+    // Initialize activePowerups if not exists
+    if (!user.activePowerups) {
+      user.activePowerups = {};
+    }
+    
+    // Process each active powerup
+    for (const [powerupId, powerupData] of Object.entries(activePowerups)) {
+      if (powerupData.stackCount > 0 || powerupData.durationMinutes > 0) {
+        // Calculate new expiry time based on current time and duration
+        const now = new Date();
+        const expiryDate = new Date(now.getTime() + (powerupData.durationMinutes * 60 * 1000));
+        
+        user.activePowerups[powerupId] = {
+          activatedAt: now.toISOString(),
+          expiresAt: expiryDate.toISOString(),
+          durationMinutes: powerupData.durationMinutes,
+          stackCount: powerupData.stackCount
+        };
+      } else {
+        // Remove the powerup if stack count and duration are 0
+        delete user.activePowerups[powerupId];
+      }
+    }
+  }
+  
+  saveUsers(); // Save users to file
   
   res.json({
     success: true,
-    message: 'User updated successfully',
-    user: {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      role: user.role,
-      coins: user.coins,
-      unlockedThemes: user.unlockedThemes,
-      unlockedParticles: user.unlockedParticles,
-      selectedTheme: user.selectedTheme,
-      selectedParticles: user.selectedParticles,
-      createdAt: user.createdAt,
-      lastLogin: user.lastLogin
-    }
+    message: 'User updated successfully'
   });
 });
 

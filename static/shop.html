@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSHBZ8D1X7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KSHBZ8D1X7');
+    </script>
+    <script>
+        // Check if about:blank is enabled and if we're not already in an about:blank page
+        if (localStorage.getItem('aboutBlank') === 'true' && window.location.href !== 'about:blank') {
+            const win = window.open();
+            win.document.body.style.margin = '0';
+            win.document.body.style.height = '100vh';
+            const iframe = win.document.createElement('iframe');
+            iframe.style.border = 'none';
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.margin = '0';
+            iframe.src = window.location.href;
+            win.document.body.appendChild(iframe);
+            window.location.replace('about:blank');
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google</title>
+    <link rel="icon" href="/assets/favicon/google.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/settings.css">
+    <script src="assets/js/panic.js"></script>
+    <script src="assets/js/background.js"></script>
+    <script src="assets/js/theme-loader.js"></script>
+    <script src="assets/js/background-elements.js"></script>
+    <script src="assets/js/particles-loader.js"></script>
+    <style>
+        .shop-container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .shop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .shop-info h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .shop-info p {
+            margin: 5px 0 0;
+            opacity: 0.7;
+        }
+        
+        .coin-display {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 10px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .coin-icon {
+            width: 24px;
+            height: 24px;
+            background: #ffd700;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .coin-amount {
+            font-weight: 600;
+            font-size: 18px;
+            color: #ffd700;
+        }
+        
+        .multiplier-badge {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-left: 8px;
+        }
+        
+        .shop-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .shop-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            opacity: 0.7;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .shop-tab:hover {
+            opacity: 1;
+        }
+        
+        .shop-tab.active {
+            opacity: 1;
+        }
+        
+        .shop-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-color, #7289da);
+        }
+        
+        .shop-content {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .shop-section {
+            display: none;
+        }
+        
+        .shop-section.active {
+            display: block;
+        }
+        
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .item-card {
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .item-card.locked {
+            opacity: 0.5;
+            filter: grayscale(0.8);
+        }
+        
+        .item-card.active {
+            border: 2px solid var(--accent-color, #7289da);
+        }
+        
+        .item-card:hover {
+            background: rgba(60, 60, 60, 0.7);
+        }
+        
+        .item-name {
+            font-weight: 500;
+            margin: 5px 0;
+        }
+        
+        .item-price {
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 12px;
+            display: inline-block;
+            margin-top: 5px;
+            color: #ffd700;
+        }
+        
+        .item-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .unlock-button {
+            background: var(--accent-color, #7289da);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            margin-top: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
+        }
+        
+        .unlock-button:hover {
+            background: var(--accent-hover, #5a6ebd);
+        }
+        
+        .unlock-button:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
+        /* Powerup styles */
+        .powerup-card {
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .powerup-card:hover {
+            background: rgba(60, 60, 60, 0.7);
+        }
+        
+        .powerup-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .powerup-icon {
+            font-size: 28px;
+            margin-right: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .powerup-info {
+            flex: 1;
+        }
+        
+        .powerup-name {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        
+        .powerup-description {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .powerup-level {
+            margin-bottom: 10px;
+        }
+        
+        .level-indicator {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .level-progress {
+            height: 100%;
+            background: var(--accent-color, #7289da);
+        }
+        
+        .level-text {
+            font-size: 12px;
+            text-align: right;
+            opacity: 0.7;
+        }
+        
+        .powerup-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .powerup-price {
+            display: flex;
+            align-items: center;
+            color: #ffd700;
+        }
+        
+        .powerup-price-icon {
+            margin-right: 5px;
+        }
+        
+        .powerup-upgrade {
+            background: var(--accent-color, #7289da);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
+        }
+        
+        .powerup-upgrade:hover {
+            background: var(--accent-hover, #5a6ebd);
+        }
+        
+        .powerup-upgrade:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
+        .powerup-maxed {
+            background: #ffd700;
+            color: #333;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .powerup-timer {
+            margin-bottom: 10px;
+        }
+        
+        .timer-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .timer-progress {
+            height: 100%;
+            background: var(--accent-color, #7289da);
+        }
+        
+        .timer-text {
+            font-size: 12px;
+            text-align: right;
+            opacity: 0.7;
+        }
+        
+        .remaining-time {
+            margin-right: 5px;
+        }
+        
+        .stack-count {
+            font-size: 12px;
+            color: #ffd700;
+        }
+        
+        .powerup-activate {
+            background: var(--accent-color, #7289da);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
+        }
+        
+        .powerup-activate:hover {
+            background: var(--accent-hover, #5a6ebd);
+        }
+        
+        .powerup-activate:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .notification.success {
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .notification.error {
+            border-left: 4px solid #F44336;
+        }
+        
+        .powerup-section-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .powerup-active {
+            border: 2px solid var(--accent-color, #7289da);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Unblocked Games</a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="apps.html" class="nav-link">Games</a>
+            <a href="shop.html" class="nav-link active">Shop</a>
+            <a href="account.html" class="nav-link">Account</a>
+            <a href="settings.html" class="nav-link" id="settings-button">Settings</a>
+        </div>
+    </nav>
+    
+    <div id="account-content">
+        <!-- Content will be loaded here based on authentication status -->
+    </div>
+    
+    <script>
+        // Check authentication status
+        function checkAuth() {
+            const token = localStorage.getItem('authToken');
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            
+            if (token && userData.username) {
+                loadShopPage(userData);
+            } else {
+                loadLoginPrompt();
+            }
+        }
+        
+        // Load login prompt for users not logged in
+        function loadLoginPrompt() {
+            const accountContent = document.getElementById('account-content');
+            accountContent.innerHTML = `
+                <div class="login-prompt">
+                    <h2>Login Required</h2>
+                    <p>You need to be logged in to access the shop.</p>
+                    <a href="login.html" class="login-button">Login</a>
+                    <p>Don't have an account? <a href="register.html">Register</a></p>
+                </div>
+            `;
+        }
+
+        // Load shop page for logged in users
+        function loadShopPage(userData) {
+            // Fetch latest user data from server
+            fetchUserProfile()
+                .then(data => {
+                    if (data.success) {
+                        renderShopPage(data.user);
+                    } else {
+                        // If token is invalid, log out
+                        logout();
+                        loadLoginPrompt();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching profile:', error);
+                    // Use cached user data if server request fails
+                    renderShopPage(userData);
+                });
+        }
+        
+        // Fetch user profile from server
+        async function fetchUserProfile() {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/auth/profile', {
+                    method: 'GET',
+                    headers: {
+                        'x-auth-token': token
+                    }
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Profile fetch error:', error);
+                throw error;
+            }
+        }
+        
+        // Render shop page with user data
+        function renderShopPage(user) {
+            const accountContent = document.getElementById('account-content');
+            
+            // Update localStorage with latest user data
+            localStorage.setItem('userData', JSON.stringify(user));
+            
+            accountContent.innerHTML = `
+                <div class="shop-container">
+                    <div class="shop-header">
+                        <div class="shop-info">
+                            <h1>Shop</h1>
+                            <p>Unlock themes, particles, and powerups with your coins</p>
+                        </div>
+                        <div class="shop-actions">
+                            <div class="coin-display">
+                                <div class="coin-icon">$</div>
+                                <span class="coin-amount">${user.coins}</span>
+                                ${user.coinMultiplier > 1 ? `<span class="multiplier-badge">x${user.coinMultiplier.toFixed(1)}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="shop-tabs">
+                        <div class="shop-tab active" data-tab="powerups">Powerups</div>
+                        <div class="shop-tab" data-tab="themes">Themes</div>
+                        <div class="shop-tab" data-tab="particles">Particle Effects</div>
+                    </div>
+                    
+                    <div class="shop-content">
+                        <div class="shop-section active" id="powerups-section">
+                            <div id="powerups-container">
+                                <p>Loading powerups...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="shop-section" id="themes-section">
+                            <div id="themes-grid" class="item-grid">
+                                <!-- Themes will be loaded here -->
+                            </div>
+                        </div>
+                        
+                        <div class="shop-section" id="particles-section">
+                            <div id="particles-grid" class="item-grid">
+                                <!-- Particles will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Set up tab switching
+            document.querySelectorAll('.shop-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and sections
+                    document.querySelectorAll('.shop-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.shop-section').forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding section
+                    this.classList.add('active');
+                    const tabName = this.getAttribute('data-tab');
+                    document.getElementById(`${tabName}-section`).classList.add('active');
+                });
+            });
+            
+            // Load themes
+            loadThemes(user.unlockedThemes, user.selectedTheme, user.coins);
+            
+            // Load particles
+            loadParticles(user.unlockedParticles, user.selectedParticles, user.coins);
+            
+            // Load powerups
+            loadPowerups(user.powerups || {}, user.coins);
+        }
+        
+        // Load themes grid
+        function loadThemes(unlockedThemes, selectedTheme, userCoins) {
+            const themesGrid = document.getElementById('themes-grid');
+            const allThemes = [
+                { id: 'default', name: 'Default', price: 0, icon: '🎨' },
+                { id: 'neon', name: 'Neon', price: 50, icon: '🌈' },
+                { id: 'sunset', name: 'Sunset', price: 50, icon: '🌅' },
+                { id: 'forest', name: 'Forest', price: 50, icon: '🌲' },
+                { id: 'ocean', name: 'Ocean', price: 50, icon: '🌊' },
+                { id: 'tech', name: 'Tech', price: 50, icon: '💻' },
+                { id: 'cyberpunk', name: 'Cyberpunk', price: 50, icon: '🤖' },
+                { id: 'midnight', name: 'Midnight', price: 50, icon: '🌙' },
+                { id: 'pastel', name: 'Pastel', price: 50, icon: '🎀' }
+            ];
+            
+            let html = '';
+            
+            allThemes.forEach(theme => {
+                const isUnlocked = unlockedThemes.includes(theme.id);
+                const isActive = selectedTheme === theme.id;
+                const canAfford = userCoins >= theme.price;
+                
+                html += `
+                    <div class="item-card ${isUnlocked ? '' : 'locked'} ${isActive ? 'active' : ''}" 
+                         data-theme="${theme.id}" 
+                         data-unlocked="${isUnlocked}">
+                        <div class="item-icon">${theme.icon}</div>
+                        <div class="item-name">${theme.name}</div>
+                        ${isUnlocked 
+                            ? (isActive 
+                                ? '<div class="item-price">Active</div>' 
+                                : '<button class="unlock-button activate-theme">Activate</button>') 
+                            : `<div class="item-price">${theme.price} coins</div>
+                               <button class="unlock-button purchase-theme" ${!canAfford ? 'disabled' : ''}>Unlock</button>`
+                        }
+                    </div>
+                `;
+            });
+            
+            themesGrid.innerHTML = html;
+            
+            // Add event listeners for theme activation and purchase
+            document.querySelectorAll('.activate-theme').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const themeId = this.closest('.item-card').getAttribute('data-theme');
+                    activateTheme(themeId);
+                });
+            });
+            
+            document.querySelectorAll('.purchase-theme').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const themeId = this.closest('.item-card').getAttribute('data-theme');
+                    const theme = allThemes.find(t => t.id === themeId);
+                    purchaseTheme(themeId, theme.price);
+                });
+            });
+        }
+        
+        // Load particles grid
+        function loadParticles(unlockedParticles, selectedParticles, userCoins) {
+            const particlesGrid = document.getElementById('particles-grid');
+            const allParticles = [
+                { id: 'bubbles', name: 'Bubbles', price: 30, icon: '🫧' },
+                { id: 'confetti', name: 'Confetti', price: 30, icon: '🎉' },
+                { id: 'snow', name: 'Snow', price: 30, icon: '❄️' },
+                { id: 'stars', name: 'Stars', price: 30, icon: '✨' },
+                { id: 'matrix', name: 'Matrix', price: 30, icon: '🔢' },
+                { id: 'fireflies', name: 'Fireflies', price: 30, icon: '🔆' },
+                { id: 'rain', name: 'Rain', price: 30, icon: '🌧️' },
+                { id: 'geometric', name: 'Geometric', price: 30, icon: '🔷' }
+            ];
+            
+            let html = '';
+            
+            allParticles.forEach(particle => {
+                const isUnlocked = unlockedParticles.includes(particle.id);
+                const isActive = selectedParticles.includes(particle.id);
+                const canAfford = userCoins >= particle.price;
+                
+                html += `
+                    <div class="item-card ${isUnlocked ? '' : 'locked'} ${isActive ? 'active' : ''}" 
+                         data-particle="${particle.id}" 
+                         data-unlocked="${isUnlocked}">
+                        <div class="item-icon">${particle.icon}</div>
+                        <div class="item-name">${particle.name}</div>
+                        ${isUnlocked 
+                            ? (isActive 
+                                ? '<button class="unlock-button deactivate-particle">Deactivate</button>' 
+                                : '<button class="unlock-button activate-particle">Activate</button>') 
+                            : `<div class="item-price">${particle.price} coins</div>
+                               <button class="unlock-button purchase-particle" ${!canAfford ? 'disabled' : ''}>Unlock</button>`
+                        }
+                    </div>
+                `;
+            });
+            
+            particlesGrid.innerHTML = html;
+            
+            // Add event listeners for particle activation and purchase
+            document.querySelectorAll('.activate-particle').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const particleId = this.closest('.item-card').getAttribute('data-particle');
+                    toggleParticle(particleId, true);
+                });
+            });
+            
+            document.querySelectorAll('.deactivate-particle').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const particleId = this.closest('.item-card').getAttribute('data-particle');
+                    toggleParticle(particleId, false);
+                });
+            });
+            
+            document.querySelectorAll('.purchase-particle').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const particleId = this.closest('.item-card').getAttribute('data-particle');
+                    const particle = allParticles.find(p => p.id === particleId);
+                    purchaseParticle(particleId, particle.price);
+                });
+            });
+        }
+        
+        // Load powerups
+        function loadPowerups(userPowerups, userCoins) {
+            const powerupsContainer = document.getElementById('powerups-container');
+            
+            // Fetch available powerups from server
+            fetch('/api/coins/powerups', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': localStorage.getItem('authToken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const powerups = data.powerups;
+                    
+                    if (powerups.length === 0) {
+                        powerupsContainer.innerHTML = '<p>No powerups available</p>';
+                        return;
+                    }
+                    
+                    // Separate permanent and timed powerups
+                    const permanentPowerups = powerups.filter(p => p.type === 'permanent');
+                    const timedPowerups = powerups.filter(p => p.type === 'timed');
+                    
+                    let powerupsHTML = '';
+                    
+                    // Add section for permanent powerups
+                    if (permanentPowerups.length > 0) {
+                        powerupsHTML += `<h3 class="powerup-section-title">Permanent Powerups</h3>`;
+                        
+                        permanentPowerups.forEach(powerup => {
+                            const isMaxLevel = powerup.currentLevel >= powerup.maxLevel;
+                            const canAfford = userCoins >= powerup.currentCost;
+                            
+                            powerupsHTML += `
+                                <div class="powerup-card">
+                                    <div class="powerup-header">
+                                        <div class="powerup-icon">${powerup.icon}</div>
+                                        <div class="powerup-info">
+                                            <h3 class="powerup-name">${powerup.name}</h3>
+                                            <p class="powerup-description">${powerup.description}</p>
+                                        </div>
+                                    </div>
+                                    <div class="powerup-level">
+                                        <div class="level-indicator">
+                                            <div class="level-progress" style="width: ${(powerup.currentLevel / powerup.maxLevel) * 100}%"></div>
+                                        </div>
+                                        <div class="level-text">Level ${powerup.currentLevel}/${powerup.maxLevel}</div>
+                                    </div>
+                                    <div class="powerup-footer">
+                                        ${isMaxLevel ? 
+                                            `<div class="powerup-maxed">MAX LEVEL</div>` : 
+                                            `<div class="powerup-price">
+                                                <span class="powerup-price-icon">$</span>
+                                                <span class="powerup-price-amount">${powerup.currentCost}</span>
+                                            </div>
+                                            <button class="powerup-upgrade" 
+                                                onclick="purchasePowerup('${powerup.id}', ${powerup.currentCost})"
+                                                ${!canAfford ? 'disabled' : ''}>
+                                                ${canAfford ? 'Upgrade' : 'Not enough coins'}
+                                            </button>`
+                                        }
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    // Add section for timed powerups
+                    if (timedPowerups.length > 0) {
+                        powerupsHTML += `<h3 class="powerup-section-title">Timed Powerups</h3>`;
+                        
+                        timedPowerups.forEach(powerup => {
+                            const canAfford = userCoins >= powerup.currentCost;
+                            const isActive = powerup.active;
+                            
+                            powerupsHTML += `
+                                <div class="powerup-card ${isActive ? 'powerup-active' : ''}">
+                                    <div class="powerup-header">
+                                        <div class="powerup-icon">${powerup.icon}</div>
+                                        <div class="powerup-info">
+                                            <h3 class="powerup-name">${powerup.name}</h3>
+                                            <p class="powerup-description">${powerup.description}</p>
+                                        </div>
+                                    </div>
+                                    ${isActive ? `
+                                        <div class="powerup-timer">
+                                            <div class="timer-bar">
+                                                <div class="timer-progress"></div>
+                                            </div>
+                                            <div class="timer-text">
+                                                <span class="remaining-time">${powerup.remainingMinutes} min</span>
+                                                ${powerup.stackCount > 1 ? `<span class="stack-count">x${powerup.stackCount} stacks</span>` : ''}
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                    <div class="powerup-footer">
+                                        <div class="powerup-price">
+                                            <span class="powerup-price-icon">$</span>
+                                            <span class="powerup-price-amount">${powerup.currentCost}</span>
+                                        </div>
+                                        <button class="powerup-activate" 
+                                            onclick="activatePowerup('${powerup.id}', ${powerup.currentCost})"
+                                            ${!canAfford ? 'disabled' : ''}>
+                                            ${isActive ? 'Stack More Time' : 'Activate'}
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    }
+                    
+                    powerupsContainer.innerHTML = powerupsHTML;
+                    
+                    // Initialize timers for active powerups
+                    timedPowerups.forEach(powerup => {
+                        if (powerup.active) {
+                            startPowerupTimer(powerup.id, new Date(powerup.expiresAt));
+                        }
+                    });
+                } else {
+                    powerupsContainer.innerHTML = `<p>Error: ${data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching powerups:', error);
+                powerupsContainer.innerHTML = '<p>Error loading powerups</p>';
+            });
+        }
+        
+        // Start timer for active powerup
+        function startPowerupTimer(powerupId, expiryDate) {
+            const updateTimer = () => {
+                const now = new Date();
+                const timeLeft = expiryDate - now;
+                
+                if (timeLeft <= 0) {
+                    // Powerup expired, refresh powerups
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    loadPowerups(userData.powerups || {}, userData.coins);
+                    return;
+                }
+                
+                // Calculate hours, minutes and seconds
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                // Format time string
+                let timeString = '';
+                if (hours > 0) {
+                    timeString += `${hours}h `;
+                }
+                timeString += `${minutes}m ${seconds.toString().padStart(2, '0')}s`;
+                
+                // Update timer display
+                const powerupCard = document.querySelector(`.powerup-card[data-powerup-id="${powerupId}"]`);
+                if (powerupCard) {
+                    const remainingTimeEl = powerupCard.querySelector('.remaining-time');
+                    if (remainingTimeEl) {
+                        remainingTimeEl.textContent = timeString;
+                    }
+                    
+                    const timerProgress = powerupCard.querySelector('.timer-progress');
+                    if (timerProgress) {
+                        // Calculate percentage of time remaining
+                        const totalDuration = expiryDate - new Date(localStorage.getItem(`powerup_${powerupId}_start`) || now);
+                        const percentLeft = (timeLeft / totalDuration) * 100;
+                        timerProgress.style.width = `${percentLeft}%`;
+                    }
+                }
+                
+                // Update every second
+                setTimeout(updateTimer, 1000);
+            };
+            
+            // Store start time if not already set
+            if (!localStorage.getItem(`powerup_${powerupId}_start`)) {
+                localStorage.setItem(`powerup_${powerupId}_start`, new Date().toISOString());
+            }
+            
+            // Find the powerup card and set the data attribute
+            const powerupCards = document.querySelectorAll('.powerup-card');
+            for (const card of powerupCards) {
+                const nameElement = card.querySelector('.powerup-name');
+                if (nameElement && nameElement.textContent.includes(powerupId)) {
+                    card.setAttribute('data-powerup-id', powerupId);
+                    break;
+                }
+            }
+            
+            // Start the timer
+            updateTimer();
+        }
+        
+        // Activate timed powerup
+        async function activatePowerup(powerupId, price) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/coins/activate-powerup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify({ powerupId: powerupId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update local storage
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    userData.coins = data.remainingCoins;
+                    if (!userData.activePowerups) userData.activePowerups = {};
+                    userData.activePowerups[powerupId] = data.powerup;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    // Update coin display
+                    document.querySelector('.coin-amount').textContent = userData.coins;
+                    
+                    // Refresh powerups
+                    loadPowerups(userData.powerups, userData.coins);
+                    
+                    // Start timer for the powerup
+                    startPowerupTimer(powerupId, new Date(data.powerup.expiresAt));
+                    
+                    showNotification(`Successfully activated ${powerupId} powerup for ${data.powerup.durationMinutes} minutes`, 'success');
+                } else {
+                    showNotification(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Powerup activation error:', error);
+                showNotification('Error activating powerup', 'error');
+            }
+        }
+        
+        // Activate theme
+        async function activateTheme(themeId) {
+            try {
+                // Update theme in localStorage
+                localStorage.setItem('theme', themeId);
+                
+                // Update user data
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                userData.selectedTheme = themeId;
+                localStorage.setItem('userData', JSON.stringify(userData));
+                
+                // Apply theme immediately
+                document.documentElement.setAttribute('data-theme', themeId);
+                
+                // Refresh themes grid
+                loadThemes(userData.unlockedThemes, themeId, userData.coins);
+                
+                showNotification('Theme activated successfully', 'success');
+            } catch (error) {
+                console.error('Theme activation error:', error);
+                showNotification('Error activating theme', 'error');
+            }
+        }
+        
+        // Toggle particle effect
+        async function toggleParticle(particleId, activate) {
+            try {
+                // Update particle in localStorage
+                localStorage.setItem(`particle_${particleId}`, activate ? 'true' : 'false');
+                
+                // Update user data
+                const userData = JSON.parse(localStorage.getItem('userData'));
+                if (activate) {
+                    if (!userData.selectedParticles.includes(particleId)) {
+                        userData.selectedParticles.push(particleId);
+                    }
+                } else {
+                    userData.selectedParticles = userData.selectedParticles.filter(id => id !== particleId);
+                }
+                localStorage.setItem('userData', JSON.stringify(userData));
+                
+                // Refresh particles grid
+                loadParticles(userData.unlockedParticles, userData.selectedParticles, userData.coins);
+                
+                showNotification(`Particle effect ${activate ? 'activated' : 'deactivated'} successfully`, 'success');
+            } catch (error) {
+                console.error('Particle toggle error:', error);
+                showNotification('Error toggling particle effect', 'error');
+            }
+        }
+        
+        // Purchase theme
+        async function purchaseTheme(themeId, price) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/coins/purchase/theme', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify({ themeName: themeId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update local storage
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    userData.coins = data.remainingCoins;
+                    userData.unlockedThemes = data.unlockedThemes;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    // Update coin display
+                    document.querySelector('.coin-amount').textContent = userData.coins;
+                    
+                    // Refresh themes grid
+                    loadThemes(userData.unlockedThemes, userData.selectedTheme, userData.coins);
+                    
+                    showNotification(`Successfully purchased ${themeId} theme`, 'success');
+                } else {
+                    showNotification(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Theme purchase error:', error);
+                showNotification('Error purchasing theme', 'error');
+            }
+        }
+        
+        // Purchase particle effect
+        async function purchaseParticle(particleId, price) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/coins/purchase/particle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify({ particleName: particleId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update local storage
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    userData.coins = data.remainingCoins;
+                    userData.unlockedParticles = data.unlockedParticles;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    // Update coin display
+                    document.querySelector('.coin-amount').textContent = userData.coins;
+                    
+                    // Refresh particles grid
+                    loadParticles(userData.unlockedParticles, userData.selectedParticles, userData.coins);
+                    
+                    showNotification(`Successfully purchased ${particleId} particle effect`, 'success');
+                } else {
+                    showNotification(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Particle purchase error:', error);
+                showNotification('Error purchasing particle effect', 'error');
+            }
+        }
+        
+        // Purchase powerup
+        async function purchasePowerup(powerupId, price) {
+            try {
+                const token = localStorage.getItem('authToken');
+                const response = await fetch('/api/coins/purchase/powerup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify({ powerupId: powerupId })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update local storage
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    userData.coins = data.remainingCoins;
+                    if (!userData.powerups) userData.powerups = {};
+                    userData.powerups[powerupId] = data.newLevel;
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    
+                    // Update coin display
+                    document.querySelector('.coin-amount').textContent = userData.coins;
+                    
+                    // Refresh powerups
+                    loadPowerups(userData.powerups, userData.coins);
+                    
+                    showNotification(`Successfully upgraded ${powerupId} to level ${data.newLevel}`, 'success');
+                } else {
+                    showNotification(data.message, 'error');
+                }
+            } catch (error) {
+                console.error('Powerup purchase error:', error);
+                showNotification('Error purchasing powerup', 'error');
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userData');
+            window.location.href = 'login.html';
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            // Create notification element if it doesn't exist
+            let notification = document.querySelector('.notification');
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.className = 'notification';
+                document.body.appendChild(notification);
+            }
+            
+            // Set message and type
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            
+            // Show notification
+            setTimeout(() => notification.classList.add('show'), 10);
+            
+            // Hide notification after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
+</body>
+</html>

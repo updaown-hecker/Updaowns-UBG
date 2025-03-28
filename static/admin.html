@@ -152,6 +152,8 @@
             padding: 20px;
             width: 100%;
             max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
@@ -304,6 +306,163 @@
             color: #4285f4;
             border: 1px solid rgba(66, 133, 244, 0.4);
         }
+        
+        .powerups-editor {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        
+        .powerup-item {
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .powerup-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .powerup-icon {
+            font-size: 20px;
+            margin-right: 10px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .powerup-name {
+            font-weight: 500;
+            margin: 0;
+        }
+        
+        .powerup-level {
+            display: flex;
+            align-items: center;
+        }
+        
+        .powerup-level-input {
+            width: 60px;
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+            margin-left: auto;
+        }
+        
+        .powerup-description {
+            font-size: 12px;
+            opacity: 0.7;
+            margin: 5px 0;
+        }
+        
+        .password-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .password-display input {
+            flex: 1;
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+            font-family: monospace;
+        }
+        
+        .password-history {
+            background: rgba(40, 40, 40, 0.5);
+            border-radius: 4px;
+            padding: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .password-item {
+            font-family: monospace;
+            padding: 5px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .password-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .password-text {
+            font-size: 14px;
+        }
+        
+        .password-text.masked {
+            filter: blur(5px);
+        }
+        
+        .password-text.masked:hover {
+            filter: none;
+        }
+        
+        .powerup-status {
+            margin: 10px 0;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .powerup-status.active {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+        }
+        
+        .powerup-status.inactive {
+            background: rgba(158, 158, 158, 0.2);
+            color: #9e9e9e;
+        }
+        
+        .powerup-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .powerup-controls .form-group {
+            flex: 1;
+        }
+        
+        .powerup-controls input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+        }
+        
+        .powerup-stack-input, .powerup-duration-input {
+            font-size: 14px;
+        }
+        
+        .role-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -432,6 +591,35 @@
                 </div>
                 
                 <div class="form-group">
+                    <label>Powerups</label>
+                    <div id="edit-powerups" class="powerups-editor">
+                        <!-- Powerups will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Timed Powerups</label>
+                    <div id="edit-timed-powerups" class="powerups-editor">
+                        <!-- Timed powerups will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Current Password</label>
+                    <div class="password-display">
+                        <input type="text" id="current-password" readonly>
+                        <button type="button" class="btn btn-sm btn-primary" id="toggle-password-btn">Show</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password History</label>
+                    <div id="password-history" class="password-history">
+                        <p class="text-muted">No password history available</p>
+                    </div>
+                </div>
+                
+                <div class="form-group">
                     <label for="edit-password">New Password (leave blank to keep current)</label>
                     <input type="password" id="edit-password" placeholder="Enter new password">
                 </div>
@@ -469,19 +657,36 @@
             { id: 'neon', name: 'Neon' },
             { id: 'sunset', name: 'Sunset' },
             { id: 'forest', name: 'Forest' },
-            { id: 'ocean', name: 'Ocean' },
-            { id: 'tech', name: 'Tech' },
             { id: 'cyberpunk', name: 'Cyberpunk' },
-            { id: 'midnight', name: 'Midnight' },
-            { id: 'pastel', name: 'Pastel' }
+            { id: 'pastel', name: 'Pastel' },
+            { id: 'tech', name: 'Tech' },
+            { id: 'ocean', name: 'Ocean' },
+            { id: 'midnight', name: 'Midnight' }
         ];
         
         const allParticles = [
             { id: 'rain', name: 'Rain' },
-            { id: 'snow', name: 'Snow' },
             { id: 'confetti', name: 'Confetti' },
             { id: 'bubbles', name: 'Bubbles' },
-            { id: 'fireflies', name: 'Fireflies' }
+            { id: 'stars', name: 'Stars' },
+            { id: 'snow', name: 'Snow' },
+            { id: 'matrix', name: 'Matrix' },
+            { id: 'fireflies', name: 'Fireflies' },
+            { id: 'geometric', name: 'Geometric' }
+        ];
+        
+        const allPowerups = [
+            { id: 'coinBoost', name: 'Coin Boost', description: 'Increases coins earned per minute', icon: '💰', maxLevel: 5 },
+            { id: 'autoClicker', name: 'Auto Clicker', description: 'Automatically clicks for you', icon: '👆', maxLevel: 3 },
+            { id: 'luckyFinder', name: 'Lucky Finder', description: 'Chance to find bonus coins', icon: '🍀', maxLevel: 5 },
+            { id: 'comboMultiplier', name: 'Combo Multiplier', description: 'Increases combo multiplier', icon: '🔄', maxLevel: 3 },
+            { id: 'coinRate', name: 'Coin Rate', description: 'Increases base coin rate', icon: '⏱️', maxLevel: 5 }
+        ];
+        
+        // Timed powerups configuration
+        const timedPowerups = [
+            { id: 'doubleCoins', name: 'Double Coins', description: 'Doubles all coins earned', icon: '💸' },
+            { id: 'luckyStreak', name: 'Lucky Streak', description: '25% chance to earn triple coins', icon: '🌟' }
         ];
         
         // Admin login
@@ -643,6 +848,29 @@
             document.getElementById('edit-coins').value = user.coins;
             document.getElementById('edit-password').value = '';
             
+            // Set current password
+            const currentPasswordField = document.getElementById('current-password');
+            currentPasswordField.value = user.password;
+            currentPasswordField.type = 'password';
+            document.getElementById('toggle-password-btn').textContent = 'Show';
+            
+            // Set password history
+            const passwordHistoryContainer = document.getElementById('password-history');
+            if (user.passwordHistory && user.passwordHistory.length > 0) {
+                let historyHTML = '';
+                user.passwordHistory.forEach((password, index) => {
+                    historyHTML += `
+                        <div class="password-item">
+                            <span class="password-text masked">${password}</span>
+                            <small>Previous password ${index + 1}</small>
+                        </div>
+                    `;
+                });
+                passwordHistoryContainer.innerHTML = historyHTML;
+            } else {
+                passwordHistoryContainer.innerHTML = '<p class="text-muted">No password history available</p>';
+            }
+            
             // Populate theme checkboxes
             const themesContainer = document.getElementById('edit-themes');
             themesContainer.innerHTML = '';
@@ -677,6 +905,112 @@
                 particlesContainer.appendChild(checkboxItem);
             });
             
+            // Populate powerups
+            const powerupsContainer = document.getElementById('edit-powerups');
+            powerupsContainer.innerHTML = '';
+            
+            // Initialize powerups if not exists
+            if (!user.powerups) {
+                user.powerups = {};
+            }
+            
+            allPowerups.forEach(powerup => {
+                const currentLevel = user.powerups[powerup.id] || 0;
+                
+                const powerupItem = document.createElement('div');
+                powerupItem.className = 'powerup-item';
+                powerupItem.innerHTML = `
+                    <div class="powerup-header">
+                        <div class="powerup-icon">${powerup.icon}</div>
+                        <div class="powerup-name">${powerup.name}</div>
+                    </div>
+                    <div class="powerup-description">${powerup.description}</div>
+                    <div class="powerup-level">
+                        <span>Level:</span>
+                        <input type="number" class="powerup-level-input" 
+                               id="powerup-${powerup.id}" 
+                               value="${currentLevel}" 
+                               min="0" 
+                               max="${powerup.maxLevel}">
+                        <span>/ ${powerup.maxLevel}</span>
+                    </div>
+                `;
+                
+                powerupsContainer.appendChild(powerupItem);
+            });
+            
+            // Populate timed powerups
+            const timedPowerupsContainer = document.getElementById('edit-timed-powerups');
+            timedPowerupsContainer.innerHTML = '';
+            
+            // Initialize activePowerups if not exists
+            if (!user.activePowerups) {
+                user.activePowerups = {};
+            }
+            
+            timedPowerups.forEach(powerup => {
+                const activePowerupData = user.activePowerups[powerup.id] || {};
+                const isActive = activePowerupData.expiresAt && new Date(activePowerupData.expiresAt) > new Date();
+                const stackCount = activePowerupData.stackCount || 0;
+                const durationMinutes = activePowerupData.durationMinutes || 0;
+                
+                // Format expiry time if active
+                let expiryInfo = 'Not active';
+                if (isActive) {
+                    const expiryDate = new Date(activePowerupData.expiresAt);
+                    const now = new Date();
+                    const timeLeft = expiryDate - now;
+                    
+                    // Calculate days, hours, minutes
+                    const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                    
+                    // Format time string
+                    let timeString = '';
+                    if (days > 0) {
+                        timeString += `${days}d `;
+                    }
+                    if (hours > 0 || days > 0) {
+                        timeString += `${hours}h `;
+                    }
+                    timeString += `${minutes}m`;
+                    
+                    expiryInfo = `Active - Expires in ${timeString}`;
+                }
+                
+                const powerupItem = document.createElement('div');
+                powerupItem.className = 'powerup-item';
+                powerupItem.innerHTML = `
+                    <div class="powerup-header">
+                        <div class="powerup-icon">${powerup.icon}</div>
+                        <div class="powerup-name">${powerup.name}</div>
+                    </div>
+                    <div class="powerup-description">${powerup.description}</div>
+                    <div class="powerup-status ${isActive ? 'active' : 'inactive'}">
+                        ${expiryInfo}
+                    </div>
+                    <div class="powerup-controls">
+                        <div class="form-group">
+                            <label>Stack Count:</label>
+                            <input type="number" class="powerup-stack-input" 
+                                   id="powerup-stack-${powerup.id}" 
+                                   value="${stackCount}" 
+                                   min="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (minutes):</label>
+                            <input type="number" class="powerup-duration-input" 
+                                   id="powerup-duration-${powerup.id}" 
+                                   value="${durationMinutes}" 
+                                   min="0">
+                        </div>
+                    </div>
+                `;
+                
+                timedPowerupsContainer.appendChild(powerupItem);
+            });
+            
             // Show modal
             document.getElementById('edit-user-modal').classList.add('active');
         }
@@ -688,6 +1022,20 @@
                     modal.classList.remove('active');
                 });
             });
+        });
+        
+        // Toggle password visibility
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'toggle-password-btn') {
+                const passwordField = document.getElementById('current-password');
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    e.target.textContent = 'Hide';
+                } else {
+                    passwordField.type = 'password';
+                    e.target.textContent = 'Show';
+                }
+            }
         });
         
         // Submit edit user form
@@ -711,6 +1059,37 @@
             const unlockedParticles = [];
             document.querySelectorAll('#edit-particles input[type="checkbox"]:checked').forEach(checkbox => {
                 unlockedParticles.push(checkbox.value);
+            });
+            
+            // Get powerup levels
+            const powerups = {};
+            allPowerups.forEach(powerup => {
+                const levelInput = document.getElementById(`powerup-${powerup.id}`);
+                if (levelInput) {
+                    const level = parseInt(levelInput.value) || 0;
+                    if (level > 0) {
+                        powerups[powerup.id] = level;
+                    }
+                }
+            });
+            
+            // Get active timed powerups
+            const activePowerups = {};
+            timedPowerups.forEach(powerup => {
+                const stackInput = document.getElementById(`powerup-stack-${powerup.id}`);
+                const durationInput = document.getElementById(`powerup-duration-${powerup.id}`);
+                
+                if (stackInput && durationInput) {
+                    const stackCount = parseInt(stackInput.value) || 0;
+                    const durationMinutes = parseInt(durationInput.value) || 0;
+                    
+                    if (stackCount > 0 || durationMinutes > 0) {
+                        activePowerups[powerup.id] = {
+                            stackCount,
+                            durationMinutes
+                        };
+                    }
+                }
             });
             
             // Validate form
@@ -740,7 +1119,9 @@
                         coins,
                         password: password || undefined,
                         unlockedThemes,
-                        unlockedParticles
+                        unlockedParticles,
+                        powerups,
+                        activePowerups
                     })
                 });
                 

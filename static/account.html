@@ -111,68 +111,116 @@
             padding-bottom: 10px;
         }
         
-        .item-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+        .stats-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
         
-        .item-card {
-            background: rgba(50, 50, 50, 0.5);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+        .stats-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .item-card.locked {
-            opacity: 0.5;
-            filter: grayscale(0.8);
+        .stats-list li:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
         }
         
-        .item-card.active {
-            border: 2px solid var(--accent-color, #7289da);
+        .stats-label {
+            opacity: 0.7;
         }
         
-        .item-card:hover {
-            background: rgba(60, 60, 60, 0.7);
-        }
-        
-        .item-name {
+        .stats-value {
             font-weight: 500;
-            margin: 5px 0;
         }
         
-        .item-price {
-            background: rgba(255, 215, 0, 0.2);
-            border-radius: 4px;
-            padding: 2px 6px;
-            font-size: 12px;
-            display: inline-block;
-            margin-top: 5px;
-            color: #ffd700;
+        .active-items {
+            margin-top: 10px;
         }
         
-        .item-icon {
-            font-size: 24px;
-            margin-bottom: 5px;
+        .active-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .unlock-button {
+        .active-item-label {
+            opacity: 0.7;
+        }
+        
+        .active-item-value {
+            font-weight: 500;
+        }
+        
+        .shop-link-container {
+            margin-top: 10px;
+        }
+        
+        .shop-link {
             background: var(--accent-color, #7289da);
             color: white;
             border: none;
             border-radius: 4px;
             padding: 5px 10px;
-            margin-top: 5px;
-            cursor: pointer;
             font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .shop-link:hover {
+            background: var(--accent-hover, #5a6ebd);
+        }
+        
+        .password-form {
+            margin-top: 15px;
+        }
+        
+        .password-form h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(30, 30, 30, 0.6);
+            color: white;
+        }
+        
+        .password-submit {
+            background: var(--accent-color, #7289da);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-weight: 500;
             transition: background 0.3s ease;
         }
         
-        .unlock-button:hover {
+        .password-submit:hover {
             background: var(--accent-hover, #5a6ebd);
         }
         
@@ -189,31 +237,6 @@
         
         .logout-button:hover {
             background: #e04444;
-        }
-        
-        .stats-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .stats-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .stats-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .stats-label {
-            opacity: 0.7;
-        }
-        
-        .stats-value {
-            font-weight: 500;
         }
         
         .notification {
@@ -266,6 +289,88 @@
         .login-redirect:hover {
             background: var(--accent-hover, #5a6ebd);
         }
+        
+        .active-powerup-card {
+            background: rgba(50, 50, 50, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--accent-color, #7289da);
+        }
+        
+        .active-powerup-card:hover {
+            background: rgba(60, 60, 60, 0.7);
+        }
+        
+        .active-powerup-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .active-powerup-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+        
+        .active-powerup-info {
+            flex: 1;
+        }
+        
+        .active-powerup-name {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        
+        .active-powerup-description {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+        
+        .active-powerup-timer {
+            margin-top: 10px;
+        }
+        
+        .timer-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .timer-progress {
+            height: 100%;
+            background: var(--accent-color, #7289da);
+            transition: width 1s linear;
+        }
+        
+        .timer-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        .stack-count {
+            color: #ffd700;
+            font-weight: 500;
+        }
+        
+        .no-powerups-message {
+            text-align: center;
+            padding: 20px;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
@@ -280,8 +385,9 @@
     </nav>
     
     <div class="container">
-        <!-- Content will be dynamically loaded based on authentication status -->
-        <div id="account-content"></div>
+        <div id="account-content">
+            <!-- Content will be loaded here based on authentication status -->
+        </div>
     </div>
     
     <!-- Notification element -->
@@ -290,16 +396,12 @@
     <script>
         // Check authentication status
         function checkAuth() {
-            const authToken = localStorage.getItem('authToken');
+            const token = localStorage.getItem('authToken');
             const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-            const accountContent = document.getElementById('account-content');
-            const authLink = document.getElementById('authLink');
             
-            if (authToken && userData) {
-                authLink.textContent = 'Account';
+            if (token && userData.username) {
                 loadAccountPage(userData);
             } else {
-                authLink.textContent = 'Login';
                 loadLoginPrompt();
             }
         }
@@ -308,10 +410,11 @@
         function loadLoginPrompt() {
             const accountContent = document.getElementById('account-content');
             accountContent.innerHTML = `
-                <div class="not-logged-in">
-                    <h2>You need to be logged in to view this page</h2>
-                    <p>Create an account to earn coins and unlock themes and particles!</p>
-                    <a href="login.html" class="login-redirect">Login or Register</a>
+                <div class="login-prompt">
+                    <h2>Login Required</h2>
+                    <p>You need to be logged in to access your account.</p>
+                    <a href="login.html" class="login-button">Login</a>
+                    <p>Don't have an account? <a href="register.html">Register</a></p>
                 </div>
             `;
         }
@@ -361,6 +464,18 @@
             // Update localStorage with latest user data
             localStorage.setItem('userData', JSON.stringify(user));
             
+            // Calculate coins per minute if the method exists
+            let coinsPerMinute = 1;
+            if (user.powerups && user.powerups.coinRate) {
+                coinsPerMinute = 1 + (user.powerups.coinRate * 4);
+            }
+            
+            // Calculate coin multiplier
+            let coinMultiplier = 1;
+            if (user.powerups && user.powerups.coinBoost) {
+                coinMultiplier = 1 + (user.powerups.coinBoost * 0.2);
+            }
+            
             accountContent.innerHTML = `
                 <div class="account-container">
                     <div class="account-header">
@@ -372,25 +487,12 @@
                             <div class="coin-display">
                                 <div class="coin-icon">$</div>
                                 <span class="coin-amount">${user.coins}</span>
+                                ${coinMultiplier > 1 ? `<span class="multiplier-badge">x${coinMultiplier.toFixed(1)}</span>` : ''}
                             </div>
                         </div>
                     </div>
                     
                     <div class="account-grid">
-                        <div class="account-section">
-                            <h2>Themes</h2>
-                            <div class="item-grid" id="themes-grid">
-                                <!-- Themes will be loaded here -->
-                            </div>
-                        </div>
-                        
-                        <div class="account-section">
-                            <h2>Particle Effects</h2>
-                            <div class="item-grid" id="particles-grid">
-                                <!-- Particles will be loaded here -->
-                            </div>
-                        </div>
-                        
                         <div class="account-section">
                             <h2>Account Stats</h2>
                             <ul class="stats-list">
@@ -408,258 +510,240 @@
                                 </li>
                                 <li>
                                     <span class="stats-label">Unlocked Themes</span>
-                                    <span class="stats-value">${user.unlockedThemes.length}</span>
+                                    <span class="stats-value">${user.unlockedThemes ? user.unlockedThemes.length : 0}</span>
                                 </li>
                                 <li>
                                     <span class="stats-label">Unlocked Particles</span>
-                                    <span class="stats-value">${user.unlockedParticles.length}</span>
+                                    <span class="stats-value">${user.unlockedParticles ? user.unlockedParticles.length : 0}</span>
                                 </li>
                             </ul>
-                            <button class="logout-button" id="logout-button" style="margin-top: 15px; width: 100%;">Logout</button>
                         </div>
+                        
+                        <div class="account-section">
+                            <h2>Active Items</h2>
+                            <div class="active-items">
+                                <div class="active-item">
+                                    <span class="active-item-label">Current Theme:</span>
+                                    <span class="active-item-value">${user.selectedTheme || 'Default'}</span>
+                                </div>
+                                <div class="active-item">
+                                    <span class="active-item-label">Active Particles:</span>
+                                    <span class="active-item-value">${user.selectedParticles && user.selectedParticles.length > 0 ? user.selectedParticles.join(', ') : 'None'}</span>
+                                </div>
+                                <div class="active-item">
+                                    <span class="active-item-label">Coin Multiplier:</span>
+                                    <span class="active-item-value">${coinMultiplier.toFixed(1)}x</span>
+                                </div>
+                                <div class="active-item">
+                                    <span class="active-item-label">Coins Per Minute:</span>
+                                    <span class="active-item-value">${coinsPerMinute}</span>
+                                </div>
+                            </div>
+                            <div class="shop-link-container">
+                                <a href="shop.html" class="shop-link">Visit Shop to Purchase Items</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="active-powerups-section" class="account-section">
+                        <h2>Active Powerups</h2>
+                        <div id="active-powerups-container">
+                            <p>Loading active powerups...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="account-section">
+                        <h2>Change Password</h2>
+                        <form id="change-password-form">
+                            <div class="form-group">
+                                <label for="current-password">Current Password</label>
+                                <input type="password" id="current-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="new-password">New Password</label>
+                                <input type="password" id="new-password" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm New Password</label>
+                                <input type="password" id="confirm-password" required minlength="6">
+                            </div>
+                            <button type="submit" class="password-submit">Update Password</button>
+                        </form>
+                    </div>
+                    
+                    <div class="account-section">
+                        <h2>Account Actions</h2>
+                        <button class="logout-button" id="logout-button">Logout</button>
                     </div>
                 </div>
             `;
             
-            // Load themes
-            loadThemes(user.unlockedThemes, user.selectedTheme);
-            
-            // Load particles
-            loadParticles(user.unlockedParticles, user.selectedParticles);
-            
             // Add logout event listener
             document.getElementById('logout-button').addEventListener('click', logout);
+            
+            // Add password change form event listener
+            document.getElementById('change-password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                changePassword();
+            });
+            
+            // Load active powerups
+            loadActivePowerups(user);
         }
         
-        // Load themes grid
-        function loadThemes(unlockedThemes, selectedTheme) {
-            const themesGrid = document.getElementById('themes-grid');
-            const allThemes = [
-                { id: 'default', name: 'Default', price: 0, icon: '🎨' },
-                { id: 'neon', name: 'Neon', price: 50, icon: '🌈' },
-                { id: 'sunset', name: 'Sunset', price: 50, icon: '🌅' },
-                { id: 'forest', name: 'Forest', price: 50, icon: '🌲' },
-                { id: 'ocean', name: 'Ocean', price: 50, icon: '🌊' },
-                { id: 'tech', name: 'Tech', price: 50, icon: '💻' },
-                { id: 'cyberpunk', name: 'Cyberpunk', price: 50, icon: '🤖' },
-                { id: 'midnight', name: 'Midnight', price: 50, icon: '🌙' },
-                { id: 'pastel', name: 'Pastel', price: 50, icon: '🎀' }
-            ];
+        // Load active powerups
+        function loadActivePowerups(user) {
+            const activePowerupsContainer = document.getElementById('active-powerups-container');
             
-            let html = '';
-            
-            allThemes.forEach(theme => {
-                const isUnlocked = unlockedThemes.includes(theme.id);
-                const isActive = selectedTheme === theme.id;
-                
-                html += `
-                    <div class="item-card ${isUnlocked ? '' : 'locked'} ${isActive ? 'active' : ''}" 
-                         data-theme="${theme.id}" 
-                         data-unlocked="${isUnlocked}">
-                        <div class="item-icon">${theme.icon}</div>
-                        <div class="item-name">${theme.name}</div>
-                        ${isUnlocked 
-                            ? (isActive 
-                                ? '<div class="item-price">Active</div>' 
-                                : '<button class="unlock-button activate-theme">Activate</button>') 
-                            : `<div class="item-price">${theme.price} coins</div>
-                               <button class="unlock-button purchase-theme">Unlock</button>`
-                        }
-                    </div>
+            // Check if user has activePowerups
+            if (!user.activePowerups || Object.keys(user.activePowerups).length === 0) {
+                activePowerupsContainer.innerHTML = `
+                    <p class="no-powerups-message">You don't have any active powerups.</p>
                 `;
-            });
+                return;
+            }
             
-            themesGrid.innerHTML = html;
+            let powerupHtml = '';
+            const now = new Date();
             
-            // Add event listeners for theme activation and purchase
-            document.querySelectorAll('.activate-theme').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const themeId = this.closest('.item-card').getAttribute('data-theme');
-                    activateTheme(themeId);
-                });
-            });
-            
-            document.querySelectorAll('.purchase-theme').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const themeId = this.closest('.item-card').getAttribute('data-theme');
-                    const theme = allThemes.find(t => t.id === themeId);
-                    purchaseTheme(themeId, theme.price);
-                });
-            });
-        }
-        
-        // Load particles grid
-        function loadParticles(unlockedParticles, selectedParticles) {
-            const particlesGrid = document.getElementById('particles-grid');
-            const allParticles = [
-                { id: 'rain', name: 'Rain', price: 30, icon: '🌧️' },
-                { id: 'snow', name: 'Snow', price: 30, icon: '❄️' },
-                { id: 'confetti', name: 'Confetti', price: 30, icon: '🎉' },
-                { id: 'bubbles', name: 'Bubbles', price: 30, icon: '🫧' },
-                { id: 'fireflies', name: 'Fireflies', price: 30, icon: '✨' }
-            ];
-            
-            let html = '';
-            
-            allParticles.forEach(particle => {
-                const isUnlocked = unlockedParticles.includes(particle.id);
-                const isActive = selectedParticles.includes(particle.id);
-                
-                html += `
-                    <div class="item-card ${isUnlocked ? '' : 'locked'} ${isActive ? 'active' : ''}" 
-                         data-particle="${particle.id}" 
-                         data-unlocked="${isUnlocked}">
-                        <div class="item-icon">${particle.icon}</div>
-                        <div class="item-name">${particle.name}</div>
-                        ${isUnlocked 
-                            ? (isActive 
-                                ? '<button class="unlock-button deactivate-particle">Deactivate</button>' 
-                                : '<button class="unlock-button activate-particle">Activate</button>') 
-                            : `<div class="item-price">${particle.price} coins</div>
-                               <button class="unlock-button purchase-particle">Unlock</button>`
-                        }
-                    </div>
-                `;
-            });
-            
-            particlesGrid.innerHTML = html;
-            
-            // Add event listeners for particle activation/deactivation and purchase
-            document.querySelectorAll('.activate-particle').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const particleId = this.closest('.item-card').getAttribute('data-particle');
-                    toggleParticle(particleId, true);
-                });
-            });
-            
-            document.querySelectorAll('.deactivate-particle').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const particleId = this.closest('.item-card').getAttribute('data-particle');
-                    toggleParticle(particleId, false);
-                });
-            });
-            
-            document.querySelectorAll('.purchase-particle').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const particleId = this.closest('.item-card').getAttribute('data-particle');
-                    const particle = allParticles.find(p => p.id === particleId);
-                    purchaseParticle(particleId, particle.price);
-                });
-            });
-        }
-        
-        // Activate theme
-        async function activateTheme(themeId) {
-            // Update theme in localStorage
-            localStorage.setItem('theme', themeId);
-            
-            // Update user data
-            const userData = JSON.parse(localStorage.getItem('userData'));
-            userData.selectedTheme = themeId;
-            localStorage.setItem('userData', JSON.stringify(userData));
-            
-            // Refresh the page to apply theme
-            showNotification('Theme activated!', 'success');
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
-        }
-        
-        // Toggle particle effect
-        function toggleParticle(particleId, activate) {
-            // Update particle in localStorage
-            localStorage.setItem(`particle_${particleId}`, activate ? 'true' : 'false');
-            
-            // Update user data
-            const userData = JSON.parse(localStorage.getItem('userData'));
-            if (activate) {
-                if (!userData.selectedParticles.includes(particleId)) {
-                    userData.selectedParticles.push(particleId);
+            // Map of powerup IDs to their display names and descriptions
+            const powerupDetails = {
+                'doubleCoins': {
+                    name: 'Double Coins',
+                    description: 'Doubles all coins earned',
+                    icon: '💰'
+                },
+                'luckyStreak': {
+                    name: 'Lucky Streak',
+                    description: '25% chance to earn triple coins',
+                    icon: '🍀'
                 }
+                // Add more powerups as needed
+            };
+            
+            // Process each active powerup
+            for (const [powerupId, powerupData] of Object.entries(user.activePowerups)) {
+                const expiresAt = new Date(powerupData.expiresAt);
+                const timeLeft = expiresAt - now;
+                
+                if (timeLeft <= 0) continue; // Skip expired powerups
+                
+                // Calculate percentage of time remaining
+                const activatedAt = new Date(powerupData.activatedAt);
+                const totalDuration = expiresAt - activatedAt;
+                const percentLeft = (timeLeft / totalDuration) * 100;
+                
+                // Format time remaining
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                let timeString = '';
+                if (hours > 0) {
+                    if (hours >= 24) {
+                        const days = Math.floor(hours / 24);
+                        timeString += `${days}d `;
+                        if (hours % 24 > 0) {
+                            timeString += `${hours % 24}h `;
+                        }
+                    } else {
+                        timeString += `${hours}h `;
+                    }
+                }
+                timeString += `${minutes}m ${seconds.toString().padStart(2, '0')}s`;
+                
+                // Get powerup details or use defaults
+                const details = powerupDetails[powerupId] || {
+                    name: powerupId,
+                    description: 'Active powerup',
+                    icon: '✨'
+                };
+                
+                powerupHtml += `
+                    <div class="active-powerup-card">
+                        <div class="active-powerup-header">
+                            <div class="active-powerup-icon">${details.icon}</div>
+                            <div class="active-powerup-info">
+                                <h3 class="active-powerup-name">${details.name}</h3>
+                                <p class="active-powerup-description">${details.description}</p>
+                            </div>
+                        </div>
+                        <div class="active-powerup-timer">
+                            <div class="timer-bar">
+                                <div class="timer-progress" style="width: ${percentLeft}%"></div>
+                            </div>
+                            <div class="timer-text">
+                                <span>Time Remaining: ${timeString}</span>
+                                <span class="stack-count">Stack Count: ${powerupData.stackCount || 1}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (powerupHtml === '') {
+                activePowerupsContainer.innerHTML = `
+                    <p class="no-powerups-message">You don't have any active powerups.</p>
+                `;
             } else {
-                userData.selectedParticles = userData.selectedParticles.filter(p => p !== particleId);
+                activePowerupsContainer.innerHTML = powerupHtml;
             }
-            localStorage.setItem('userData', JSON.stringify(userData));
             
-            // Refresh the page to apply changes
-            showNotification(activate ? 'Particle effect activated!' : 'Particle effect deactivated!', 'success');
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
+            // Update timers every second
+            setTimeout(() => loadActivePowerups(user), 1000);
         }
         
-        // Purchase theme
-        async function purchaseTheme(themeId, price) {
-            try {
-                const token = localStorage.getItem('authToken');
-                const response = await fetch('/api/coins/purchase/theme', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': token
-                    },
-                    body: JSON.stringify({ themeName: themeId })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Update user data
-                    const userData = JSON.parse(localStorage.getItem('userData'));
-                    userData.coins = data.remainingCoins;
-                    userData.unlockedThemes = data.unlockedThemes;
-                    localStorage.setItem('userData', JSON.stringify(userData));
-                    
-                    showNotification(`Successfully purchased ${themeId} theme!`, 'success');
-                    
-                    // Refresh account page
-                    loadAccountPage(userData);
-                } else {
-                    showNotification(data.message || 'Purchase failed', 'error');
-                }
-            } catch (error) {
-                console.error('Theme purchase error:', error);
-                showNotification('An error occurred during purchase', 'error');
+        // Change password function
+        async function changePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Validate passwords
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showNotification('All password fields are required', 'error');
+                return;
             }
-        }
-        
-        // Purchase particle effect
-        async function purchaseParticle(particleId, price) {
+            
+            if (newPassword.length < 6) {
+                showNotification('New password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showNotification('New passwords do not match', 'error');
+                return;
+            }
+            
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await fetch('/api/coins/purchase/particle', {
+                const response = await fetch('/api/auth/change-password', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'x-auth-token': token
                     },
-                    body: JSON.stringify({ particleName: particleId })
+                    body: JSON.stringify({
+                        currentPassword,
+                        newPassword
+                    })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Update user data
-                    const userData = JSON.parse(localStorage.getItem('userData'));
-                    userData.coins = data.remainingCoins;
-                    userData.unlockedParticles = data.unlockedParticles;
-                    localStorage.setItem('userData', JSON.stringify(userData));
+                    showNotification('Password updated successfully', 'success');
                     
-                    showNotification(`Successfully purchased ${particleId} particle effect!`, 'success');
-                    
-                    // Refresh account page
-                    loadAccountPage(userData);
+                    // Clear password fields
+                    document.getElementById('current-password').value = '';
+                    document.getElementById('new-password').value = '';
+                    document.getElementById('confirm-password').value = '';
                 } else {
-                    showNotification(data.message || 'Purchase failed', 'error');
+                    showNotification(data.message || 'Failed to update password', 'error');
                 }
             } catch (error) {
-                console.error('Particle purchase error:', error);
-                showNotification('An error occurred during purchase', 'error');
+                console.error('Password change error:', error);
+                showNotification('An error occurred while changing password', 'error');
             }
         }
         

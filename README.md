@@ -1,4 +1,5 @@
 <div align="center">
+    <h1>Updaown's UBG</h1>
     <p>Updaown's UBG is a web proxy with a Clean and Sleek UI and easy-to-use menus. Our goal is to provide the best user experience to everyone.</p>
 </div>
 
@@ -20,6 +21,62 @@
 - Now.gg Support (W.I.P)
 - Fast Speeds
 - Geforce NOW Support
+- **User Account System**
+- **Coin Earning System**
+- **Unlockable Themes & Particles**
+- **Admin Panel with Role Hierarchy**
+
+## User Account System
+
+### Registration and Login
+- Users can create accounts with a username, email, and password
+- Accounts persist between server restarts (stored in data/users.json)
+- Login to access personalized features and earn coins
+
+### Coin Earning System
+- Earn 1 coin per minute of gameplay
+- Use coins to unlock premium themes and particle effects
+- View your coin balance in the user dashboard
+- New users receive 2 free themes and particles of their choice
+
+### Themes and Particles
+- Multiple themes available: default, neon, sunset, forest, ocean, tech, cyberpunk, midnight, pastel
+- Particle effects: rain, snow, confetti, bubbles, fireflies
+- Unlock new themes and particles using earned coins
+- Change your active theme and particles in the settings page
+
+## Admin Panel
+
+### Role Hierarchy
+
+1. **Owner** (Highest Level)
+   - Full access to all user accounts
+   - Can modify admin accounts
+   - Can promote users to admin or owner
+   - Complete control over the system
+   - user: admin and password: admin123
+
+2. **Admin** (Middle Level)
+   - Can manage regular users only
+   - Cannot modify owner or other admin accounts
+   - Cannot promote users to admin or owner
+   - Cannot change passwords of admins or owners
+
+3. **User** (Regular Level)
+   - Standard access to the site features
+   - No administrative privileges
+
+### Admin Features
+- User Management: View, edit, and delete user accounts
+- Grant Coins: Add coins to user accounts
+- Unlock Items: Grant themes and particles to users
+- Change Passwords: Reset user passwords (with role-based restrictions)
+- Role Management: Change user roles (with appropriate permissions)
+
+### Accessing the Admin Panel
+- Navigate to `/admin.html`
+- Login with an admin or owner account
+- The panel shows different options based on your role
 
 ## Deployment
 
