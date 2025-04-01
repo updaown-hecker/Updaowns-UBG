@@ -2,12 +2,37 @@
 const particlesLoader = (() => {
   // Track all particle overlays
   const particleOverlays = {};
-  const particleTypes = ['rain', 'snow', 'confetti', 'bubbles', 'fireflies'];
+  const particleTypes = ['rain', 'snow', 'confetti', 'bubbles', 'fireflies', 'stars', 'matrix', 'geometric'];
   
   // Initialize all enabled particle effects on page load
   document.addEventListener("DOMContentLoaded", () => {
+    // Check if user is logged in
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const authToken = localStorage.getItem('authToken');
+    const isLoggedIn = !!(authToken && userData);
+    
     particleTypes.forEach(type => {
       const isEnabled = localStorage.getItem(`${type}Enabled`) === 'true';
+      
+      // If not logged in, only allow rain particles
+      if (!isLoggedIn && type !== 'rain') {
+        if (isEnabled) {
+          console.log(`User not logged in. Disabling ${type} particles.`);
+          localStorage.setItem(`${type}Enabled`, 'false');
+        }
+        return;
+      }
+      
+      // If logged in, check if particle is unlocked
+      if (isLoggedIn && isEnabled) {
+        const unlockedParticles = userData.unlockedParticles || ['rain'];
+        if (!unlockedParticles.includes(type)) {
+          console.log(`Particle ${type} not unlocked. Disabling.`);
+          localStorage.setItem(`${type}Enabled`, 'false');
+          return;
+        }
+      }
+      
       if (isEnabled) {
         createParticleOverlay(type);
       }
@@ -15,9 +40,66 @@ const particlesLoader = (() => {
     
     // Listen for storage events to sync particle effects across tabs
     window.addEventListener('storage', (e) => {
+      // Check for auth changes
+      if (e.key === 'authToken' || e.key === 'userData') {
+        // Re-validate all enabled particles
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        const authToken = localStorage.getItem('authToken');
+        const isLoggedIn = !!(authToken && userData);
+        
+        particleTypes.forEach(type => {
+          const isEnabled = localStorage.getItem(`${type}Enabled`) === 'true';
+          
+          // If not logged in, only allow rain particles
+          if (!isLoggedIn && type !== 'rain') {
+            if (isEnabled) {
+              console.log(`User not logged in. Disabling ${type} particles.`);
+              localStorage.setItem(`${type}Enabled`, 'false');
+              removeParticleOverlay(type);
+            }
+            return;
+          }
+          
+          // If logged in, check if particle is unlocked
+          if (isLoggedIn && isEnabled) {
+            const unlockedParticles = userData.unlockedParticles || ['rain'];
+            if (!unlockedParticles.includes(type)) {
+              console.log(`Particle ${type} not unlocked. Disabling.`);
+              localStorage.setItem(`${type}Enabled`, 'false');
+              removeParticleOverlay(type);
+              return;
+            }
+          }
+        });
+      }
+      
+      // Handle direct particle toggle events
       particleTypes.forEach(type => {
         if (e.key === `${type}Enabled`) {
           const isEnabled = e.newValue === 'true';
+          
+          // Check if user is logged in
+          const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+          const authToken = localStorage.getItem('authToken');
+          const isLoggedIn = !!(authToken && userData);
+          
+          // If not logged in, only allow rain particles
+          if (!isLoggedIn && type !== 'rain' && isEnabled) {
+            console.log(`User not logged in. Cannot enable ${type} particles.`);
+            localStorage.setItem(`${type}Enabled`, 'false');
+            return;
+          }
+          
+          // If logged in, check if particle is unlocked
+          if (isLoggedIn && isEnabled) {
+            const unlockedParticles = userData.unlockedParticles || ['rain'];
+            if (!unlockedParticles.includes(type)) {
+              console.log(`Particle ${type} not unlocked. Cannot enable.`);
+              localStorage.setItem(`${type}Enabled`, 'false');
+              return;
+            }
+          }
+          
           if (isEnabled) {
             createParticleOverlay(type);
           } else {
@@ -51,24 +133,44 @@ const particlesLoader = (() => {
   function removeParticleOverlay(type) {
     if (particleOverlays[type]) {
       particleOverlays[type].remove();
-      particleOverlays[type] = null;
+      delete particleOverlays[type];
     }
   }
   
   // Public API
   return {
     load: function(type) {
-      if (particleTypes.includes(type)) {
-        createParticleOverlay(type);
+      // Check if user is logged in
+      const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+      const authToken = localStorage.getItem('authToken');
+      const isLoggedIn = !!(authToken && userData);
+      
+      // If not logged in, only allow rain particles
+      if (!isLoggedIn && type !== 'rain') {
+        console.log(`User not logged in. Cannot enable ${type} particles.`);
+        return false;
       }
+      
+      // If logged in, check if particle is unlocked
+      if (isLoggedIn) {
+        const unlockedParticles = userData.unlockedParticles || ['rain'];
+        if (!unlockedParticles.includes(type)) {
+          console.log(`Particle ${type} not unlocked. Cannot enable.`);
+          return false;
+        }
+      }
+      
+      localStorage.setItem(`${type}Enabled`, 'true');
+      createParticleOverlay(type);
+      return true;
     },
     unload: function(type) {
-      if (particleTypes.includes(type)) {
-        removeParticleOverlay(type);
-      }
+      localStorage.setItem(`${type}Enabled`, 'false');
+      removeParticleOverlay(type);
+      return true;
     },
     isEnabled: function(type) {
-      return particleOverlays[type] != null;
+      return localStorage.getItem(`${type}Enabled`) === 'true';
     }
   };
 })();

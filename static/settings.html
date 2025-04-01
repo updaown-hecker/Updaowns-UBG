@@ -509,11 +509,20 @@
         const themeChoice = document.getElementById('themeChoice');
         
         function applyTheme(theme) {
+            // Use the global verification function
+            theme = window.verifyAndApplyTheme ? window.verifyAndApplyTheme() : theme;
+            
             // Remove any existing theme stylesheet
             const existingTheme = document.querySelector('link[data-theme]');
             if (existingTheme) {
                 existingTheme.remove();
             }
+
+            // Clear any theme classes from body
+            document.body.className = document.body.className
+                .split(' ')
+                .filter(cls => !cls.startsWith('theme-'))
+                .join(' ');
 
             // If not default theme, add the new theme stylesheet
             if (theme !== 'default') {
@@ -522,6 +531,9 @@
                 link.href = `assets/css/themes/${theme}.css`;
                 link.setAttribute('data-theme', theme);
                 document.head.appendChild(link);
+                
+                // Add theme class to body
+                document.body.classList.add(`theme-${theme}`);
             }
         }
         

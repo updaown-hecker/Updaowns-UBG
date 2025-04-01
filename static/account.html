@@ -23,16 +23,16 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#7289da">
     <title>My Account - Updaown's Unblocked Games</title>
-    <link rel="icon" href="assets/favicon/google.ico">
-    <link rel="apple-touch-icon" href="assets/favicon/icon-192.png">
-    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="/assets/favicon/google.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/assets/favicon/icon-192.png">
+    <link rel="manifest" href="/manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/settings.css">
-    <script src="assets/js/panic.js"></script>
-    <script src="assets/js/background.js"></script>
-    <script src="assets/js/theme-loader.js"></script>
-    <script src="assets/js/background-elements.js"></script>
-    <script src="assets/js/particles-loader.js"></script>
+    <link rel="stylesheet" href="/assets/css/settings.css">
+    <script src="/assets/js/panic.js"></script>
+    <script src="/assets/js/background.js"></script>
+    <script src="/assets/js/theme-loader.js"></script>
+    <script src="/assets/js/background-elements.js"></script>
+    <script src="/assets/js/particles-loader.js"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -385,12 +385,13 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="index.html" class="nav-logo">Unblocked Games</a>
+        <a href="/index.html" class="nav-logo">Updaown's UBG</a>
         <div class="nav-links">
-            <a href="index.html" class="nav-link">Games</a>
-            <a href="apps.html" class="nav-link">Apps</a>
-            <a href="settings.html" class="nav-link">Settings</a>
-            <a href="account.html" class="nav-link active" id="authLink">Account</a>
+            <a href="/index.html" class="nav-link">Home</a>
+            <a href="/apps.html" class="nav-link">Games</a>
+            <a href="/shop.html" class="nav-link">Shop</a>
+            <a href="/account.html" class="nav-link active">Account</a>
+            <a href="/settings.html" class="nav-link">Settings</a>
         </div>
     </nav>
     
@@ -423,8 +424,9 @@
                 <div class="login-prompt">
                     <h2>Login Required</h2>
                     <p>You need to be logged in to access your account.</p>
-                    <a href="login.html" class="login-button">Login</a>
-                    <p>Don't have an account? <a href="register.html">Register</a></p>
+                    <p>Login to earn coins, unlock themes and particles, and customize your gaming experience!</p>
+                    <a href="/login.html" class="login-button">Login</a>
+                    <p>Don't have an account? <a href="/register.html">Register</a> and get 2 free themes and particles of your choice!</p>
                 </div>
             `;
         }
@@ -453,17 +455,38 @@
         async function fetchUserProfile() {
             try {
                 const token = localStorage.getItem('authToken');
-                const response = await fetch('/api/auth/profile', {
-                    method: 'GET',
-                    headers: {
-                        'x-auth-token': token
-                    }
-                });
+                if (!token) {
+                    throw new Error('No authentication token found');
+                }
                 
-                return await response.json();
+                // First try to get from server
+                try {
+                    const response = await fetch('/api/auth/profile', {
+                        method: 'GET',
+                        headers: {
+                            'x-auth-token': token
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Update localStorage with latest user data
+                        if (data.success && data.user) {
+                            localStorage.setItem('userData', JSON.stringify(data.user));
+                        }
+                        return data;
+                    } else {
+                        throw new Error('Failed to fetch profile from server');
+                    }
+                } catch (serverError) {
+                    console.warn('Server fetch failed, using cached data:', serverError);
+                    // Fall back to cached data
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    return { success: true, user: userData };
+                }
             } catch (error) {
                 console.error('Profile fetch error:', error);
-                throw error;
+                return { success: false, message: error.message };
             }
         }
         
@@ -759,21 +782,32 @@
         
         // Logout function
         function logout() {
+            // Clear authentication data
             localStorage.removeItem('authToken');
             localStorage.removeItem('userData');
             
-            // Reset theme and particles to default
+            // Reset theme to default
             localStorage.setItem('theme', 'default');
-            document.querySelectorAll('[id^="particle_"]').forEach(key => {
-                localStorage.removeItem(key);
+            if (window.verifyAndApplyTheme) {
+                window.verifyAndApplyTheme();
+            }
+            
+            // Disable all particles except rain
+            const particleTypes = ['snow', 'confetti', 'bubbles', 'fireflies', 'stars', 'matrix', 'geometric'];
+            particleTypes.forEach(type => {
+                localStorage.setItem(`${type}Enabled`, 'false');
+                if (window.particlesLoader && window.particlesLoader.unload) {
+                    window.particlesLoader.unload(type);
+                }
             });
             
-            showNotification('You have been logged out', 'success');
+            // Show notification
+            showNotification('Logged out successfully', 'success');
             
             // Redirect to login page
             setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 1000);
+                window.location.href = '/login.html';
+            }, 1500);
         }
         
         // Show notification
