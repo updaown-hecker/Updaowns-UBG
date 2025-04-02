@@ -4,7 +4,7 @@
     "username": "admin",
     "email": "admin@gmail.com",
     "password": "admin123",
-    "coins": 12345678335,
+    "coins": 12345678285,
     "unlockedThemes": [
       "default",
       "neon",
@@ -31,7 +31,7 @@
       "rain"
     ],
     "createdAt": "2025-03-27T19:08:42.745Z",
-    "lastLogin": "2025-03-27T22:27:28.979Z",
+    "lastLogin": "2025-04-02T00:05:36.490Z",
     "role": "owner",
     "powerups": {
       "coinBoost": 5,
@@ -48,10 +48,10 @@
     ],
     "activePowerups": {
       "doubleCoins": {
-        "activatedAt": "2025-03-28T04:16:43.986Z",
-        "expiresAt": "2025-03-28T04:31:43.986Z",
-        "durationMinutes": 15,
-        "stackCount": 2
+        "activatedAt": "2025-04-02T00:06:16.431Z",
+        "expiresAt": "2025-04-02T00:11:16.431Z",
+        "durationMinutes": 5,
+        "stackCount": 1
       },
       "luckyStreak": {
         "activatedAt": "2025-03-28T04:24:11.615Z",
