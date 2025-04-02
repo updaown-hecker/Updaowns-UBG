@@ -17,14 +17,14 @@
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Updaown's Unblocked Games">
     <meta property="og:description" content="Play free unblocked games with customizable themes, particles, and powerups. Earn coins and unlock special features!">
-    <meta property="og:image" content="/assets/favicon/icon-512.png">
-    <meta property="og:url" content="https://updaowns-ubg.com">
+    <meta property="og:image" content="assets/favicon/google.ico">
+    <meta property="og:url" content="https://updaown-2.koyeb.app">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="theme-color" content="#7289da">
     <title>Updaown's Unblocked Games</title>
     <link rel="icon" href="assets/favicon/google.ico">
-    <link rel="apple-touch-icon" href="assets/favicon/icon-192.png">
+    <link rel="apple-touch-icon" href="assets/favicon/google.ico">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -39,11 +39,11 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Updaown's Unblocked Games",
-      "url": "https://updaowns-ubg.com",
+      "url": "https://updaown-2.koyeb.app",
       "description": "Play free unblocked games with customizable themes, particles, and powerups. Earn coins and unlock special features!",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://updaowns-ubg.com/search?q={search_term_string}",
+        "target": "https://updaown-2.koyeb.app/search?q={search_term_string}",
         "query-input": "required name=search_term_string"
       }
     }
@@ -83,199 +83,213 @@
             <input type="text" id="searchInput" placeholder="Search games...">
         </div>
 
-
-
         <div id="gamesContainer"></div>
     </div>
 
     <div id="iframeContainer" style="display: none;">
-        <div id="iframeControls">
-            <button id="fullScreenButton">Full Screen</button>
-            <button id="closeButton">X</button>
-        </div>
-        <div id="loadingIndicator">
-            <div class="spinner"></div>
-            <div class="loading-text">Loading Game...</div>
-        </div>
-        <object id="gameObject" type="text/html" style="width: 100%; height: 100%;" data=""></object>
+    <div id="iframeControls">
+        <button id="fullScreenButton">Full Screen</button>
+        <button id="closeButton">X</button>
     </div>
-
-    
+    <div id="loadingIndicator">
+        <div class="spinner"></div>
+        <div class="loading-text">Loading Game...</div>
+    </div>
+    <iframe id="gameFrame" src="" frameborder="0" style="width: 100%; height: 100%; display: none;"></iframe>
+    <object id="gameObject" type="text/html" style="width: 100%; height: 100%; display: none;" data=""></object>
+</div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var games = [];
-            const host = window.location.origin;
-            var gamesList = [
-                { "name": "Other Site", "url": `${host}/old-site/index.html`, "image": "assets/apps/page.png" },
-                { "name": "Proxy", "url": `${host}/apps/prox.html`, "image": "assets/apps/prox.png" },
-                { "name": "Ruffle Emulator", "url": `${host}/apps/ruffle.html`, "image": "assets/apps/ruffle.png" },
-                { "name": "ROM Emulator (EmulatorJS)", "url": `${host}/apps/ROM.html`, "image": "assets/apps/emulatorJS.png" },
-                { "name": "Music Player", "url": `${host}/apps/music.html`, "image": "assets/apps/music.png" },
-                { "name": "DDOS (kinda)", "url": `${host}/apps/dos.html`, "image": "assets/apps/dos.png" },
-                { "name": "Hand Tracking", "url": `${host}/apps/hands.html`, "image": "assets/apps/hands.png" },
-                { "name": "Behold the Secrets of Hacks", "url": `${host}/apps/H&(k.html`, "image": "assets/apps/hacks.png" },
-                { "name": "Pause extensions", "url": `${host}/apps/hang3r.html`, "image": "assets/apps/hang3r.png" },
-                { "name": "Qwen Gpt \"Better than deepseek and chatGPT\"", "url": `${host}/apps/Qwen.html`, "image": "assets/apps/qwen.png" },
-                { "name": "Kahoot Flooder", "url": `${host}/apps/kahoot-flooder.html`, "image": "assets/apps/flooder.png" },
-                { "name": "Rafa ONLY", "url": `${host}/a/hvtrs8%2F-wuw%2Cpmrlhwb%2Ccmm-`, "image": "assets/apps/taco.png", "tab-open": true },
-                { "name": "Now.gg", "url": `${host}/apps/nowgg.html`, "image": "assets/apps/nowgg.png" },
-                { "name": "Chat GPT", "url": `${host}/a/hvtrs8%2F-cjavgrt%2Ccmm`, "image": "assets/apps/chatgpt.png", "tab-open": true }
-            ];
-            games = gamesList;
+    document.addEventListener("DOMContentLoaded", function () {
+        var games = [];
+        const host = window.location.origin;
+        var gamesList = [
+            { "name": "Other Site", "url": `${host}/old-site/index.html`, "image": "assets/apps/page.png" },
+            { "name": "Proxy", "url": `${host}/apps/prox.html`, "image": "assets/apps/prox.png" },
+            { "name": "Ruffle Emulator", "url": `${host}/apps/ruffle.html`, "image": "assets/apps/ruffle.png" },
+            { "name": "ROM Emulator (EmulatorJS)", "url": `${host}/apps/ROM.html`, "image": "assets/apps/emulatorJS.png" },
+            { "name": "Music Player", "url": `${host}/apps/music.html`, "image": "assets/apps/music.png" },
+            { "name": "DDOS (kinda)", "url": `${host}/apps/dos.html`, "image": "assets/apps/dos.png" },
+            { "name": "Hand Tracking", "url": `${host}/apps/hands.html`, "image": "assets/apps/hands.png" },
+            { "name": "Behold the Secrets of Hacks", "url": `${host}/apps/H&(k.html`, "image": "assets/apps/hacks.png" },
+            { "name": "Pause extensions", "url": `${host}/apps/hang3r.html`, "image": "assets/apps/hang3r.png" },
+            { "name": "Qwen Gpt \"Better than deepseek and chatGPT\"", "url": `${host}/apps/Qwen.html`, "image": "assets/apps/qwen.png" },
+            { "name": "Kahoot Flooder", "url": `${host}/apps/kahoot-flooder.html`, "image": "assets/apps/flooder.png" },
+            { "name": "Rafa ONLY", "url": `${host}/a/hvtrs8%2F-wuw%2Cpmrlhwb%2Ccmm-`, "image": "assets/apps/taco.png" },
+            { "name": "Now.gg", "url": `${host}/a/hvtrs8%2F-nmw%2Cge`, "image": "assets/apps/nowgg.png" },
+            { "name": "Chat GPT", "url": `${host}/a/hvtrs8%2F-cjavgrt%2Ccmm`, "image": "assets/apps/chatgpt.png"},
+            { "name": "Proxy V2", "url": `/rx`, "image": "assets/apps/prox.png", "tab-open": true }
+        ];
+        games = gamesList;
 
-            var container = document.getElementById("gamesContainer");
-            var iframeContainer = document.getElementById("iframeContainer");
-            var gameObject = document.getElementById("gameObject");
-            var loadingIndicator = document.getElementById("loadingIndicator");
-            var fullScreenButton = document.getElementById("fullScreenButton");
-            var closeButton = document.getElementById("closeButton");
+        var container = document.getElementById("gamesContainer");
+        var iframeContainer = document.getElementById("iframeContainer");
+        var gameFrame = document.getElementById("gameFrame");
+        var gameObject = document.getElementById("gameObject");
+        var loadingIndicator = document.getElementById("loadingIndicator");
+        var fullScreenButton = document.getElementById("fullScreenButton");
+        var closeButton = document.getElementById("closeButton");
 
-            function displayGames(filteredGames) {
-                container.innerHTML = "";
-                filteredGames.forEach(function (game) {
-                    var button = document.createElement("button");
-                    button.className = "button";
+        function displayGames(filteredGames) {
+            container.innerHTML = "";
+            filteredGames.forEach(function (game) {
+                var button = document.createElement("button");
+                button.className = "button";
 
-                    var img = document.createElement("img");
-                    img.src = game.image;
-                    img.alt = game.name;
-                    button.appendChild(img);
+                var img = document.createElement("img");
+                img.src = game.image;
+                img.alt = game.name;
+                button.appendChild(img);
 
-                    var title = document.createElement("div");
-                    title.className = "game-title";
-                    title.textContent = game.name;
-                    button.appendChild(title);
+                var title = document.createElement("div");
+                title.className = "game-title";
+                title.textContent = game.name;
+                button.appendChild(title);
 
-                    button.onclick = function () {
-                        if (game["tab-open"] === true) {
-                            // Open the game in a new tab
-                            let newTab = window.open("about:blank", "_blank");
-                            if (newTab) {
-                                newTab.document.write(`
-                                    <!DOCTYPE html>
-                                    <html lang="en">
-                                    <head>
-                                        <title>${game.name}</title>
-                                        <style>
-                                            body { margin: 0; overflow: hidden; background: #000; }
-                                            object { width: 100vw; height: 100vh; border: none; }
-                                        </style>
-                                    </head>
-                                    <body>
-                                        <object data="${game.url}" type="text/html"></object>
-                                    </body>
-                                    </html>
-                                `);
-                                newTab.document.close();
-                            }
-                        } else {
-                            // Show the game in the iframe
-                            document.querySelectorAll(".button").forEach(element => (element.style.display = "none"));
-                            iframeContainer.style.display = "flex";
-                            loadingIndicator.style.display = "flex";
-                            gameObject.data = game.url;
+                button.onclick = function () {
+                    if (game["tab-open"] === true) {
+                        // Open the game in a new tab
+                        let newTab = window.open("about:blank", "_blank");
+                        if (newTab) {
+                            newTab.document.write(`
+                                <!DOCTYPE html>
+                                <html lang="en">
+                                <head>
+                                    <title>${game.name}</title>
+                                    <style>
+                                        body { margin: 0; overflow: hidden; background: #000; }
+                                        iframe { width: 100vw; height: 100vh; border: none; }
+                                    </style>
+                                </head>
+                                <body>
+                                    <iframe src="${game.url}" frameborder="0"></iframe>
+                                </body>
+                                </html>
+                            `);
+                            newTab.document.close();
+                        }
+                    } else {
+                        // Show the game in the iframe
+                        document.querySelectorAll(".button").forEach(element => (element.style.display = "none"));
+                        iframeContainer.style.display = "flex";
+                        loadingIndicator.style.display = "flex";
+                        
+                        // First try with object element
+                        gameObject.style.display = "block";
+                        gameFrame.style.display = "none";
+                        gameObject.data = game.url;
 
-                            gameObject.onload = function() {
+                        gameObject.onload = function() {
+                            loadingIndicator.style.display = "none";
+                        };
+
+                        gameObject.onerror = function() {
+                            // Fallback to iframe if the object can't load
+                            gameObject.style.display = "none";
+                            gameFrame.style.display = "block";
+                            gameFrame.src = game.url;
+                            
+                            gameFrame.onload = function() {
                                 loadingIndicator.style.display = "none";
                             };
-                        }
-                    };
-
-                    container.appendChild(button);
-                });
-            }
-
-            // Initial display of all games
-            displayGames(games);
-            document.getElementById("gameCount").textContent = games.length;
-
-            fullScreenButton.addEventListener("click", function () {
-                if (gameObject.requestFullscreen) {
-                    gameObject.requestFullscreen();
-                } else if (gameObject.mozRequestFullScreen) {
-                    gameObject.mozRequestFullScreen();
-                } else if (gameObject.webkitRequestFullscreen) {
-                    gameObject.webkitRequestfullscreen();
-                } else if (gameObject.msRequestFullscreen) {
-                    gameObject.msRequestFullscreen();
-                }
-            });
-
-            closeButton.addEventListener("click", function () {
-                iframeContainer.style.display = "none";
-                gameObject.data = "";
-                document.querySelectorAll(".button").forEach(element => (element.style.display = "inline-block"));
-            });
-
-            document.getElementById("searchInput").addEventListener("input", function (event) {
-                var searchTerm = event.target.value.toLowerCase();
-                var filteredGames = games.filter(function (game) {
-                    return game.name.toLowerCase().includes(searchTerm);
-                });
-                displayGames(filteredGames);
-            });
-
-            // Check authentication status and update UI
-            function checkAuthStatus() {
-                const authToken = localStorage.getItem('authToken');
-                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-                const authLink = document.getElementById('authLink');
-                const accountStatus = document.getElementById('account-status');
-                
-                if (authToken && userData) {
-                    // User is logged in
-                    authLink.textContent = 'Account';
-                    authLink.href = 'account.html';
-                    
-                    // Show account status
-                    if (accountStatus) {
-                        accountStatus.style.display = 'block';
-                        document.getElementById('username').textContent = userData.username || 'User';
-                        document.getElementById('coin-amount').textContent = userData.coins || '0';
+                        };
                     }
-                } else {
-                    // User is not logged in
-                    authLink.textContent = 'Login';
-                    authLink.href = 'login.html';
-                    
-                    // Hide account status
-                    if (accountStatus) {
-                        accountStatus.style.display = 'none';
-                    }
-                }
-            }
-            
-            // Apply saved settings
-            const applySettings = () => {
-                const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
-                
-                // Set default title if no settings exist
-                document.title = settings.pageTitle || 'Google';
-                
-                // Set default favicon if no settings exist
-                const faviconPath = settings.cloakPreset ? {
-                    'google': 'assets/favicon/google.ico',
-                    'drive': 'assets/favicon/drive.ico',
-                    'classroom': 'assets/favicon/classroom.ico',
-                    'canvas': 'assets/favicon/canvas.ico'
-                }[settings.cloakPreset] : 'assets/favicon/google.ico';
+                };
 
-                const links = document.querySelectorAll('link[rel="icon"]');
-                links.forEach(link => link.remove());
-                const newLink = document.createElement('link');
-                newLink.rel = 'icon';
-                newLink.href = faviconPath;
-                document.head.appendChild(newLink);
-            };
+                container.appendChild(button);
+            });
+        }
+
+        // Initial display of all games
+        displayGames(games);
+        document.getElementById("gameCount").textContent = games.length;
+
+        fullScreenButton.addEventListener("click", function () {
+            const elementToFullscreen = gameFrame.style.display === "block" ? gameFrame : gameObject;
             
-            // Initialize when page loads
-            checkAuthStatus();
-            applySettings();
+            if (elementToFullscreen.requestFullscreen) {
+                elementToFullscreen.requestFullscreen();
+            } else if (elementToFullscreen.mozRequestFullScreen) {
+                elementToFullscreen.mozRequestFullScreen();
+            } else if (elementToFullscreen.webkitRequestFullscreen) {
+                elementToFullscreen.webkitRequestFullscreen();
+            } else if (elementToFullscreen.msRequestFullscreen) {
+                elementToFullscreen.msRequestFullscreen();
+            }
         });
-    </script>
-</body>
-</html>
 
+        closeButton.addEventListener("click", function () {
+            iframeContainer.style.display = "none";
+            gameObject.data = "";
+            gameFrame.src = "";
+            document.querySelectorAll(".button").forEach(element => (element.style.display = "inline-block"));
+        });
+
+        document.getElementById("searchInput").addEventListener("input", function (event) {
+            var searchTerm = event.target.value.toLowerCase();
+            var filteredGames = games.filter(function (game) {
+                return game.name.toLowerCase().includes(searchTerm);
+            });
+            displayGames(filteredGames);
+        });
+
+        // Check authentication status and update UI
+        function checkAuthStatus() {
+            const authToken = localStorage.getItem('authToken');
+            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+            const authLink = document.getElementById('authLink');
+            const accountStatus = document.getElementById('account-status');
+            
+            if (authToken && userData) {
+                // User is logged in
+                authLink.textContent = 'Account';
+                authLink.href = 'account.html';
+                
+                // Show account status
+                if (accountStatus) {
+                    accountStatus.style.display = 'block';
+                    document.getElementById('username').textContent = userData.username || 'User';
+                    document.getElementById('coin-amount').textContent = userData.coins || '0';
+                }
+            } else {
+                // User is not logged in
+                authLink.textContent = 'Login';
+                authLink.href = 'login.html';
+                
+                // Hide account status
+                if (accountStatus) {
+                    accountStatus.style.display = 'none';
+                }
+            }
+        }
+        
+        // Apply saved settings
+        const applySettings = () => {
+            const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+            
+            // Set default title if no settings exist
+            document.title = settings.pageTitle || 'Google';
+            
+            // Set default favicon if no settings exist
+            const faviconPath = settings.cloakPreset ? {
+                'google': 'assets/favicon/google.ico',
+                'drive': 'assets/favicon/drive.ico',
+                'classroom': 'assets/favicon/classroom.ico',
+                'canvas': 'assets/favicon/canvas.ico'
+            }[settings.cloakPreset] : 'assets/favicon/google.ico';
+
+            const links = document.querySelectorAll('link[rel="icon"]');
+            links.forEach(link => link.remove());
+            const newLink = document.createElement('link');
+            newLink.rel = 'icon';
+            newLink.href = faviconPath;
+            document.head.appendChild(newLink);
+        };
+        
+        // Initialize when page loads
+        checkAuthStatus();
+        applySettings();
+    });
+    </script>
 </body>
 </html>
