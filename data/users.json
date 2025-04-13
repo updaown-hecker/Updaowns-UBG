@@ -27,9 +27,7 @@
       "geometric"
     ],
     "selectedTheme": "default",
-    "selectedParticles": [
-      "rain"
-    ],
+    "selectedParticles": ["rain"],
     "createdAt": "2025-03-27T19:08:42.745Z",
     "lastLogin": "2025-04-02T00:05:36.490Z",
     "role": "owner",
@@ -40,12 +38,7 @@
       "comboMultiplier": 3,
       "coinRate": 4
     },
-    "passwordHistory": [
-      "admin123",
-      "admin321",
-      "admin123",
-      "admin231"
-    ],
+    "passwordHistory": ["admin123", "admin321", "admin123", "admin231"],
     "activePowerups": {
       "doubleCoins": {
         "activatedAt": "2025-04-02T00:06:16.431Z",
@@ -90,10 +83,7 @@
       "geometric"
     ],
     "selectedTheme": "sunset",
-    "selectedParticles": [
-      "rain",
-      "snow"
-    ],
+    "selectedParticles": ["rain", "snow"],
     "createdAt": "2025-03-28T04:28:07.873Z",
     "lastLogin": "2025-03-28T04:28:07.873Z",
     "powerups": {
