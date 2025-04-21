@@ -123,6 +123,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// API routes
+
 // Simple API Routes for authentication and coins
 app.post('/api/auth/register', (req, res) => {
   const { username, email, password, selectedThemes, selectedParticles } = req.body;
@@ -1122,6 +1124,7 @@ const routes = [
   { path: "/vk", file: "settings.html" },
   { path: "/rx", file: "tabs.html" },
   { path: "/", file: "index.html" },
+  { path: "/lg", file: "account.html" },
 ];
 
 // biome-ignore lint/complexity/noForEach:
@@ -1156,8 +1159,6 @@ server.on("upgrade", (req, socket, head) => {
   }
 });
 
-server.on("listening", () => {
-  console.log(chalk.green(`🌍 Server is running on http://localhost:${PORT}`));
+server.listen(PORT, () => {
+  console.log(chalk.green(`Server running at http://localhost:${PORT}/`));
 });
-
-server.listen({ port: PORT });

@@ -16,14 +16,18 @@
   "license": "GPL-3.0-or-later",
   "dependencies": {
     "@nebula-services/bare-server-node": "^2.0.4",
+    "bcryptjs": "^3.0.2",
     "chalk": "^5.4.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-basic-auth": "^1.2.1",
+    "jsonwebtoken": "^9.0.2",
     "mime": "^4.0.6",
-    "node-fetch": "^3.3.2"
+    "mongoose": "^8.13.2",
+    "node-fetch": "^3.3.2",
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4"

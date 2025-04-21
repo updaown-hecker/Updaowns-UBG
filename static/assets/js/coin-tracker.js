@@ -11,6 +11,8 @@ class CoinTracker {
         this.sessionInterval = null;
         this.timePlayedSeconds = 0;
         this.authToken = localStorage.getItem('authToken');
+        this.progressBar = null;
+        this.progressText = null;
     }
 
     /**
@@ -103,8 +105,41 @@ class CoinTracker {
      */
     startTimeTracking() {
         this.timePlayedSeconds = 0;
+        this.progressBar = document.getElementById('coin-progress');
+        this.progressText = document.getElementById('progress-text');
+        
         this.sessionInterval = setInterval(() => {
             this.timePlayedSeconds++;
+            
+            // Update progress bar if it exists
+            if (this.progressBar && this.progressText) {
+                const coinInterval = 60; // Earn coins every 60 seconds
+                const percentage = (this.timePlayedSeconds % coinInterval) / coinInterval * 100;
+                
+                this.progressBar.style.width = percentage + '%';
+                this.progressText.textContent = `${this.timePlayedSeconds % coinInterval}/${coinInterval} seconds`;
+                
+                // When reaching the interval, reset progress bar
+                if (this.timePlayedSeconds % coinInterval === 0) {
+                    // Update coin display if available
+                    const coinAmount = document.getElementById('coin-amount');
+                    if (coinAmount) {
+                        const currentCoins = parseInt(coinAmount.textContent) || 0;
+                        coinAmount.textContent = currentCoins + 1;
+                    }
+                    
+                    // Flash the progress bar
+                    this.progressBar.style.transition = 'none';
+                    this.progressBar.style.width = '100%';
+                    this.progressBar.style.opacity = '0.8';
+                    
+                    setTimeout(() => {
+                        this.progressBar.style.transition = 'width 0.3s ease, opacity 0.3s ease';
+                        this.progressBar.style.width = '0%';
+                        this.progressBar.style.opacity = '1';
+                    }, 300);
+                }
+            }
             
             // Every 5 minutes (300 seconds), update the session to keep it alive
             if (this.timePlayedSeconds % 300 === 0) {
@@ -120,6 +155,12 @@ class CoinTracker {
         if (this.sessionInterval) {
             clearInterval(this.sessionInterval);
             this.sessionInterval = null;
+        }
+        
+        // Reset progress bar
+        if (this.progressBar && this.progressText) {
+            this.progressBar.style.width = '0%';
+            this.progressText.textContent = '0/60 seconds';
         }
     }
 

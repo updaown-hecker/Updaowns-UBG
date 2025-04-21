@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -30,6 +30,34 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  weeklyCoins: {
+    type: Number,
+    default: 0
+  },
+  monthlyCoins: {
+    type: Number,
+    default: 0
+  },
+  yearlyCoins: {
+    type: Number,
+    default: 0
+  },
+  lastWeeklyReset: {
+    type: Date,
+    default: Date.now
+  },
+  lastMonthlyReset: {
+    type: Date,
+    default: Date.now
+  },
+  lastYearlyReset: {
+    type: Date,
+    default: Date.now
+  },
+  friends: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   lastLogin: {
     type: Date,
     default: Date.now

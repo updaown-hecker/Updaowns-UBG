@@ -1,6 +1,7 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import mongoose from 'mongoose';
 
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
@@ -97,6 +98,12 @@ router.post('/end-session', auth, async (req, res) => {
     // Calculate session duration in minutes
     const startTime = new Date(req.user.lastGameSession.startTime);
     const endTime = new Date();
+    
+    // Update user's weekly, monthly, and yearly coin stats for leaderboard
+    const now = new Date();
+    const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const yearStart = new Date(now.getFullYear(), 0, 1);
     const durationMinutes = Math.floor((endTime - startTime) / (1000 * 60));
     
     // Get coin multiplier and base rate from user's powerups
@@ -465,6 +472,57 @@ router.post('/collect-passive', auth, async (req, res) => {
     res.status(500).json({ 
       success: false, 
       message: 'Server error collecting passive coins' 
+    });
+  }
+});
+
+// Get leaderboard data
+router.get('/leaderboard', auth, async (req, res) => {
+  try {
+    const { period } = req.query;
+    let dateField;
+    
+    // Determine which time period to use
+    switch(period) {
+      case 'weekly':
+        dateField = 'weeklyCoins';
+        break;
+      case 'monthly':
+        dateField = 'monthlyCoins';
+        break;
+      case 'yearly':
+        dateField = 'yearlyCoins';
+        break;
+      case 'alltime':
+      default:
+        dateField = 'coins';
+        break;
+    }
+    
+    // Get top users by coins
+    const leaderboard = await User.aggregate([
+      // Sort by the appropriate field
+      { $sort: { [dateField]: -1 } },
+      // Limit to top 50 users
+      { $limit: 50 },
+      // Project only necessary fields
+      { $project: {
+        _id: 0,
+        userId: '$_id',
+        username: 1,
+        coins: `$${dateField}`
+      }}
+    ]);
+    
+    res.json({
+      success: true,
+      leaderboard
+    });
+  } catch (error) {
+    console.error('Leaderboard error:', error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error getting leaderboard data' 
     });
   }
 });

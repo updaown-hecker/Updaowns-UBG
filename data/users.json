@@ -4,7 +4,7 @@
     "username": "admin",
     "email": "admin@gmail.com",
     "password": "admin123",
-    "coins": 12345678285,
+    "coins": 12345678085,
     "unlockedThemes": [
       "default",
       "neon",
@@ -27,9 +27,11 @@
       "geometric"
     ],
     "selectedTheme": "default",
-    "selectedParticles": ["rain"],
+    "selectedParticles": [
+      "rain"
+    ],
     "createdAt": "2025-03-27T19:08:42.745Z",
-    "lastLogin": "2025-04-02T00:05:36.490Z",
+    "lastLogin": "2025-04-21T06:12:03.899Z",
     "role": "owner",
     "powerups": {
       "coinBoost": 5,
@@ -38,13 +40,18 @@
       "comboMultiplier": 3,
       "coinRate": 4
     },
-    "passwordHistory": ["admin123", "admin321", "admin123", "admin231"],
+    "passwordHistory": [
+      "admin123",
+      "admin321",
+      "admin123",
+      "admin231"
+    ],
     "activePowerups": {
       "doubleCoins": {
-        "activatedAt": "2025-04-02T00:06:16.431Z",
-        "expiresAt": "2025-04-02T00:11:16.431Z",
-        "durationMinutes": 5,
-        "stackCount": 1
+        "activatedAt": "2025-04-15T03:04:39.955Z",
+        "expiresAt": "2025-04-15T03:54:39.955Z",
+        "durationMinutes": 50,
+        "stackCount": 4
       },
       "luckyStreak": {
         "activatedAt": "2025-03-28T04:24:11.615Z",
@@ -83,7 +90,10 @@
       "geometric"
     ],
     "selectedTheme": "sunset",
-    "selectedParticles": ["rain", "snow"],
+    "selectedParticles": [
+      "rain",
+      "snow"
+    ],
     "createdAt": "2025-03-28T04:28:07.873Z",
     "lastLogin": "2025-03-28T04:28:07.873Z",
     "powerups": {
@@ -107,5 +117,28 @@
         "stackCount": 353
       }
     }
+  },
+  {
+    "id": "1744688423738",
+    "username": "testing",
+    "email": "testing@gmail.com",
+    "password": "1",
+    "role": "user",
+    "coins": 0,
+    "unlockedThemes": [
+      "default",
+      "neon"
+    ],
+    "unlockedParticles": [
+      "rain",
+      "snow"
+    ],
+    "selectedTheme": "default",
+    "selectedParticles": [
+      "rain",
+      "snow"
+    ],
+    "createdAt": "2025-04-15T03:40:23.738Z",
+    "lastLogin": "2025-04-15T03:40:23.738Z"
   }
 ]

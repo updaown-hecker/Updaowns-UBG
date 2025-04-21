@@ -3,7 +3,7 @@
 
 :root {
    /* Background Variables */
-   --background-image: url("/./assets/media/background/full-main.png"); /* Background Image */
+   /* Background image is now managed through settings.html */
    --backdrop-filter: blur(10px) brightness(80%); /* Nav Backdrop filter */
    --background-nav: rgba(255, 255, 255, 0.02); /* Nav Background */
    --background-color: #222; /* Main Background Color */
@@ -15,7 +15,7 @@
    --tab-inactive-background: ; /* Background Color for Tabs Not In Use */
    --slider-active-background: #4caf50; /* Active Slider Background Color */
    --slider-inactive-background: #ccc; /*  Slider Background Color */
-   --nav-image: url("/./assets/media/favicon/main.png"); /* Nav Logo */
+   --nav-image: url("/./assets/favicon/google.io"); /* Nav Logo */
    /* Text Variables */
    --text-primary: #fff; /* Primary Text Color */
    --text-dark: #555; /* Dark Text Color for Error Page, Scrollbar, and Particles */
@@ -51,7 +51,7 @@
 body {
    font-family: "Inter", sans-serif;
    text-decoration: none;
-   background: var(--background-image);
+   /* Background is now managed through background.js */
    height: 100%;
    background-position: center;
    background-repeat: no-repeat;
