@@ -127,7 +127,7 @@
             { "name": "Pause extensions", "url": `${host}/apps/hang3r.html`, "image": "assets/apps/hang3r.png" },
             { "name": "Qwen Gpt \"Better than deepseek and chatGPT\"", "url": `${host}/apps/Qwen.html`, "image": "assets/apps/qwen.png" },
             { "name": "Kahoot Flooder", "url": `${host}/apps/kahoot-flooder.html`, "image": "assets/apps/flooder.png" },
-            { "name": "Rafa ONLY", "url": `${host}/a/hvtrs8%2F-wuw%2Cpmrlhwb%2Ccmm-`, "image": "assets/apps/taco.png" },
+        //*    { "name": "Rafa ONLY", "url": `${host}/a/hvtrs8%2F-wuw%2Cpmrlhwb%2Ccmm-`, "image": "assets/apps/taco.png" },
             { "name": "Now.gg", "url": `${host}/a/hvtrs8%2F-nmw%2Cge`, "image": "assets/apps/nowgg.png" },
             { "name": "Chat GPT", "url": `${host}/a/hvtrs8%2F-cjavgrt%2Ccmm`, "image": "assets/apps/chatgpt.png"},
             { "name": "Discord", "url": `${host}/a/hvtrs8%2F-dksaopd%2Ccmm`, "image": "assets/apps/discord.png"},
@@ -304,5 +304,17 @@
         applySettings();
     });
     </script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const buttons = document.querySelectorAll("#gamesContainer .button");
+  const delayIncrement = 0.05; // seconds
+
+  buttons.forEach((button, index) => {
+    const delay = (index + 1) * delayIncrement;
+    button.style.animationDelay = `${delay}s`;
+  });
+});
+</script>
+
 </body>
 </html>
