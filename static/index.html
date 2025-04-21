@@ -40,21 +40,20 @@
       </div>
     </nav>
     <div class="center">
-    <div id="particles-js">
-  <div class="main">
-    <h1 class="title" style="color: white; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">
-      <an style="color: #4f46e5;">Up</an>daown
-    </h1>
-    <p style="color: #9ca3af;">Have fun searching the web!</p>
-    <p style="color: #9ca3af;">(This does not work if you use the https://40% thing)</p>
-    <div class="search-container">
-      <form id="fs" method="POST">
-        <input id="is" class="main-search" placeholder="Search with Google or enter address"
-          style="background-color: #1f2937; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" type="text">
-      </form>
+    <div id="particles-js"></div>
+    <div class="main">
+      <h1 class="title" style="color: white; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">
+        <an style="color: #4f46e5;">Up</an>daown
+      </h1>
+      <p style="color: #9ca3af;">Have fun searching the web!</p>
+      <p style="color: #9ca3af;">(This does not work if you use the https://40% thing)</p>
+      <div class="search-container">
+        <form id="fs" method="POST">
+          <input id="is" class="main-search" placeholder="Search with Google or enter address"
+            style="background-color: #1f2937; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);" type="text">
+        </form>
+      </div>
     </div>
-  </div>
-</div>
     <!-- Load particles.js core BEFORE any custom particles code -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
@@ -81,11 +80,22 @@
     width: 100%;
     height: 100%;
     z-index: -1;
+    top: 0;
+    left: 0;
+    pointer-events: none;
   }
   body, html {
     margin: 0;
     padding: 0;
     height: 100%;
+  }
+  .main {
+    position: relative;
+    z-index: 1;
+  }
+  .search-container {
+    position: relative;
+    z-index: 2;
   }
 </style>
 </div>
