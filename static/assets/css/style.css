@@ -549,4 +549,6 @@ h1 {
 #gamesContainer .button {
    opacity: 0;
    animation: fadeInUp 0.5s ease forwards;
+   /* Ensure animation plays even when added dynamically */
+   will-change: opacity, transform;
 }

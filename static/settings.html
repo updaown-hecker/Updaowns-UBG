@@ -45,7 +45,6 @@
         <a href="/" class="nav-link">Home</a>
         <a href="/up" class="nav-link">Games</a>
         <a href="/yz" class="nav-link">Apps</a>
-        <a href="/vk" class="nav-link" id="authLink">Settings</a>
         <!-- Primary navigation items above, secondary items in dropdown below -->
         <div class="dropdown-menu">
           <button class="hamburger-btn">
@@ -55,8 +54,7 @@
           </button>
           <div class="dropdown-content">
             <a href="/rx" class="dropdown-link">Tabs</a>
-            <a href="/lg" class="dropdown-link">Login/Account</a>
-            <a href="help.html" class="dropdown-link">Help</a>
+            <a href="/vk" class="nav-link" id="authLink">Settings</a>
           </div>
         </div>
       </div>
@@ -216,9 +214,6 @@
                     <option value="midnight">Midnight Theme</option>
                     <option value="pastel">Pastel Theme</option>
                 </select>
-                <p id="theme-lock-message" style="margin-top: 10px; font-size: 14px; color: #ff9800; display: none;">
-                    Some themes require an account and can be unlocked with coins. <a href="account.html" style="color: #7289da;">View Account</a>
-                </p>
             </div>
         </div>
     </div>
@@ -247,8 +242,8 @@
                     pageTitle = 'Canvas';
                     break;
                 case 'default':
-                    faviconPath = '/assets/favicon/google.ico';
-                    pageTitle = 'Google';
+                    faviconPath = '/assets/favicon/boogle.ico';
+                    pageTitle = 'Updaown\'s UBG';
                     break;
             }
 
@@ -282,7 +277,7 @@
                     pageTitle = 'Canvas';
                     break;
                 default:
-                    pageTitle = 'Updaown\'s UBL';
+                    pageTitle = 'Updaown\'s UBG';
             }
             
             const settings = {
@@ -575,7 +570,7 @@
             if (panicKey) document.getElementById('panicKey').value = panicKey;
             if (panicUrl) document.getElementById('panicUrl').value = panicUrl;
 
-            // Load particle settings
+            // Load particle settings - Modified to work without login requirements
             const rainEnabled = localStorage.getItem('rainEnabled') === 'true';
             const snowEnabled = localStorage.getItem('snowEnabled') === 'true';
             const confettiEnabled = localStorage.getItem('confettiEnabled') === 'true';
@@ -588,6 +583,7 @@
             bubblesToggle.checked = bubblesEnabled;
             firefliesToggle.checked = firefliesEnabled;
 
+            // Apply all enabled particle effects without login checks
             if (rainEnabled) loadParticles('rain');
             if (snowEnabled) loadParticles('snow');
             if (confettiEnabled) loadParticles('confetti');
