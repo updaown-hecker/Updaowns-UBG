@@ -90,6 +90,54 @@
     </div>
 
     <div id="iframeContainer" style="display: none;">
+        <style>
+        #iframeControls {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            padding: 10px;
+            z-index: 1000; /* Ensure controls stay on top */
+            background-color: rgba(0, 0, 0, 0.5);
+            border-bottom-left-radius: 8px;
+        }
+        #iframeControls button {
+            margin-left: 8px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4a5568;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        #iframeControls button:hover {
+            background-color: #2d3748;
+        }
+        #closeButton {
+            background-color: #e53e3e !important;
+        }
+        #closeButton:hover {
+            background-color: #c53030 !important;
+        }
+        #loadingIndicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .error-text {
+            color: #ff5252;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+        </style>
         <div id="iframeControls">
             <button id="fullScreenButton">Full Screen</button>
             <button id="closeButton">X</button>
@@ -104,12 +152,55 @@
     
 
     <script>
+        // Function to ping a website to check if it's available
+        async function pingWebsite(url) {
+            // Make sure the URL has a protocol prefix
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                url = 'https://' + url;
+            }
+            
+            // Try up to 2 times to ping the website
+            for (let attempt = 0; attempt < 2; attempt++) {
+                try {
+                    // Use fetch with a timeout to check if the site is reachable
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+                    
+                    const response = await fetch(url, {
+                        method: 'HEAD', // Only get headers, not the full response
+                        mode: 'no-cors', // Allow cross-origin requests without CORS
+                        signal: controller.signal
+                    });
+                    
+                    clearTimeout(timeoutId);
+                    return { success: true }; // Site is available
+                } catch (error) {
+                    console.error(`Error pinging website (attempt ${attempt + 1})`, error);
+                    
+                    // If this is the last attempt, return detailed error info
+                    if (attempt === 1) {
+                        // Determine error type for better user feedback
+                        if (error.name === 'AbortError') {
+                            return { success: false, reason: 'timeout' };
+                        } else if (error.message && error.message.includes('NetworkError')) {
+                            return { success: false, reason: 'network' };
+                        } else {
+                            return { success: false, reason: 'unknown' };
+                        }
+                    }
+                    
+                    // If not the last attempt, wait a bit before retrying
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+        }
+        
         document.addEventListener("DOMContentLoaded", function () {
             // Declare variables at the top of the function scope
             var games = [
               { "name": "Other Site", "url": "https://sites.goodplayz.xyz", "image": "assets/main-page/other-sites.png" },
               { "name": "Google", "url": "https://www.google.com?igu=1", "image": "assets/favicon/google.ico" },
-              { "name": "Minecraft", "url": "games/minecraft.html", "image": "assets/main-page/minecraft.png" },
+              { "name": "Minecraft", "url": "games/Minecraft.html", "image": "assets/main-page/minecraft.png" },
               { "name": "MooMoo.io", "url": "https://moomoo.io", "image": "assets/main-page/moomoo.png" },
               { "name": "DigDig.io", "url": "https://digdig.io", "image": "assets/main-page/digdig.png" },
               { "name": "ZombsRoyale", "url": "https://foodstars.io", "image": "assets/main-page/foodstars.png" },
@@ -138,7 +229,7 @@
               { "name": "Basket Random", "url": "games/basket-random", "image": "assets/main-page/basket-random.png" },
               { "name": "2048", "url": "games/2048", "image": "assets/main-page/2048.png" },
               { "name": "Drift Hunters", "url": "games/drift-hunters.html", "image": "assets/main-page/drift-hunters.png" },
-              { "name": "Geometry Dash", "url": "games/geometry-dash.html", "image": "assets/main-page/geometry-dash.png" },
+              { "name": "Geometry Dash", "url": "games/geometry-dash/index.html", "image": "assets/main-page/geometry-dash.png" },
               { "name": "World Hardest Game", "url": "games/world-hardest-game.html", "image": "assets/main-page/world-hardest-game.png" },
               { "name": "Rooftop Snippers", "url": "games/rooftop-snippers.html", "image": "assets/main-page/rooftop-snippers.png" },
               { "name": "Windows 11", "url": "games/win11.html", "image": "assets/main-page/win11.png" },
@@ -197,12 +288,173 @@
                         document.querySelectorAll(".button").forEach(element => (element.style.display = "none"));
                         iframeContainer.style.display = "flex";
                         loadingIndicator.style.display = "flex";
-                        gameObject.data = game.url;
+                        // Ensure controls are visible during loading
+                        document.getElementById("iframeControls").style.display = "flex";
                         
-                        // Hide loading indicator when game loads
-                        gameObject.onload = function() {
-                            loadingIndicator.style.display = "none";
-                        };
+                        // Reset game object to prevent previous game content from persisting
+                        gameObject.data = "";
+                        
+                        // Check if the URL is external (starts with http or https)
+                        if (game.url.startsWith('http') || game.url.startsWith('https')) {
+                            // For external URLs, ping the site first
+                            pingWebsite(game.url.replace(/^(https?:\/\/)+/i, ''))
+                                .then(result => {
+                                    if (result.success) {
+                                        // Site is available, load the game
+                                        gameObject.data = game.url;
+                                        startLoadingDetection();
+                                    } else {
+                                        // Site is not available, show specific error message based on reason
+                                        let errorMessage = 'Failed to load game';
+                                        
+                                        if (result.reason === 'timeout') {
+                                            errorMessage = 'Game site took too long to respond';
+                                        } else if (result.reason === 'network') {
+                                            errorMessage = 'Cannot connect to game site';
+                                        }
+                                        
+                                        // Clear the game object data to prevent showing previous game
+                                        gameObject.data = "";
+                                        
+                                        loadingIndicator.innerHTML = `<div class="loading-text error-text">${errorMessage}</div>`;
+                                        // Ensure controls remain visible even when there's an error
+                                        document.getElementById("iframeControls").style.display = "flex";
+                                    }
+                                })
+                                .catch(() => {
+                                    // Error occurred during ping, show error message
+                                    // Clear the game object data to prevent showing previous game
+                                    gameObject.data = "";
+                                    loadingIndicator.innerHTML = '<div class="loading-text error-text">Failed to load game</div>';
+                                });
+                        } else {
+                            // For local files, check if the file exists before loading
+                            // Create a temporary fetch request to check if the file exists
+                            fetch(game.url, { method: 'HEAD' })
+                                .then(response => {
+                                    if (response.ok) {
+                                        // File exists, load the game
+                                        gameObject.data = game.url;
+                                        startLoadingDetection();
+                                    } else {
+                                        // File doesn't exist, show error message
+                                        // Clear the game object data to prevent showing previous game
+                                        gameObject.data = "";
+                                        loadingIndicator.innerHTML = `<div class="loading-text error-text">Game not found (${response.status})</div>`;
+                                    }
+                                })
+                                .catch(error => {
+                                    // Error occurred, show error message
+                                    // Clear the game object data to prevent showing previous game
+                                    gameObject.data = "";
+                                    loadingIndicator.innerHTML = '<div class="loading-text error-text">Failed to load game</div>';
+                                    console.error('Error checking game file:', error);
+                                });
+                        }
+                        
+                        // Function to handle loading detection
+                        function startLoadingDetection() {
+                            let loadingProgress = 0;
+                            let loadStarted = false;
+                            let loadError = false;
+                            
+                            // Set a timeout to check if the game actually loaded
+                            const loadTimeout = setTimeout(function() {
+                                if (!loadStarted) {
+                                    // If loading hasn't started after 8 seconds, show error
+                                    loadingIndicator.innerHTML = '<div class="loading-text error-text">Game failed to load</div>';
+                                    loadError = true;
+                                    // Clear the game object data to prevent further loading attempts and showing previous game
+                                    gameObject.data = "";
+                                }
+                            }, 8000);
+                            
+                            const loadingInterval = setInterval(function() {
+                                // Try to detect if loading has started by checking for content
+                                try {
+                                    // For object element, check if it has content
+                                    if (gameObject.contentDocument) {
+                                        // If we can access contentDocument, check if it has content
+                                        const docElement = gameObject.contentDocument.documentElement;
+                                        if (docElement && docElement.innerHTML && docElement.innerHTML.length > 50) {
+                                            loadStarted = true;
+                                        }
+                                    } else if (gameObject.contentWindow) {
+                                        loadStarted = true;
+                                    }
+                                } catch (e) {
+                                    // Security error might occur when trying to access cross-origin frames
+                                    // This actually indicates the game is starting to load
+                                    loadStarted = true;
+                                }
+                                
+                                // Increment progress counter
+                                loadingProgress += 5; // Increment by 5% each time
+                                
+                                // Only hide loading indicator when we confirm loading has started
+                                if (loadingProgress >= 15 && loadStarted && !loadError) {
+                                    loadingIndicator.style.display = "none";
+                                    clearInterval(loadingInterval);
+                                    clearTimeout(loadTimeout);
+                                }
+                                
+                                // Safety check - if it takes too long, clear the interval but don't hide indicator if not loaded
+                                if (loadingProgress >= 100) {
+                                    if (!loadStarted && !loadError) {
+                                        loadingIndicator.innerHTML = '<div class="loading-text error-text">Game failed to load</div>';
+                                        // Clear the game object data to prevent showing previous game
+                                        gameObject.data = "";
+                                    }
+                                    clearInterval(loadingInterval);
+                                    clearTimeout(loadTimeout);
+                                }
+                            }, 200);
+                            
+                            // Handle successful load
+                            gameObject.onload = function() {
+                                // Check if the content is actually loaded and not empty
+                                try {
+                                    // For local files, we can try to check if there's actual content
+                                    if (gameObject.contentDocument && gameObject.contentDocument.body) {
+                                        const bodyContent = gameObject.contentDocument.body.innerHTML;
+                                        // If body is empty or contains error messages, consider it failed
+                                        if (!bodyContent || bodyContent.trim().length < 10 || 
+                                            bodyContent.includes("404") || bodyContent.includes("not found")) {
+                                            loadingIndicator.innerHTML = '<div class="loading-text error-text">Game content not found</div>';
+                                            loadError = true;
+                                            // Clear the game object data to prevent showing previous game
+                                            gameObject.data = "";
+                                            return;
+                                        }
+                                    }
+                                } catch (e) {
+                                    // Cross-origin error is expected for external sites
+                                    // For local files, this might indicate an issue
+                                    if (!game.url.startsWith('http') && !game.url.startsWith('https')) {
+                                        console.warn("Could not verify game content:", e);
+                                    }
+                                }
+                                
+                                // Only hide if we haven't already shown an error
+                                if (!loadError) {
+                                    loadingIndicator.style.display = "none";
+                                    clearInterval(loadingInterval);
+                                    clearTimeout(loadTimeout);
+                                }
+                                // Make sure controls remain visible
+                                document.getElementById("iframeControls").style.display = "flex";
+                            };
+                            
+                            // Handle load errors
+                            gameObject.onerror = function() {
+                                loadingIndicator.innerHTML = '<div class="loading-text error-text">Error loading game</div>';
+                                loadError = true;
+                                // Clear the game object data to prevent showing previous game
+                                gameObject.data = "";
+                                clearInterval(loadingInterval);
+                                clearTimeout(loadTimeout);
+                            };
+                        }
                     };
                     container.appendChild(button);
                 });
@@ -229,8 +481,13 @@
             });
 
             closeButton.addEventListener("click", function () {
-                iframeContainer.style.display = "none";
+                // Clear the game object data first to ensure it's completely reset
                 gameObject.data = "";
+                // Reset loading indicator to default state
+                loadingIndicator.innerHTML = '<div class="spinner"></div><div class="loading-text">Loading Game...</div>';
+                // Hide the iframe container
+                iframeContainer.style.display = "none";
+                // Show all game buttons
                 document.querySelectorAll(".button").forEach(element => (element.style.display = "inline-block"));
             });
 
