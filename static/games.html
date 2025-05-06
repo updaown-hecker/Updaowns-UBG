@@ -489,6 +489,13 @@
                 iframeContainer.style.display = "none";
                 // Show all game buttons
                 document.querySelectorAll(".button").forEach(element => (element.style.display = "inline-block"));
+                // Reset all loading state variables
+                loadStarted = false;
+                loadError = false;
+                loadingProgress = 0;
+                loadingIndicator.style.display = "none";
+                if (loadingInterval) clearInterval(loadingInterval);
+                if (loadTimeout) clearTimeout(loadTimeout);
             });
 
             document.getElementById("searchInput").addEventListener("input", function (event) {
@@ -534,25 +541,51 @@ function checkAuthStatus() {
 }
         
 // Initialize coin tracker when a game is opened
-function openGame(url, name) {
-    // Start tracking coins if user is logged in
-    const authToken = localStorage.getItem('authToken');
-    if (authToken && window.coinTracker) {
-        // Use the game name as the ID
-        window.coinTracker.init(name);
-        
-        // Setup progress bar update
-        setupCoinProgressBar();
+function openGame(url) {
+    const iframeContainer = document.getElementById('iframeContainer');
+    const loadingIndicator = document.getElementById('loadingIndicator');
+
+    // Remove existing iframe if any
+    const existingIframe = document.getElementById('gameIframe');
+    if (existingIframe) {
+        existingIframe.remove();
     }
-            
-    // Open the game
-    iframeContainer.style.display = "flex";
-    gameObject.src = url;
-    gameObject.onload = function() {
-        loadingIndicator.style.display = "none";
+
+    // Create a new iframe
+    const iframe = document.createElement('iframe');
+    iframe.id = 'gameIframe';
+    iframe.src = url;
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+
+    // Show loading indicator until iframe is fully loaded
+    loadingIndicator.style.display = 'block';
+    iframe.onload = function () {
+        loadingIndicator.style.display = 'none';
     };
-    loadingIndicator.style.display = "block";
+
+    // Append new iframe and display container
+    iframeContainer.appendChild(iframe);
+    iframeContainer.style.display = 'flex';
 }
+
+function closeGame() {
+    const iframeContainer = document.getElementById('iframeContainer');
+    const iframe = document.getElementById('gameIframe');
+
+    if (iframe) {
+        iframe.remove();
+    }
+
+    if (typeof loadingInterval !== 'undefined') {
+        clearInterval(loadingInterval);
+    }
+
+    iframeContainer.style.display = 'none';
+}
+
+
 
 // Setup coin progress bar
 function setupCoinProgressBar() {
