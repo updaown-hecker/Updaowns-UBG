@@ -8,13 +8,13 @@
   "theme_color": "#7289da",
   "icons": [
     {
-      "src": "/assets/favicon/icon-192.png",
+      "src": "/assets/favicon/boogle-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/assets/favicon/icon-512.png",
+      "src": "/assets/favicon/boogle-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

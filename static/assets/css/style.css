@@ -21,7 +21,7 @@ body {
 .container {
    max-width: 1400px;
    margin: 0 auto;
-   padding: 20px;
+   padding: 80px 20px 20px;
    text-align: center;
 }
 
@@ -144,6 +144,12 @@ h1 {
    display: flex;
    align-items: center;
    justify-content: space-between;
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: 1000;
+   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .nav-logo {
