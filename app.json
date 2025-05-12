@@ -1,8 +1,8 @@
 {
   "name": "edu",
   "description": "?",
-  "repository": "https://github.com/interstellarnetwork/interstellar",
-  "logo": "https://avatars.githubusercontent.com/u/103917385",
+  "repository": "https://github.com/updaown-hecker/Updaowns-UBG",
+  "logo": "https://raw.githubusercontent.com/updaown-hecker/Updaowns-UBG/refs/heads/master/static/assets/display/front-page.png",
   "keywords": ["school", "math"],
   "image": "heroku/nodejs"
 }

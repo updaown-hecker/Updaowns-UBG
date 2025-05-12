@@ -28,6 +28,7 @@
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/dropdown.css">
     <script src="assets/js/panic.js"></script>
     <script src="assets/js/background.js"></script>
     <script src="assets/js/theme-loader.js"></script>
@@ -56,7 +57,6 @@
         <a href="/" class="nav-link">Home</a>
         <a href="/up" class="nav-link">Games</a>
         <a href="/yz" class="nav-link">Apps</a>
-        <a href="/vk" class="nav-link" id="authLink">Settings</a>
         <!-- Primary navigation items above, secondary items in dropdown below -->
         <div class="dropdown-menu">
           <button class="hamburger-btn">
@@ -66,8 +66,7 @@
           </button>
           <div class="dropdown-content">
             <a href="/rx" class="dropdown-link">Tabs</a>
-            <a href="/lg" class="dropdown-link">Login/Account</a>
-            <a href="help.html" class="dropdown-link">Help</a>
+            <a href="/vk" class="dropdown-link">Setting</a>
           </div>
         </div>
       </div>
@@ -131,6 +130,7 @@
             { "name": "Now.gg", "url": `${host}/a/hvtrs8%2F-nmw%2Cge`, "image": "assets/apps/nowgg.png" },
             { "name": "Chat GPT", "url": `${host}/a/hvtrs8%2F-cjavgrt%2Ccmm`, "image": "assets/apps/chatgpt.png"},
             { "name": "Discord", "url": `${host}/a/hvtrs8%2F-dksaopd%2Ccmm`, "image": "assets/apps/discord.png"},
+            { "name": "Mobile Phone", "url": `${host}/apps/phone.html`, "image": "assets/apps/phone.png"},
             { "name": "Proxy V2", "url": `/rx`, "image": "assets/apps/prox.png", "tab-open": true }
         ];
         games = gamesList;

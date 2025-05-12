@@ -170,74 +170,14 @@ h1 {
    text-decoration: none;
    font-size: 0.9rem;
    transition: color 0.2s;
+   position: relative;
 }
 
 .nav-link:hover {
    color: white;
 }
 
-/* Dropdown Menu Styles */
-.dropdown-menu {
-   position: relative;
-   display: inline-block;
-}
 
-.hamburger-btn {
-   background: none;
-   border: none;
-   cursor: pointer;
-   padding: 5px;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   height: 20px;
-   outline: none;
-}
-
-.hamburger-icon {
-   display: block;
-   width: 20px;
-   height: 2px;
-   background-color: #9ca3af;
-   transition: all 0.3s;
-}
-
-.hamburger-btn:hover .hamburger-icon {
-   background-color: white;
-}
-
-.dropdown-content {
-   display: none;
-   position: absolute;
-   right: 0;
-   background-color: #2d3748;
-   min-width: 160px;
-   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-   z-index: 1000;
-   border-radius: 8px;
-   overflow: hidden;
-   animation: fadeIn 0.3s ease;
-}
-
-.dropdown-menu:hover .dropdown-content,
-.dropdown-content:hover,
-.dropdown-content.active {
-   display: block;
-}
-
-.dropdown-link {
-   color: #9ca3af;
-   padding: 12px 16px;
-   text-decoration: none;
-   display: block;
-   font-size: 0.9rem;
-   transition: all 0.2s;
-}
-
-.dropdown-link:hover {
-   background-color: #374151;
-   color: white;
-}
 
 /* Games container styles */
 #gamesContainer {
