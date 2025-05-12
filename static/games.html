@@ -11,12 +11,12 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Updaown's Unblocked Games - Play free online games with customizable themes, particles, and powerups. Earn coins and unlock special features!">
+    <meta name="description" content="Updaown's Unblocked Games - Play free online games with customizable themes, particles, and powerups!">
     <meta name="keywords" content="unblocked games, free games, online games, browser games, school games, powerups, themes, particles">
     <meta name="author" content="Updaown">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Updaown's Unblocked Games">
-    <meta property="og:description" content="Play free unblocked games with customizable themes, particles, and powerups. Earn coins and unlock special features!">
+    <meta property="og:description" content="Play free unblocked games with customizable themes, particles, and powerups!">
     <meta property="og:image" content="/assets/favicon/icon-512.png">
     <meta property="og:url" content="https://updaown-2.koyeb.app">
     <meta property="og:type" content="website">
@@ -40,7 +40,7 @@
       "@type": "WebSite",
       "name": "Updaown's Unblocked Games",
       "url": "https://updaowns-ubg.com",
-      "description": "Play free unblocked games with customizable themes, particles, and powerups. Earn coins and unlock special features!",
+      "description": "Play free unblocked games with customizable themes, particles, and powerups!",
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://updaowns-ubg.com/search?q={search_term_string}",
@@ -300,37 +300,6 @@ closeButton.addEventListener("click", function () {
             });
         });
 
-// Check authentication status and update UI
-function checkAuthStatus() {
-    const authToken = localStorage.getItem('authToken');
-    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    const authLink = document.getElementById('authLink');
-    const accountStatus = document.getElementById('account-status');
-    
-    if (authToken && userData) {
-        // User is logged in
-        authLink.textContent = 'Account';
-        authLink.href = 'account.html';
-        
-        // Show account status
-        if (accountStatus) {
-            accountStatus.style.display = 'block';
-            document.getElementById('username').textContent = userData.username || 'User';
-            document.getElementById('coin-amount').textContent = userData.coins || '0';
-        }
-    } else {
-        // User is not logged in
-        authLink.textContent = 'Login';
-        authLink.href = 'login.html';
-        
-        // Hide account status
-        if (accountStatus) {
-            accountStatus.style.display = 'none';
-        }
-    }
-}
-        
-// Initialize coin tracker when a game is opened
 function openGame(url) {
     const iframeContainer = document.getElementById('iframeContainer');
     const loadingIndicator = document.getElementById('loadingIndicator');
@@ -377,57 +346,8 @@ function closeGame() {
 
 
 
-// Setup coin progress bar
-function setupCoinProgressBar() {
-    // Clear any existing interval
-    if (window.progressInterval) {
-        clearInterval(window.progressInterval);
-    }
-    
-    // Reset progress
-    const progressBar = document.getElementById('coin-progress');
-    const progressText = document.getElementById('progress-text');
-    if (!progressBar || !progressText) return;
-    
-    progressBar.style.width = '0%';
-    progressText.textContent = '0/60 seconds';
-    
-    let seconds = 0;
-    const coinInterval = 60; // Earn coins every 60 seconds
-    
-    window.progressInterval = setInterval(() => {
-        seconds++;
-        const percentage = (seconds % coinInterval) / coinInterval * 100;
-        
-        progressBar.style.width = percentage + '%';
-        progressText.textContent = `${seconds % coinInterval}/${coinInterval} seconds`;
-        
-        // When reaching the interval, reset progress bar
-        if (seconds % coinInterval === 0) {
-            // Update coin display if available
-            const coinAmount = document.getElementById('coin-amount');
-            if (coinAmount) {
-                const currentCoins = parseInt(coinAmount.textContent) || 0;
-                coinAmount.textContent = currentCoins + 1;
-            }
-            
-            // Flash the progress bar
-            progressBar.style.transition = 'none';
-            progressBar.style.width = '100%';
-            progressBar.style.opacity = '0.8';
-            
-            setTimeout(() => {
-                progressBar.style.transition = 'width 0.3s ease, opacity 0.3s ease';
-                progressBar.style.width = '0%';
-                progressBar.style.opacity = '1';
-            }, 300);
-        }
-    }, 1000);
-}
 
-// Run auth check when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    checkAuthStatus();
     applySettings();
     initHamburgerMenu();
 });
@@ -497,7 +417,6 @@ function applyButtonAnimations() {
   });
 }
 
-// The original event listener is no longer needed as we call applyButtonAnimations() after creating buttons
 </script>
 
 </body>

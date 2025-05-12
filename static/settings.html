@@ -68,10 +68,6 @@
                     <div id="username" style="font-weight: bold; font-size: 18px;"></div>
                     <a href="account.html" style="color: var(--accent-color, #7289da); text-decoration: none; font-size: 14px;">View Account</a>
                 </div>
-                <div style="display: flex; align-items: center; background: rgba(255, 215, 0, 0.1); padding: 8px 15px; border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.3);">
-                    <div style="width: 20px; height: 20px; background: #ffd700; border-radius: 50%; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333;">$</div>
-                    <span id="coin-amount" style="font-weight: 600; font-size: 16px; color: #ffd700;">0</span>
-                </div>
             </div>
         </div>
         <div class="settings-grid">
@@ -663,72 +659,6 @@
         // Apply settings when page loads
         document.addEventListener('DOMContentLoaded', applySettings);
         
-        // Check authentication status and update UI
-        function checkAuthStatus() {
-            const authToken = localStorage.getItem('authToken');
-            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-            const authLink = document.getElementById('authLink');
-            const accountStatus = document.getElementById('account-status');
-            const themeLockMessage = document.getElementById('theme-lock-message');
-            
-            if (authToken && userData) {
-                // User is logged in
-                authLink.textContent = 'Account';
-                authLink.href = 'account.html';
-                
-                // Show account status
-                if (accountStatus) {
-                    accountStatus.style.display = 'block';
-                    document.getElementById('username').textContent = userData.username || 'User';
-                    document.getElementById('coin-amount').textContent = userData.coins || '0';
-                }
-                
-                // Check if themes are unlocked
-                if (themeLockMessage) {
-                    const themeSelect = document.getElementById('themeChoice');
-                    const unlockedThemes = userData.unlockedThemes || ['default'];
-                    
-                    // Disable locked themes
-                    Array.from(themeSelect.options).forEach(option => {
-                        if (!unlockedThemes.includes(option.value)) {
-                            option.disabled = true;
-                            option.text += ' (Locked)';
-                        }
-                    });
-                    
-                    themeLockMessage.style.display = 'block';
-                }
-                
-                // Check if particles are unlocked
-                const particleToggles = document.querySelectorAll('.particle-option input[type="checkbox"]');
-                const unlockedParticles = userData.unlockedParticles || [];
-                
-                particleToggles.forEach(toggle => {
-                    const particleId = toggle.id.replace('toggle-', '');
-                    if (!unlockedParticles.includes(particleId)) {
-                        toggle.disabled = true;
-                        toggle.parentElement.parentElement.querySelector('label').textContent += ' (Locked)';
-                    }
-                });
-            } else {
-                // User is not logged in
-                authLink.textContent = 'Login';
-                authLink.href = 'login.html';
-                
-                // Hide account status
-                if (accountStatus) {
-                    accountStatus.style.display = 'none';
-                }
-                
-                // Show theme lock message
-                if (themeLockMessage) {
-                    themeLockMessage.style.display = 'block';
-                }
-            }
-        }
-        
-        // Run auth check when page loads
-        document.addEventListener('DOMContentLoaded', checkAuthStatus);
     </script>
 </body>
 </html>

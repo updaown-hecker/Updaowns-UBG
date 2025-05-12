@@ -11,12 +11,12 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Updaown's Unblocked Games - Play free online games with customizable themes, particles, and powerups. Earn coins and unlock special features!">
+    <meta name="description" content="Updaown's Unblocked Games - Play free online games with customizable themes, particles, and powerups">
     <meta name="keywords" content="unblocked games, free games, online games, browser games, school games, powerups, themes, particles">
     <meta name="author" content="Updaown">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Updaown's Unblocked Games">
-    <meta property="og:description" content="Play free unblocked games with customizable themes, particles, and powerups. Earn coins and unlock special features!">
+    <meta property="og:description" content="Play free unblocked games with customizable themes, particles, and powerups!">
     <meta property="og:image" content="assets/favicon/google.ico">
     <meta property="og:url" content="https://updaown-2.koyeb.app">
     <meta property="og:type" content="website">
@@ -34,14 +34,13 @@
     <script src="assets/js/theme-loader.js"></script>
     <script src="assets/js/background-elements.js"></script>
     <script src="assets/js/particles-loader.js"></script>
-    <script src="assets/js/coin-tracker.js"></script>
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Updaown's Unblocked Games",
       "url": "https://updaown-2.koyeb.app",
-      "description": "Play free unblocked games with customizable themes, particles, and powerups. Earn coins and unlock special features!",
+      "description": "Play free unblocked games with customizable themes, particles, and powerups!",
       "potentialAction": {
         "@type": "SearchAction",
         "target": "https://updaown-2.koyeb.app/search?q={search_term_string}",
@@ -77,10 +76,6 @@
                 <div id="user-info" style="text-align: left;">
                     <div id="username" style="font-weight: bold; font-size: 18px;"></div>
                     <a href="account.html" style="color: var(--accent-color, #7289da); text-decoration: none; font-size: 14px;">View Account</a>
-                </div>
-                <div style="display: flex; align-items: center; background: rgba(255, 215, 0, 0.1); padding: 8px 15px; border-radius: 50px; border: 1px solid rgba(255, 215, 0, 0.3);">
-                    <div style="width: 20px; height: 20px; background: #ffd700; border-radius: 50%; margin-right: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #333;">$</div>
-                    <span id="coin-amount" style="font-weight: 600; font-size: 16px; color: #ffd700;">0</span>
                 </div>
             </div>
         </div>
@@ -160,6 +155,7 @@
                 button.appendChild(title);
 
                 button.onclick = function () {
+                    const hasLineReference = game.url.includes('#L');
                     if (game["tab-open"] === true) {
                         // Open the game in a new tab
                         let newTab = window.open("about:blank", "_blank");
@@ -181,8 +177,19 @@
                             `);
                             newTab.document.close();
                         }
+                    } else if (hasLineReference) {
+                        // Directly use iframe for URLs with line references
+                        document.querySelectorAll(".button").forEach(element => (element.style.display = "none"));
+                        iframeContainer.style.display = "flex";
+                        loadingIndicator.style.display = "flex";
+                        gameFrame.style.display = "block";
+                        gameObject.style.display = "none";
+                        gameFrame.src = game.url;
+                        gameFrame.onload = function() {
+                            loadingIndicator.style.display = "none";
+                        };
                     } else {
-                        // Show the game in the iframe
+                        // Show the game in the iframe with object fallback
                         document.querySelectorAll(".button").forEach(element => (element.style.display = "none"));
                         iframeContainer.style.display = "flex";
                         loadingIndicator.style.display = "flex";
@@ -246,35 +253,6 @@
             displayGames(filteredGames);
         });
 
-        // Check authentication status and update UI
-        function checkAuthStatus() {
-            const authToken = localStorage.getItem('authToken');
-            const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-            const authLink = document.getElementById('authLink');
-            const accountStatus = document.getElementById('account-status');
-            
-            if (authToken && userData) {
-                // User is logged in
-                authLink.textContent = 'Account';
-                authLink.href = 'account.html';
-                
-                // Show account status
-                if (accountStatus) {
-                    accountStatus.style.display = 'block';
-                    document.getElementById('username').textContent = userData.username || 'User';
-                    document.getElementById('coin-amount').textContent = userData.coins || '0';
-                }
-            } else {
-                // User is not logged in
-                authLink.textContent = 'Login';
-                authLink.href = 'login.html';
-                
-                // Hide account status
-                if (accountStatus) {
-                    accountStatus.style.display = 'none';
-                }
-            }
-        }
         
         // Apply saved settings
         const applySettings = () => {
@@ -300,7 +278,6 @@
         };
         
         // Initialize when page loads
-        checkAuthStatus();
         applySettings();
     });
     </script>
